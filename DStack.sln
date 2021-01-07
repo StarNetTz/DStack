@@ -25,9 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DStack.Projections", "DStac
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DStack.Projections.UnitTests", "DStack.Projections.UnitTests\DStack.Projections.UnitTests.csproj", "{3B45EE7D-5EFA-46AC-9BE6-EF4645765235}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DStack.Projections.Testing", "DStack.Projections.Testing\DStack.Projections.Testing.csproj", "{542E54B8-29C2-45E7-96F3-58B88D5DBDBC}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DStack.Common", "DStack.Common\DStack.Common.csproj", "{563A215C-FC25-4DB9-A8F8-82F52E018CC3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DStack.Projections.Testing", "DStack.Projections.Testing\DStack.Projections.Testing.csproj", "{542E54B8-29C2-45E7-96F3-58B88D5DBDBC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,10 +65,6 @@ Global
 		{542E54B8-29C2-45E7-96F3-58B88D5DBDBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{542E54B8-29C2-45E7-96F3-58B88D5DBDBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{542E54B8-29C2-45E7-96F3-58B88D5DBDBC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{563A215C-FC25-4DB9-A8F8-82F52E018CC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{563A215C-FC25-4DB9-A8F8-82F52E018CC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{563A215C-FC25-4DB9-A8F8-82F52E018CC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{563A215C-FC25-4DB9-A8F8-82F52E018CC3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
