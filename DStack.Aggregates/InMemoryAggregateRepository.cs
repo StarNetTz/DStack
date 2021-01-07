@@ -7,8 +7,6 @@ namespace DStack.Aggregates
 {
     public class InMemoryAggregateRepository : IAggregateRepository
     {
-      
-
         protected ConcurrentDictionary<string, List<object>> DataStore = new ConcurrentDictionary<string, List<object>>();
 
         static void PerformConcurrencyCheck(IAggregate agg, List<object> events)

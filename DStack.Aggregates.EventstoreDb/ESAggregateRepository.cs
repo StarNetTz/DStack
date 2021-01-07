@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DStack.Aggregates.EventstoreDb
 {
-    public class ESAggregateRepositorygRPC : IAggregateRepository
+    public class ESAggregateRepository : IAggregateRepository
     {
         const string EventClrTypeHeader = "EventClrTypeName";
         const string AggregateClrTypeHeader = "AggregateClrTypeName";
@@ -18,7 +18,7 @@ namespace DStack.Aggregates.EventstoreDb
         readonly EventStoreClient Client;
         readonly JsonSerializerSettings SerializerSettings;
 
-        public ESAggregateRepositorygRPC(EventStoreClient client)
+        public ESAggregateRepository(EventStoreClient client)
         {
             SerializerSettings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
             Client = client;

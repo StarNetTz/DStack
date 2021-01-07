@@ -11,7 +11,7 @@ namespace DStack.Projections.Testing
 
         public Task<T> LoadAsync<T>(string id) where T : class
         {
-            object returnValue = null;
+            object returnValue;
             if (!Store.TryGetValue(id, out returnValue))
                 return Task.FromResult(default(T));
             return Task.FromResult(returnValue as T);

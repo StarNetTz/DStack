@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DStack.Projections.Testing\DStack.Projections.Testing.csproj" />
     <ProjectReference Include="..\DStack.Projections\DStack.Projections.csproj" />
   </ItemGroup>
 

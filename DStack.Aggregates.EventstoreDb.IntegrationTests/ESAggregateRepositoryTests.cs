@@ -85,14 +85,14 @@ namespace DStack.Aggregates.EventstoreDb.IntegrationFacts
 
     public class DatabaseFixture
     {
-        public ESAggregateRepositorygRPC Repository;
+        public ESAggregateRepository Repository;
 
         public DatabaseFixture()
         {
             var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json", true, false).Build();
             var settings = EventStoreClientSettings.Create(configuration["EventStore:ConnectionString"]);
             var client = new EventStoreClient(settings);
-            Repository = new ESAggregateRepositorygRPC(client);
+            Repository = new ESAggregateRepository(client);
         }
     }
 }
