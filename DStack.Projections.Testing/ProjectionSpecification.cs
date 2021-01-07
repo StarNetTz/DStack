@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using NUnit.Framework;
 using System;
 using System.Threading.Tasks;
+using Xunit.Sdk;
 
 namespace DStack.Projections.Testing
 {
@@ -61,7 +61,7 @@ namespace DStack.Projections.Testing
             var actual = await ProjectionsStore.LoadAsync<TModel>(id);
             var diff = ObjectComparer.FindDifferences(model, actual);
             if (!string.IsNullOrEmpty(diff))
-                throw new AssertionException(diff);
+                throw new XunitException(diff);
         }
 
             static string ExtractIdFromObject(object model)
