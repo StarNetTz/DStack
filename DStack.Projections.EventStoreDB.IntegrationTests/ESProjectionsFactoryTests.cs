@@ -37,17 +37,10 @@ namespace DStack.Projections.ES.IntegrationTests
         {
 
             var proj = await ProjectionsFactory.Create<TestProjection>();
-           // await new ESDataGenerator().WriteEventsToStore(1);
-           
             await proj.Start();
-
-            await Task.Delay(200000);
+            await new ESDataGenerator().WriteTestEventsToStore(10);
+            await Task.Delay(500);
             Assert.True(proj.Checkpoint.Value > 0);
         }
-
-            async Task PreloadProjectionsSubscription()
-            {
-                
-            }
     }
 }

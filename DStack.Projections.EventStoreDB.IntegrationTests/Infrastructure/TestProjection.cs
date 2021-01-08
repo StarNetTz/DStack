@@ -1,5 +1,5 @@
 ﻿namespace DStack.Projections.ES.IntegrationTests
 {
-    [SubscribesToStream("$ce-Match")]
+    [SubscribesToStream("$ce-TestEvents")]
     public class TestProjection : Projection, IHandledBy<TestHandler> { }
 }

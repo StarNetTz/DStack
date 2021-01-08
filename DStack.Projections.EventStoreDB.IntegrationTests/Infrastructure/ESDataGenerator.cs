@@ -17,7 +17,7 @@ namespace DStack.Projections.ES.IntegrationTests
         private const string AggregateClrTypeHeader = "AggregateClrTypeName";
         private const string CommitIdHeader = "CommitId";
 
-        public async Task WriteEventsToStore(int nrOfEvents)
+        public async Task WriteTestEventsToStore(int nrOfEvents)
         {
             var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json", true, false).Build();
             var settings = EventStoreClientSettings.Create(configuration["EventStoreDB:ConnectionString"]);
@@ -25,8 +25,8 @@ namespace DStack.Projections.ES.IntegrationTests
 
             for (int i = 0; i < nrOfEvents; i++)
             {
-                var id = $"Match-{Guid.NewGuid()}";
-                await WriteEvent(client, id, new TestEvent() { Id = id, SomeValue = $"Match name:{Guid.NewGuid()}" });
+                var id = $"TestEvents-{Guid.NewGuid()}";
+                await WriteEvent(client, id, new TestEvent() { Id = id, SomeValue = $"A guid: {Guid.NewGuid()}" });
             }
         }
 

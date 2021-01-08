@@ -52,10 +52,12 @@ namespace DStack.Projections.EventStoreDB
 
         public async Task Start(long fromCheckpoint)
         {
+
             if (fromCheckpoint == 0)
                 await Client.SubscribeToStreamAsync(StreamName, EventAppeared, resolveLinkTos: true, SubDropped);
             else
                 await Client.SubscribeToStreamAsync(StreamName, EventStore.Client.StreamPosition.FromInt64(fromCheckpoint - 1), EventAppeared, resolveLinkTos: true, SubDropped);
+
             ReconnectionCounter = 0;
         }
 
