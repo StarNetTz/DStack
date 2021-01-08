@@ -5,10 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EventStore.Client.Grpc" Version="20.10.0" />
-    <PackageReference Include="Grpc.Net.Client" Version="2.34.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.3" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
@@ -18,8 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DStack.Aggregates.EventStoreDB\DStack.Aggregates.EventStoreDB.csproj" />
-    <ProjectReference Include="..\DStack.Aggregates.UnitTests\DStack.Aggregates.UnitTests.csproj" />
+    <ProjectReference Include="..\DStack.Projections.EventStoreDB\DStack.Projections.EventStoreDB.csproj" />
   </ItemGroup>
 
   <ItemGroup>

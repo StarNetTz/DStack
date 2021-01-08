@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DStack.Aggregates.EventstoreDb
+namespace DStack.Aggregates.EventStoreDB
 {
     public class ESAggregateRepository : IAggregateRepository
     {
