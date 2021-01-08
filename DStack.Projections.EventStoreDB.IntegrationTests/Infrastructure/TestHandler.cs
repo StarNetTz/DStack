@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace DStack.Projections.ES.IntegrationTests
+namespace DStack.Projections.EventStoreDB.IntegrationTests
 {
     public class TestHandler : IHandler
     {

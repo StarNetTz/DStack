@@ -4,7 +4,6 @@ namespace DStack.Aggregates.Tests
 {
     public class AggregateStateFactoryTests
     {
-       
         [Fact]
         public void Should_Create_PersonAggregateState()
         {

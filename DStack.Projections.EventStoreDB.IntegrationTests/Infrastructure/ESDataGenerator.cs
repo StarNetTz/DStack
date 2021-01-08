@@ -1,6 +1,4 @@
-﻿using DStack.Projections.EventStoreDB;
-using EventStore.Client;
-using EventStore.ClientAPI;
+﻿using EventStore.Client;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
@@ -10,7 +8,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DStack.Projections.ES.IntegrationTests
+namespace DStack.Projections.EventStoreDB.IntegrationTests
 {
     public class ESDataGenerator
     {

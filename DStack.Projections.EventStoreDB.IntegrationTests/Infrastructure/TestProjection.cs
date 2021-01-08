@@ -1,5 +1,7 @@
-﻿namespace DStack.Projections.ES.IntegrationTests
+﻿namespace DStack.Projections.EventStoreDB.IntegrationTests
 {
-    [SubscribesToStream("$ce-TestEvents")]
-    public class TestProjection : Projection, IHandledBy<TestHandler> { }
+    [SubscribesToStream(TestProjection.StreamName)]
+    public class TestProjection : Projection, IHandledBy<TestHandler> {
+        public const string StreamName = "$ce-TestEvents";
+    }
 }

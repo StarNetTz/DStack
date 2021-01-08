@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace DStack.Projections.ES.IntegrationTests
+namespace DStack.Projections.EventStoreDB.IntegrationTests
 {
     public class TestEvent
     {

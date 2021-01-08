@@ -17,7 +17,7 @@ namespace DStack.Projections.EventStoreDB
         }
         public ISubscription Create()
         {
-            return new ESSubscriptiongRPC(LoggerFactory.CreateLogger<ESSubscription>(), Client);
+            return new ESSubscriptiongRPC(LoggerFactory.CreateLogger<ESSubscriptiongRPC>(), Client);
         }
     }
 }
