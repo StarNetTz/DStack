@@ -19,13 +19,13 @@ namespace DStack.Projections.EventStoreDB.IntegrationTests
             await fact.CreateProjections();
         }
 
-        IServiceProvider CreateServiceProvider()
-        {
-            var services = new ServiceCollection();
-            services.AddSingleton<ILoggerFactory, NullLoggerFactory>();
-            services.AddTransient(typeof(ILogger<>), typeof(Logger<>));
-            services.AddTransient<IJSProjectionsFactory, JSProjectionsFactory>();
-            return services.BuildServiceProvider();
-        }
+            IServiceProvider CreateServiceProvider()
+            {
+                var services = new ServiceCollection();
+                services.AddSingleton<ILoggerFactory, NullLoggerFactory>();
+                services.AddTransient(typeof(ILogger<>), typeof(Logger<>));
+                services.AddTransient<IJSProjectionsFactory, JSProjectionsFactory>();
+                return services.BuildServiceProvider();
+            }
     }
 }
