@@ -22,7 +22,7 @@ namespace DStack.Projections.EventStoreDB
         public JSProjectionsFactory(ILogger<LoggerWrapper> logger)
         {
             Projections = new Dictionary<string, string>();
-            ProjectionManager = new ProjectionsManager(new LoggerWrapper(logger), EventStoreDBConfig.HttpEndpoint, TimeSpan.FromSeconds(10));
+            ProjectionManager = new ProjectionsManager(new LoggerWrapper(logger), EventStoreDBConfig.HttpEndpoint, TimeSpan.FromSeconds(10), httpMessageHandler:null, httpSchema: EventStoreDBConfig.HttpSchema);
         }
 
         public async Task CreateProjections()

@@ -1,8 +1,6 @@
 ﻿using EventStore.Client;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
-
 using System.Threading.Tasks;
 using Xunit;
 
@@ -22,6 +20,13 @@ namespace DStack.Projections.EventStoreDB.IntegrationTests
             new ESDataGenerator().WriteTestEventsToStore(2).Wait();
         }
 
+            Task EventAppeared(object ev, long checkpoint)
+            {
+                Checkpoint = checkpoint;
+                LastEvent = ev;
+                return Task.CompletedTask;
+            }
+
         [Fact]
         public async Task Should_Subscribe_And_Recieve_Events()
         {
@@ -39,17 +44,10 @@ namespace DStack.Projections.EventStoreDB.IntegrationTests
 
             static EventStoreClient CreateEventStoreClient()
             {
-                var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json", true, false).Build() as IConfiguration;
+                var configuration = ConfigurationFactory.CreateConfiguration();
                 var settings = EventStoreClientSettings.Create(configuration["EventStoreDB:ConnectionString"]);
                 var cli = new EventStoreClient(settings);
                 return cli;
-            }
-
-            Task EventAppeared(object ev, long checkpoint)
-            {
-                Checkpoint = checkpoint;
-                LastEvent = ev;
-                return Task.CompletedTask;
             }
 
             void AssertThatEventsProjected()

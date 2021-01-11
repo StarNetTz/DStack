@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
 using System.Threading.Tasks;
@@ -23,7 +22,7 @@ namespace DStack.Projections.EventStoreDB.IntegrationTests
             static ServiceCollection CreateServiceCollection()
             {
                 var services = new ServiceCollection();
-                var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json", true, false).Build() as IConfiguration;
+                var configuration = ConfigurationFactory.CreateConfiguration();
                 services.AddSingleton(configuration);
                 services.AddTransient<IHandlerFactory, StubHandlerFactory>();
                 services.AddTransient<ICheckpointReader, StubCheckpointReader>();
@@ -31,7 +30,8 @@ namespace DStack.Projections.EventStoreDB.IntegrationTests
 
                 services.AddTransient<ISubscriptionFactory, ESSubscriptionGRPCFactory>();
                 services.AddTransient<IProjectionsFactory, ProjectionsFactory>();
-                services.AddLogging(b => {
+                services.AddLogging(b =>
+                {
                     b.ClearProviders();
                     b.SetMinimumLevel(LogLevel.Information);
                     b.AddNLog();
