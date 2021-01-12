@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <Authors>StarNet</Authors>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DStack.Aggregates.EventstoreDb\DStack.Aggregates.EventstoreDb.csproj" />
+    <ProjectReference Include="..\DStack.Aggregates.EventStoreDB\DStack.Aggregates.EventStoreDB.csproj" />
     <ProjectReference Include="..\DStack.Aggregates.UnitTests\DStack.Aggregates.UnitTests.csproj" />
   </ItemGroup>
 

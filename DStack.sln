@@ -3,19 +3,43 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DStack.Aggregates", "DStack.Aggregates\DStack.Aggregates.csproj", "{EB94D8DB-AD25-46B7-845C-8D76E8B3C6A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DStack.Aggregates", "DStack.Aggregates\DStack.Aggregates.csproj", "{EB94D8DB-AD25-46B7-845C-8D76E8B3C6A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DStack.Aggregates.UnitTests", "DStack.Aggregates.UnitTests\DStack.Aggregates.UnitTests.csproj", "{51B3D857-DD9C-497C-A883-FB6E6BE47DD2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DStack.Aggregates.UnitTests", "DStack.Aggregates.UnitTests\DStack.Aggregates.UnitTests.csproj", "{51B3D857-DD9C-497C-A883-FB6E6BE47DD2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DStack.Aggregates.Testing", "DStack.Aggregates.Testing\DStack.Aggregates.Testing.csproj", "{D45BA3E7-C179-4500-B635-56E0BF2221C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DStack.Aggregates.Testing", "DStack.Aggregates.Testing\DStack.Aggregates.Testing.csproj", "{D45BA3E7-C179-4500-B635-56E0BF2221C5}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DStack", "DStack", "{2D5D6EB3-2528-49DB-ADE8-6CB9C0941CBD}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DStack.Aggregates", "DStack.Aggregates", "{2D5D6EB3-2528-49DB-ADE8-6CB9C0941CBD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DStack.Aggregates.EventstoreDb", "DStack.Aggregates.EventstoreDb\DStack.Aggregates.EventstoreDb.csproj", "{BA9A45C1-A08D-4970-A97C-70B02546FB45}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DStack.Aggregates.EventStoreDB", "DStack.Aggregates.EventStoreDB\DStack.Aggregates.EventStoreDB.csproj", "{BA9A45C1-A08D-4970-A97C-70B02546FB45}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DStack.EventstoreDb", "DStack.EventstoreDb", "{50CE5FCD-49D6-4B35-820C-D4D9ACB0AF2E}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DStack.Aggregates.EventStoreDB", "DStack.Aggregates.EventStoreDB", "{50CE5FCD-49D6-4B35-820C-D4D9ACB0AF2E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DStack.Aggregates.EventstoreDb.IntegrationTests", "DStack.Aggregates.EventstoreDb.IntegrationTests\DStack.Aggregates.EventstoreDb.IntegrationTests.csproj", "{77A9F220-8772-4491-9650-59F7A8C78860}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DStack.Aggregates.EventStoreDB.IntegrationTests", "DStack.Aggregates.EventStoreDB.IntegrationTests\DStack.Aggregates.EventStoreDB.IntegrationTests.csproj", "{77A9F220-8772-4491-9650-59F7A8C78860}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Aggregates", "Aggregates", "{B1762CE1-4D60-4021-AB28-DE47AF825D19}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Projections", "Projections", "{C0555CC2-4D1E-4B29-B4BB-F5BD669F3C8B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DStack.Projections", "DStack.Projections\DStack.Projections.csproj", "{D9EDCA04-51BC-4225-BECF-8AB7D8A64E39}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DStack.Projections.UnitTests", "DStack.Projections.UnitTests\DStack.Projections.UnitTests.csproj", "{3B45EE7D-5EFA-46AC-9BE6-EF4645765235}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DStack.Projections.Testing", "DStack.Projections.Testing\DStack.Projections.Testing.csproj", "{542E54B8-29C2-45E7-96F3-58B88D5DBDBC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DStack.Projections", "DStack.Projections", "{592F3E99-5033-46B1-84BB-EA8D527B245B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DStack.Projections.EventStoreDB", "DStack.Projections.EventStoreDB", "{553C9AB6-86C3-4AAE-9226-36C661702DF0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DStack.Projections.EventStoreDB", "DStack.Projections.EventStoreDB\DStack.Projections.EventStoreDB.csproj", "{90DF2059-FCF8-4E51-87F8-ECA0852F51FA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DStack.Projections.EventStoreDB.IntegrationTests", "DStack.Projections.EventStoreDB.IntegrationTests\DStack.Projections.EventStoreDB.IntegrationTests.csproj", "{8CE421E7-74CC-4143-877D-CA07C21CBA3F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DStack.Projections.RavenDB", "DStack.Projections.RavenDB", "{79E4CE61-22ED-492A-AFF6-03499FBE2491}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DStack.Projections.RavenDB", "DStack.Projections.RavenDB\DStack.Projections.RavenDB.csproj", "{88F00703-2E00-4114-AEEB-D7CFD173C2BF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DStack.Projections.RavenDB.IntegrationTests", "DStack.Projections.RavenDB.IntegrationTests\DStack.Projections.RavenDB.IntegrationTests.csproj", "{C5ECF389-72F3-4660-AAF0-36192DBB493F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,6 +67,34 @@ Global
 		{77A9F220-8772-4491-9650-59F7A8C78860}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{77A9F220-8772-4491-9650-59F7A8C78860}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{77A9F220-8772-4491-9650-59F7A8C78860}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9EDCA04-51BC-4225-BECF-8AB7D8A64E39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9EDCA04-51BC-4225-BECF-8AB7D8A64E39}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9EDCA04-51BC-4225-BECF-8AB7D8A64E39}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9EDCA04-51BC-4225-BECF-8AB7D8A64E39}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B45EE7D-5EFA-46AC-9BE6-EF4645765235}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B45EE7D-5EFA-46AC-9BE6-EF4645765235}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B45EE7D-5EFA-46AC-9BE6-EF4645765235}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B45EE7D-5EFA-46AC-9BE6-EF4645765235}.Release|Any CPU.Build.0 = Release|Any CPU
+		{542E54B8-29C2-45E7-96F3-58B88D5DBDBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{542E54B8-29C2-45E7-96F3-58B88D5DBDBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{542E54B8-29C2-45E7-96F3-58B88D5DBDBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{542E54B8-29C2-45E7-96F3-58B88D5DBDBC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90DF2059-FCF8-4E51-87F8-ECA0852F51FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90DF2059-FCF8-4E51-87F8-ECA0852F51FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90DF2059-FCF8-4E51-87F8-ECA0852F51FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90DF2059-FCF8-4E51-87F8-ECA0852F51FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CE421E7-74CC-4143-877D-CA07C21CBA3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CE421E7-74CC-4143-877D-CA07C21CBA3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CE421E7-74CC-4143-877D-CA07C21CBA3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CE421E7-74CC-4143-877D-CA07C21CBA3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88F00703-2E00-4114-AEEB-D7CFD173C2BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88F00703-2E00-4114-AEEB-D7CFD173C2BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88F00703-2E00-4114-AEEB-D7CFD173C2BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88F00703-2E00-4114-AEEB-D7CFD173C2BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5ECF389-72F3-4660-AAF0-36192DBB493F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5ECF389-72F3-4660-AAF0-36192DBB493F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5ECF389-72F3-4660-AAF0-36192DBB493F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5ECF389-72F3-4660-AAF0-36192DBB493F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -51,8 +103,20 @@ Global
 		{EB94D8DB-AD25-46B7-845C-8D76E8B3C6A1} = {2D5D6EB3-2528-49DB-ADE8-6CB9C0941CBD}
 		{51B3D857-DD9C-497C-A883-FB6E6BE47DD2} = {2D5D6EB3-2528-49DB-ADE8-6CB9C0941CBD}
 		{D45BA3E7-C179-4500-B635-56E0BF2221C5} = {2D5D6EB3-2528-49DB-ADE8-6CB9C0941CBD}
+		{2D5D6EB3-2528-49DB-ADE8-6CB9C0941CBD} = {B1762CE1-4D60-4021-AB28-DE47AF825D19}
 		{BA9A45C1-A08D-4970-A97C-70B02546FB45} = {50CE5FCD-49D6-4B35-820C-D4D9ACB0AF2E}
+		{50CE5FCD-49D6-4B35-820C-D4D9ACB0AF2E} = {B1762CE1-4D60-4021-AB28-DE47AF825D19}
 		{77A9F220-8772-4491-9650-59F7A8C78860} = {50CE5FCD-49D6-4B35-820C-D4D9ACB0AF2E}
+		{D9EDCA04-51BC-4225-BECF-8AB7D8A64E39} = {592F3E99-5033-46B1-84BB-EA8D527B245B}
+		{3B45EE7D-5EFA-46AC-9BE6-EF4645765235} = {592F3E99-5033-46B1-84BB-EA8D527B245B}
+		{542E54B8-29C2-45E7-96F3-58B88D5DBDBC} = {592F3E99-5033-46B1-84BB-EA8D527B245B}
+		{592F3E99-5033-46B1-84BB-EA8D527B245B} = {C0555CC2-4D1E-4B29-B4BB-F5BD669F3C8B}
+		{553C9AB6-86C3-4AAE-9226-36C661702DF0} = {C0555CC2-4D1E-4B29-B4BB-F5BD669F3C8B}
+		{90DF2059-FCF8-4E51-87F8-ECA0852F51FA} = {553C9AB6-86C3-4AAE-9226-36C661702DF0}
+		{8CE421E7-74CC-4143-877D-CA07C21CBA3F} = {553C9AB6-86C3-4AAE-9226-36C661702DF0}
+		{79E4CE61-22ED-492A-AFF6-03499FBE2491} = {C0555CC2-4D1E-4B29-B4BB-F5BD669F3C8B}
+		{88F00703-2E00-4114-AEEB-D7CFD173C2BF} = {79E4CE61-22ED-492A-AFF6-03499FBE2491}
+		{C5ECF389-72F3-4660-AAF0-36192DBB493F} = {79E4CE61-22ED-492A-AFF6-03499FBE2491}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3A67632A-2141-4DEE-9496-CD634D8A2B84}

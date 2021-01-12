@@ -4,7 +4,7 @@ using System;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace DStack.Aggregates.EventstoreDb.IntegrationFacts
+namespace DStack.Aggregates.EventStoreDB.IntegrationFacts
 {
     public class ESAggregateRepositoryTests : IClassFixture<DatabaseFixture>
     {
@@ -85,14 +85,14 @@ namespace DStack.Aggregates.EventstoreDb.IntegrationFacts
 
     public class DatabaseFixture
     {
-        public ESAggregateRepositorygRPC Repository;
+        public ESAggregateRepository Repository;
 
         public DatabaseFixture()
         {
             var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json", true, false).Build();
-            var settings = EventStoreClientSettings.Create(configuration["EventStore:ConnectionString"]);
+            var settings = EventStoreClientSettings.Create(configuration["EventStoreDB:ConnectionString"]);
             var client = new EventStoreClient(settings);
-            Repository = new ESAggregateRepositorygRPC(client);
+            Repository = new ESAggregateRepository(client);
         }
     }
 }
