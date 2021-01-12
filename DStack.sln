@@ -31,9 +31,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DStack.Projections", "DStac
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DStack.Projections.EventStoreDB", "DStack.Projections.EventStoreDB", "{553C9AB6-86C3-4AAE-9226-36C661702DF0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DStack.Projections.EventStoreDB", "DStack.Projections.EventstoreDb\DStack.Projections.EventStoreDB.csproj", "{90DF2059-FCF8-4E51-87F8-ECA0852F51FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DStack.Projections.EventStoreDB", "DStack.Projections.EventstoreDb\DStack.Projections.EventStoreDB.csproj", "{90DF2059-FCF8-4E51-87F8-ECA0852F51FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DStack.Projections.EventStoreDB.IntegrationTests", "DStack.Projections.EventstoreDb.IntegrationTests\DStack.Projections.EventStoreDB.IntegrationTests.csproj", "{8CE421E7-74CC-4143-877D-CA07C21CBA3F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DStack.Projections.EventStoreDB.IntegrationTests", "DStack.Projections.EventstoreDb.IntegrationTests\DStack.Projections.EventStoreDB.IntegrationTests.csproj", "{8CE421E7-74CC-4143-877D-CA07C21CBA3F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RavenDb", "RavenDb", "{79E4CE61-22ED-492A-AFF6-03499FBE2491}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DStack.Projections.RavenDB", "DStack.Projections.RavenDB\DStack.Projections.RavenDB.csproj", "{88F00703-2E00-4114-AEEB-D7CFD173C2BF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DStack.Projections.RavenDB.IntegrationTests", "DStack.Projections.RavenDB.IntegrationTests\DStack.Projections.RavenDB.IntegrationTests.csproj", "{C5ECF389-72F3-4660-AAF0-36192DBB493F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,6 +87,14 @@ Global
 		{8CE421E7-74CC-4143-877D-CA07C21CBA3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8CE421E7-74CC-4143-877D-CA07C21CBA3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8CE421E7-74CC-4143-877D-CA07C21CBA3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88F00703-2E00-4114-AEEB-D7CFD173C2BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88F00703-2E00-4114-AEEB-D7CFD173C2BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88F00703-2E00-4114-AEEB-D7CFD173C2BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88F00703-2E00-4114-AEEB-D7CFD173C2BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5ECF389-72F3-4660-AAF0-36192DBB493F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5ECF389-72F3-4660-AAF0-36192DBB493F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5ECF389-72F3-4660-AAF0-36192DBB493F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5ECF389-72F3-4660-AAF0-36192DBB493F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -100,6 +114,9 @@ Global
 		{553C9AB6-86C3-4AAE-9226-36C661702DF0} = {C0555CC2-4D1E-4B29-B4BB-F5BD669F3C8B}
 		{90DF2059-FCF8-4E51-87F8-ECA0852F51FA} = {553C9AB6-86C3-4AAE-9226-36C661702DF0}
 		{8CE421E7-74CC-4143-877D-CA07C21CBA3F} = {553C9AB6-86C3-4AAE-9226-36C661702DF0}
+		{79E4CE61-22ED-492A-AFF6-03499FBE2491} = {C0555CC2-4D1E-4B29-B4BB-F5BD669F3C8B}
+		{88F00703-2E00-4114-AEEB-D7CFD173C2BF} = {79E4CE61-22ED-492A-AFF6-03499FBE2491}
+		{C5ECF389-72F3-4660-AAF0-36192DBB493F} = {79E4CE61-22ED-492A-AFF6-03499FBE2491}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3A67632A-2141-4DEE-9496-CD634D8A2B84}
