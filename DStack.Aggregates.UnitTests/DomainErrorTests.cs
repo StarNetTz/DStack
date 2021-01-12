@@ -5,7 +5,7 @@ namespace DStack.Aggregates.UnitTests
     public class DomainErrorTests
     {
         [Fact]
-        public void Should_Create_Using_Default_Constructor()
+        public void Should_Create_Using_Default_Constructor_So_It_Can_Be_Used_By_Moq()
         {
             var e = new DomainError();
         }
