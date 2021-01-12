@@ -28,7 +28,7 @@ namespace DStack.Projections.EventStoreDB.IntegrationTests
                 services.AddTransient<ICheckpointReader, StubCheckpointReader>();
                 services.AddTransient<ICheckpointWriter, StubCheckpointWriter>();
 
-                services.AddTransient<ISubscriptionFactory, ESSubscriptionGRPCFactory>();
+                services.AddTransient<ISubscriptionFactory, ESSubscriptionFactory>();
                 services.AddTransient<IProjectionsFactory, ProjectionsFactory>();
                 services.AddLogging(b =>
                 {

@@ -1,4 +1,4 @@
-﻿using EventStore.ClientAPI;
+﻿using EventStore.Client;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -7,115 +7,61 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
+
 namespace DStack.Projections.EventStoreDB
 {
     public class ESSubscription : ISubscription
     {
         const string EventClrTypeHeader = "EventClrTypeName";
-        const int MaxRecconectionAttemts = 10;
 
         readonly ILogger<ESSubscription> Logger;
         readonly JsonSerializerSettings SerializerSettings;
 
-        long CurrentCheckpoint = 0;
-        IEventStoreConnection Connection;
-        EventStoreStreamCatchUpSubscription Subscription = null;
-        int ReconnectionCounter;
+        EventStoreClient Client;
 
         public string StreamName { get; set; }
         public Func<object, long, Task> EventAppearedCallback { get; set; }
 
-        public ESSubscription(ILogger<ESSubscription> logger)
+        public ESSubscription(ILogger<ESSubscription> logger, EventStoreClient client)
         {
             Logger = logger;
+            Client = client;
             SerializerSettings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
         }
 
-        public async Task EventAppeared(EventStoreCatchUpSubscription subscription, ResolvedEvent @event)
+        public async Task Start(long oneBasedCheckpoint)
         {
-            CurrentCheckpoint = @event.OriginalEventNumber;
-            var ev = TryDeserializeEvent(@event.Event.Metadata, @event.Event.Data);
-            await EventAppearedCallback(ev, @event.OriginalEventNumber + 1);
+
+            if (oneBasedCheckpoint == 0)
+                await Client.SubscribeToStreamAsync(StreamName, EventAppeared, resolveLinkTos: true, SubDropped);
+            else
+                await Client.SubscribeToStreamAsync(StreamName, StreamPosition.FromInt64(oneBasedCheckpoint - 1), EventAppeared, resolveLinkTos: true, SubDropped);
+            Logger.LogInformation($"Subscription started on stream: {StreamName}");
         }
 
-            object TryDeserializeEvent(byte[] metadata, byte[] data)
+            async Task EventAppeared(StreamSubscription sub, ResolvedEvent @event, CancellationToken tok)
             {
-                var eventClrTypeName = JObject.Parse(Encoding.UTF8.GetString(metadata)).Property(EventClrTypeHeader).Value;
-                var jsonString = Encoding.UTF8.GetString(data);
-                try
+                long zeroBasedEventNumber = @event.OriginalEventNumber.ToInt64();
+                var ev = DeserializeEvent(@event.Event.Metadata.ToArray(), @event.Event.Data.ToArray());
+                await EventAppearedCallback(ev, ConvertToOneBasedCheckpoint(zeroBasedEventNumber));
+            }
+
+                object DeserializeEvent(byte[] metadata, byte[] data)
                 {
+                    var eventClrTypeName = JObject.Parse(Encoding.UTF8.GetString(metadata)).Property(EventClrTypeHeader).Value;
+                    var jsonString = Encoding.UTF8.GetString(data);
                     return JsonConvert.DeserializeObject(jsonString, Type.GetType((string)eventClrTypeName), SerializerSettings);
                 }
-                catch (Exception ex)
+
+                long ConvertToOneBasedCheckpoint(long zeroBasedCheckpoint)
                 {
-                    Logger.LogError(ex, $"Failed to deserialize type: {eventClrTypeName}");
-                    throw;
+                    return zeroBasedCheckpoint + 1;
                 }
-            }
 
-        public async Task Start(long fromCheckpoint)
-        {
-            Connection = EventStoreConnection.Create(EventStoreDBConfig.ConnectionString);
-            Connection.Connected += Connection_Connected;
-            await Connection.ConnectAsync().ConfigureAwait(false);
-            long? eventstoreCheckpoint = (fromCheckpoint == 0) ? null : (long?)(fromCheckpoint - 1);
-            Subscription = Connection.SubscribeToStreamFrom(StreamName, eventstoreCheckpoint, CatchUpSubscriptionSettings.Default, EventAppeared, LiveProcessingStarted, SubscriptionDropped);
-        }
-
-        void Connection_Connected(object sender, ClientConnectionEventArgs e)
-        {
-            ReconnectionCounter = 0;
-            Logger.LogDebug($"Connected for {StreamName}");
-        }
-
-        void LiveProcessingStarted(EventStoreCatchUpSubscription obj)
-        {
-            Logger.LogDebug($"LiveProcessingStarted on stream {StreamName}");
-        }
-
-        void SubscriptionDropped(EventStoreCatchUpSubscription projection, SubscriptionDropReason subscriptionDropReason, Exception exception)
-        {
-            Connection.Connected -= Connection_Connected;
-            Subscription.Stop();
-            if (IsTransient(subscriptionDropReason))
+            void SubDropped(StreamSubscription sub, SubscriptionDroppedReason reason, Exception ex)
             {
-                ReconnectionCounter++;
-                if (ReconnectionCounter > MaxRecconectionAttemts)
-                    LogAndFail();
-
-                Logger.LogWarning(exception, $"{StreamName} subscription dropped because of an transient error: ({subscriptionDropReason}). Reconnection attempt nr: {ReconnectionCounter}.");
-                Thread.Sleep(300);
-                Start(CurrentCheckpoint).Wait();
-            }
-            else
-            {
-                Logger.LogCritical(exception, $"{StreamName} subscription failed: ({subscriptionDropReason}).");
-                throw exception;
-            }
-        }
-
-            bool IsTransient(SubscriptionDropReason subscriptionDropReason)
-            {
-                switch (subscriptionDropReason)
-                {
-                    case SubscriptionDropReason.SubscribingError:
-                    case SubscriptionDropReason.ServerError:
-                    case SubscriptionDropReason.ConnectionClosed:
-                    case SubscriptionDropReason.CatchUpError:
-                    case SubscriptionDropReason.ProcessingQueueOverflow:
-                        return true;
-                    case SubscriptionDropReason.EventHandlerException:
-                    case SubscriptionDropReason.UserInitiated:
-                    default:
-                        return false;
-                }
-            }
-
-            void LogAndFail()
-            {
-                var msg = $"Reconnection attempt on {StreamName} subscription failed permanently. Limit({MaxRecconectionAttemts}) reached.";
-                Logger.LogCritical(msg);
-                throw new ApplicationException(msg);
+                Logger.LogCritical(ex, $"{StreamName} subscription failed: ({reason}).");
+                throw ex;
             }
     }
 }

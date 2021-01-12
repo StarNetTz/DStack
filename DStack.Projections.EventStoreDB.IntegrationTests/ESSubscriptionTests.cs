@@ -8,7 +8,7 @@ namespace DStack.Projections.EventStoreDB.IntegrationTests
 {
     public class ESSubscriptionTests
     {
-        ESSubscriptiongRPC Subscription;
+        ESSubscription Subscription;
 
         long Checkpoint = 0;
         object LastEvent = null;
@@ -30,7 +30,7 @@ namespace DStack.Projections.EventStoreDB.IntegrationTests
         [Fact]
         public async Task Should_Subscribe_And_Recieve_Events()
         {
-            Subscription = new ESSubscriptiongRPC(new NullLoggerFactory().CreateLogger<ESSubscriptiongRPC>(), CreateEventStoreClient())
+            Subscription = new ESSubscription(new NullLoggerFactory().CreateLogger<ESSubscription>(), CreateEventStoreClient())
             {
                 StreamName = TestProjection.StreamName,
                 EventAppearedCallback = EventAppeared
