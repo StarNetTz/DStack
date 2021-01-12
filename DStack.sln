@@ -11,11 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DStack.Aggregates.Testing",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DStack.Aggregates", "DStack.Aggregates", "{2D5D6EB3-2528-49DB-ADE8-6CB9C0941CBD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DStack.Aggregates.EventStoreDB", "DStack.Aggregates.EventstoreDb\DStack.Aggregates.EventStoreDB.csproj", "{BA9A45C1-A08D-4970-A97C-70B02546FB45}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DStack.Aggregates.EventStoreDB", "DStack.Aggregates.EventStoreDB\DStack.Aggregates.EventStoreDB.csproj", "{BA9A45C1-A08D-4970-A97C-70B02546FB45}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DStack.Aggregates.EventStoreDB", "DStack.Aggregates.EventStoreDB", "{50CE5FCD-49D6-4B35-820C-D4D9ACB0AF2E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DStack.Aggregates.EventStoreDB.IntegrationTests", "DStack.Aggregates.EventstoreDb.IntegrationTests\DStack.Aggregates.EventStoreDB.IntegrationTests.csproj", "{77A9F220-8772-4491-9650-59F7A8C78860}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DStack.Aggregates.EventStoreDB.IntegrationTests", "DStack.Aggregates.EventStoreDB.IntegrationTests\DStack.Aggregates.EventStoreDB.IntegrationTests.csproj", "{77A9F220-8772-4491-9650-59F7A8C78860}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Aggregates", "Aggregates", "{B1762CE1-4D60-4021-AB28-DE47AF825D19}"
 EndProject
@@ -31,15 +31,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DStack.Projections", "DStac
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DStack.Projections.EventStoreDB", "DStack.Projections.EventStoreDB", "{553C9AB6-86C3-4AAE-9226-36C661702DF0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DStack.Projections.EventStoreDB", "DStack.Projections.EventstoreDb\DStack.Projections.EventStoreDB.csproj", "{90DF2059-FCF8-4E51-87F8-ECA0852F51FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DStack.Projections.EventStoreDB", "DStack.Projections.EventStoreDB\DStack.Projections.EventStoreDB.csproj", "{90DF2059-FCF8-4E51-87F8-ECA0852F51FA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DStack.Projections.EventStoreDB.IntegrationTests", "DStack.Projections.EventstoreDb.IntegrationTests\DStack.Projections.EventStoreDB.IntegrationTests.csproj", "{8CE421E7-74CC-4143-877D-CA07C21CBA3F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DStack.Projections.EventStoreDB.IntegrationTests", "DStack.Projections.EventStoreDB.IntegrationTests\DStack.Projections.EventStoreDB.IntegrationTests.csproj", "{8CE421E7-74CC-4143-877D-CA07C21CBA3F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RavenDb", "RavenDb", "{79E4CE61-22ED-492A-AFF6-03499FBE2491}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DStack.Projections.RavenDB", "DStack.Projections.RavenDB", "{79E4CE61-22ED-492A-AFF6-03499FBE2491}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DStack.Projections.RavenDB", "DStack.Projections.RavenDB\DStack.Projections.RavenDB.csproj", "{88F00703-2E00-4114-AEEB-D7CFD173C2BF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DStack.Projections.RavenDB", "DStack.Projections.RavenDB\DStack.Projections.RavenDB.csproj", "{88F00703-2E00-4114-AEEB-D7CFD173C2BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DStack.Projections.RavenDB.IntegrationTests", "DStack.Projections.RavenDB.IntegrationTests\DStack.Projections.RavenDB.IntegrationTests.csproj", "{C5ECF389-72F3-4660-AAF0-36192DBB493F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DStack.Projections.RavenDB.IntegrationTests", "DStack.Projections.RavenDB.IntegrationTests\DStack.Projections.RavenDB.IntegrationTests.csproj", "{C5ECF389-72F3-4660-AAF0-36192DBB493F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
