@@ -30,7 +30,7 @@ namespace DStack.Aggregates.UnitTests
 
             When(new RegisterPerson() { Id = id, Name = "John" });
 
-            await ExpectNothing();
+            await ExpectNoEvents();
         }
 
         [Fact]

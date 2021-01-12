@@ -28,7 +28,7 @@ namespace DStack.Aggregates.Tests
 
             When(new RenamePerson() { Id = id, Name = "John" });
 
-            await ExpectNothing();
+            await ExpectNoEvents();
         }
     }
 }

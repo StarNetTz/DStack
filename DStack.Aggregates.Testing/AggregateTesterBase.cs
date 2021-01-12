@@ -28,9 +28,9 @@ namespace DStack.Aggregates.Testing
             WhenCommand = command;
         }
 
-        public async Task ExpectNothing()
+        public async Task ExpectNoEvents()
         {
-            await Expect(new List<TEvent>(), new List<TEvent>());
+            await Expect(NoProducedEvents, NoPublishedEvents);
         }
 
         public async Task Expect(params TEvent[] g)
