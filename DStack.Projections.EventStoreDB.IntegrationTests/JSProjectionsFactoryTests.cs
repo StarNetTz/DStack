@@ -16,15 +16,15 @@ namespace DStack.Projections.EventStoreDB.IntegrationTests
            
             var provider = CreateServiceProvider();
             var fact = provider.GetRequiredService<IJSProjectionsFactory>();
-            fact.AddProjection("IntegrationsTestProjection", "fromStreams('$ce-Competitions').when({CompetitionAdded: function(s,e){linkTo('cp-AssociationsOverview', e);return s;},CompetitionRenamed: function(s,e){linkTo('cp-AssociationsOverview', e);return s;},CompetitionsAssociationChanged: function(s,e){linkTo('cp-AssociationsOverview', e);return s;},CompetitionsRankChanged: function(s,e){linkTo('cp-AssociationsOverview', e);return s;}})");
+            fact.AddProjection("IntegrationsTestgRCPProjection", "fromStreams('$ce-Competitions').when({CompetitionAdded: function(s,e){linkTo('cp-AssociationsOverview', e);return s;},CompetitionRenamed: function(s,e){linkTo('cp-AssociationsOverview', e);return s;},CompetitionsAssociationChanged: function(s,e){linkTo('cp-AssociationsOverview', e);return s;},CompetitionsRankChanged: function(s,e){linkTo('cp-AssociationsOverview', e);return s;}})");
             await fact.CreateProjections();
         }
 
             IServiceProvider CreateServiceProvider()
             {
                 var services = new ServiceCollection();
-                services.AddSingleton<ILoggerFactory, NullLoggerFactory>();
-                services.AddTransient(typeof(ILogger<>), typeof(Logger<>));
+                var configuration = ConfigurationFactory.CreateConfiguration();
+                services.AddSingleton(configuration);
                 services.AddTransient<IJSProjectionsFactory, JSProjectionsFactory>();
                 return services.BuildServiceProvider();
             }
