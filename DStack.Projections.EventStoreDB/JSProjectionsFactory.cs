@@ -1,4 +1,6 @@
-﻿using EventStore.ClientAPI.Projections;
+﻿using EventStore.Client;
+using EventStore.ClientAPI.Projections;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -27,11 +29,11 @@ namespace DStack.Projections.EventStoreDB.Utils
 
         public async Task CreateProjections()
         {
-            List<ProjectionDetails> projections = await ProjectionManager.ListAllAsync(EventStoreDBConfig.UserCredentials);
-            var projectionNames = (from p in projections select p.Name).ToList();
-            var newProjections = GetNewProjectionNames(projectionNames);
-            foreach (var kv in newProjections)
-                await ProjectionManager.CreateContinuousAsync(kv.Key, kv.Value, EventStoreDBConfig.UserCredentials);
+            //List<ProjectionDetails> projections = await ProjectionManager.ListAllAsync(EventStoreDBConfig.UserCredentials);
+            //var projectionNames = (from p in projections select p.Name).ToList();
+            //var newProjections = GetNewProjectionNames(projectionNames);
+            //foreach (var kv in newProjections)
+            //    await ProjectionManager.CreateContinuousAsync(kv.Key, kv.Value, EventStoreDBConfig.UserCredentials);
         }
 
             Dictionary<string, string> GetNewProjectionNames(List<string> existing)
@@ -81,6 +83,40 @@ namespace DStack.Projections.EventStoreDB.Utils
         public void Info(Exception ex, string format, params object[] args)
         {
             Logger.LogInformation(ex, format, args);
+        }
+    }
+
+    public class GRPCJSProjectionsFactory : IJSProjectionsFactory
+    {
+       EventStoreProjectionManagementClient Cli;
+
+        public Dictionary<string, string> Projections { get; set; }
+
+        public GRPCJSProjectionsFactory(IConfiguration conf)
+        {
+            var settings = EventStoreClientSettings.Create(conf["EventStoreDB:ConnectionString"]);
+            Cli = new EventStore.Client.EventStoreProjectionManagementClient(settings);
+            Projections = new Dictionary<string, string>();
+        }
+
+        public async Task CreateProjections()
+        {
+            var projections = await Cli.ListAllAsync().ToListAsync();
+            var projectionNames = (from p in projections select p.Name).ToList();
+            var newProjections = GetNewProjectionNames(projectionNames);
+            
+            foreach (var kv in newProjections)
+                await Cli.CreateContinuousAsync(kv.Key, kv.Value);
+        }   
+
+        Dictionary<string, string> GetNewProjectionNames(List<string> existing)
+        {
+            return (from kv in Projections where !existing.Contains(kv.Key) select kv).ToDictionary(kv => kv.Key, kv => kv.Value);
+        }
+
+        public void AddProjection(string name, string srcCode)
+        {
+            Projections.Add(name, srcCode);
         }
     }
 }
