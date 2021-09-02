@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 
 namespace DStack.Aggregates.Testing
@@ -10,7 +9,7 @@ namespace DStack.Aggregates.Testing
 
         public override Task StoreAsync(IAggregate agg)
         {
-            List<object> events = LoadEvents(agg.Id);
+            var events = LoadEvents(agg.Id);
             events.AddRange(agg.Changes);
             DataStore[agg.Id] = events;
             Appended = agg.Changes.ToArray();

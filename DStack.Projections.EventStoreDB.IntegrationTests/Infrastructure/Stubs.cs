@@ -1,5 +1,4 @@
-﻿using EventStore.ClientAPI;
-using System;
+﻿using System;
 using System.Threading.Tasks;
 
 namespace DStack.Projections.EventStoreDB.IntegrationTests
