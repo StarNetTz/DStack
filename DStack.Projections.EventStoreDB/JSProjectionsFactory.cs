@@ -32,7 +32,11 @@ namespace DStack.Projections.EventStoreDB.Utils
             var newProjections = GetNewProjectionNames(projectionNames);
             
             foreach (var kv in newProjections)
+            {
                 await Cli.CreateContinuousAsync(kv.Key, kv.Value);
+                await Cli.UpdateAsync(kv.Key, kv.Value, emitEnabled : true);
+            }
+               
         }   
 
             Dictionary<string, string> GetNewProjectionNames(List<string> existing)

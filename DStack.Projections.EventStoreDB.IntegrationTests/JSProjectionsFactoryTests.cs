@@ -1,7 +1,5 @@
 ﻿using DStack.Projections.EventStoreDB.Utils;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
 using System;
 using System.Threading.Tasks;
 using Xunit;
@@ -16,7 +14,7 @@ namespace DStack.Projections.EventStoreDB.IntegrationTests
            
             var provider = CreateServiceProvider();
             var fact = provider.GetRequiredService<IJSProjectionsFactory>();
-            fact.AddProjection("IntegrationsTestgRCPProjection", "fromStreams('$ce-Competitions').when({CompetitionAdded: function(s,e){linkTo('cp-AssociationsOverview', e);return s;},CompetitionRenamed: function(s,e){linkTo('cp-AssociationsOverview', e);return s;},CompetitionsAssociationChanged: function(s,e){linkTo('cp-AssociationsOverview', e);return s;},CompetitionsRankChanged: function(s,e){linkTo('cp-AssociationsOverview', e);return s;}})");
+            fact.AddProjection("IntegrationsTestgRCPProjection_EmitEnabled", "fromStreams('$ce-Competitions').when({CompetitionAdded: function(s,e){linkTo('cp-AssociationsOverview', e);return s;},CompetitionRenamed: function(s,e){linkTo('cp-AssociationsOverview', e);return s;},CompetitionsAssociationChanged: function(s,e){linkTo('cp-AssociationsOverview', e);return s;},CompetitionsRankChanged: function(s,e){linkTo('cp-AssociationsOverview', e);return s;}})");
             await fact.CreateProjections();
         }
 
