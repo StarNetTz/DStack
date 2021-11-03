@@ -4,14 +4,14 @@ using System.Threading.Tasks;
 
 namespace DStack.Projections.RavenDB
 {
-    public class DefensiveRavenDBCheckpointWriter : ICheckpointWriter
+    public class RavenDBCheckpointWriterWithRetries : ICheckpointWriter
     {
         private int MaxRetries = 3;
         readonly TimeSpan Delay = TimeSpan.FromMilliseconds(50);
 
         readonly IDocumentStore DocumentStore;
 
-        public DefensiveRavenDBCheckpointWriter(IDocumentStore documentStore)
+        public RavenDBCheckpointWriterWithRetries(IDocumentStore documentStore)
         {
             DocumentStore = documentStore;
         }

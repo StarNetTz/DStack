@@ -9,7 +9,7 @@ namespace DStack.Projections.RavenDB.IntegrationTests
         [Fact]
         public async Task CanWriteAndReadCheckpoint()
         {
-            var w = new DefensiveRavenDBCheckpointWriter(DocumentStore);
+            var w = new RavenDBCheckpointWriterWithRetries(DocumentStore);
             var r = new DefensiveRavenDBCheckpointReader(DocumentStore);
             var id = $"Checkpoints-{Guid.NewGuid()}";
             await w.Write(new Checkpoint { Id = id, Value = 1001 });
