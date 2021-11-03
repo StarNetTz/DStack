@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Starnet.ObjectComparer;
 using System;
+using System.Text;
 using System.Threading.Tasks;
 using Xunit.Sdk;
 
@@ -56,13 +57,17 @@ namespace DStack.Projections.Testing
             await p.Start();
         }
 
-        public async Task Expect<TModel>(TModel model) where TModel : class
+        public async Task Expect<TModel>(params TModel[] models) where TModel : class
         {
-            var id = ExtractIdFromObject(model);
-            var actual = await ProjectionsStore.LoadAsync<TModel>(id);
-            var diff = ObjectComparer.FindDifferences(model, actual);
-            if (!string.IsNullOrEmpty(diff))
-                throw new XunitException(diff);
+            var sb = new StringBuilder();
+            foreach (var model in models)
+            {
+                var id = ExtractIdFromObject(model);
+                var actual = await ProjectionsStore.LoadAsync<TModel>(id);
+                sb.Append(ObjectComparer.FindDifferences(model, actual));
+            }
+            if (!string.IsNullOrEmpty(sb.ToString()))
+                throw new XunitException(sb.ToString());
         }
 
             static string ExtractIdFromObject(object model)
