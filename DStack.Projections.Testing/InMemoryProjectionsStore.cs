@@ -27,8 +27,7 @@ namespace DStack.Projections.Testing
 
         public Task DeleteAsync(string id)
         {
-            object removedObj = null;
-            Store.TryRemove(id, out removedObj);
+            Store.TryRemove(id, out _);
             return Task.CompletedTask;
         }
 
@@ -72,6 +71,13 @@ namespace DStack.Projections.Testing
             foreach (var id in ids)
                     data.Add(id, await LoadAsync<T>(id));
             return data;
+        }
+
+        public Task DeleteInUnitOfWorkAsync(params string[] ids)
+        {
+            foreach (var id in ids)
+                _ = Store.TryRemove(id, out _);
+            return Task.CompletedTask;
         }
     }
 }

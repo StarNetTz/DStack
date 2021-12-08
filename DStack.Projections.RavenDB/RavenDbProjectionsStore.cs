@@ -28,15 +28,13 @@ namespace DStack.Projections.RavenDB
             }
         }
 
-        public Task DeleteAsync(string id)
+        public async Task DeleteAsync(string id)
         {
-            using (var s = DocumentStore.OpenSession())
+            using (var s = DocumentStore.OpenAsyncSession())
             {
                 s.Delete(id);
-                s.SaveChanges();
+                await s.SaveChangesAsync();
             }
-
-            return Task.CompletedTask;
         }
 
         public async Task StoreAsync<T>(T doc)
@@ -72,6 +70,16 @@ namespace DStack.Projections.RavenDB
         {
             using (var s = DocumentStore.OpenAsyncSession())
                 return await s.LoadAsync<T>(ids);
+        }
+
+        public async Task DeleteInUnitOfWorkAsync(params string[] ids)
+        {
+            using (var s = DocumentStore.OpenAsyncSession())
+            {
+                foreach(var id in ids)
+                    s.Delete(id);
+                await s.SaveChangesAsync();
+            }
         }
     }
 }

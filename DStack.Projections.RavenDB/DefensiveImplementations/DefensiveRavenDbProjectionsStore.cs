@@ -85,15 +85,29 @@ namespace DStack.Projections.RavenDB
             });
         }
 
-        public Task DeleteAsync(string id)
+        public async Task DeleteAsync(string id)
         {
-            using (var s = DocumentStore.OpenSession())
+            await DefensivelyStore(async () =>
             {
-                s.Delete(id);
-                s.SaveChanges();
-            }
+                using (var s = DocumentStore.OpenAsyncSession())
+                {
+                    s.Delete(id);
+                    await s.SaveChangesAsync();
+                }
+            });
+        }
 
-            return Task.CompletedTask;
+        public async Task DeleteInUnitOfWorkAsync(params string[] ids)
+        {
+            await DefensivelyStore(async () =>
+            {
+                using (var s = DocumentStore.OpenAsyncSession())
+                {
+                    foreach (var id in ids)
+                        s.Delete(id);
+                    await s.SaveChangesAsync();
+                }
+            });
         }
 
         async Task<T> DefensivelyLoad<T>(Func<Task<T>> func)
