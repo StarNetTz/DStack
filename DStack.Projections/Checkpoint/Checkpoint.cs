@@ -6,6 +6,6 @@ namespace DStack.Projections
     public class Checkpoint
     {
         public string Id { get; set; }
-        public long Value { get; set; }
+        public ulong Value { get; set; }
     }
 }

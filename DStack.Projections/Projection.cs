@@ -14,12 +14,12 @@ namespace DStack.Projections
 
         public Checkpoint Checkpoint { get; set; }
 
-        public async Task Project(object e, long c)
+        public async Task Project(object e, ulong c)
         {
             await TryHandleEvent(e, c);
         }
 
-            async Task TryHandleEvent(object e, long c)
+            async Task TryHandleEvent(object e, ulong c)
             {
                 try
                 {
@@ -31,14 +31,14 @@ namespace DStack.Projections
                 }
             }
 
-                async Task HandleEvent(object e, long c)
+                async Task HandleEvent(object e, ulong c)
                 {
                     Checkpoint.Value = c;
                     Task.WaitAll(StartHandlingTasks(e, c));
                     await CheckpointWriter.Write(Checkpoint);
                 }
 
-                    Task[] StartHandlingTasks(object e, long c)
+                    Task[] StartHandlingTasks(object e, ulong c)
                     {
                         var tasks = new List<Task>();
                         foreach (var d in Handlers)
@@ -46,7 +46,7 @@ namespace DStack.Projections
                         return tasks.ToArray();
                     }
 
-                ProjectionException CreateProjectionException(object e, long c, AggregateException ae)
+                ProjectionException CreateProjectionException(object e, ulong c, AggregateException ae)
                 {
                     var msg = $"Projection {Name} on stream {SubscriptionStreamName} failed on checkpoint {c} while trying to project {e.GetType().FullName}";
                     return new ProjectionException(msg, ae) {

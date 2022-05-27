@@ -6,7 +6,7 @@ namespace DStack.Projections
     {
         public string ProjectionName { get; init; }
         public string SubscriptionStreamName { get; init; }
-        public long Checkpoint { get; init; }
+        public ulong Checkpoint { get; init; }
         public string EventTypeName { get; init; }
 
         /// <summary>Initializes a new instance of the <see cref="ProjectionException" /> class with a specified error message and a reference to the inner exception that is the cause of this exception.</summary>

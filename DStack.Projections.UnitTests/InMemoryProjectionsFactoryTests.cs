@@ -40,7 +40,7 @@ namespace DStack.Projections.Tests
 
             await proj.Start();
 
-            Assert.Equal(2, proj.Checkpoint.Value);
+            Assert.Equal(2UL, proj.Checkpoint.Value);
         }
 
             void PreloadProjectionsSubscription(IProjection proj)

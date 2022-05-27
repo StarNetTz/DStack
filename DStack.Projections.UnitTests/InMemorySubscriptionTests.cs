@@ -7,10 +7,10 @@ namespace DStack.Projections.Tests
     {
         InMemorySubscription Subscription;
 
-        long Checkpoint = 0;
+        ulong Checkpoint = 0;
         object LastEvent = null;
 
-        private Task EventAppeared(object ev, long checkpoint)
+        private Task EventAppeared(object ev, ulong checkpoint)
         {
             Checkpoint = checkpoint;
             LastEvent = ev;
@@ -35,7 +35,7 @@ namespace DStack.Projections.Tests
             void AssertThatEventProjectedAsExpected()
             {
                 var e = LastEvent as TestEvent;
-                Assert.Equal(1, Checkpoint);
+                Assert.Equal(1UL, Checkpoint);
                 Assert.Equal("1", e.Id);
                 Assert.Equal("Manchester - Sloboda", e.SomeValue);
             }
@@ -67,7 +67,7 @@ namespace DStack.Projections.Tests
         void AssertLastEvent()
         {
             var e = LastEvent as TestEvent;
-            Assert.Equal(2, Checkpoint);
+            Assert.Equal(2UL, Checkpoint);
             Assert.Equal("2", e.Id);
             Assert.Equal("Manchester - Sloboda City", e.SomeValue);
         }

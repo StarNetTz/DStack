@@ -14,7 +14,7 @@ namespace DStack.Projections.RavenDB.IntegrationTests
             var id = $"Checkpoints-{Guid.NewGuid()}";
             await w.Write(new Checkpoint { Id = id, Value = 1001 });
             var chp = await r.Read(id);
-            Assert.Equal(1001, chp.Value);
+            Assert.Equal(1001UL, chp.Value);
         }
     }
 }

@@ -4,6 +4,6 @@ namespace DStack.Projections
 {
     public interface IHandler
     {
-        Task Handle(dynamic @event, long checkpoint);
+        Task Handle(dynamic @event, ulong checkpoint);
     }
 }

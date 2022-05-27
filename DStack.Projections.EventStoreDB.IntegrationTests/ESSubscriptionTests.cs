@@ -10,7 +10,7 @@ namespace DStack.Projections.EventStoreDB.IntegrationTests
     {
         ESSubscription Subscription;
 
-        long Checkpoint = 0;
+        ulong Checkpoint = 0;
         object LastEvent = null;
 
         public ESSubscriptionTests()
@@ -20,7 +20,7 @@ namespace DStack.Projections.EventStoreDB.IntegrationTests
             new ESDataGenerator().WriteTestEventsToStore(2).Wait();
         }
 
-            Task EventAppeared(object ev, long checkpoint)
+            Task EventAppeared(object ev, ulong checkpoint)
             {
                 Checkpoint = checkpoint;
                 LastEvent = ev;
