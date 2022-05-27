@@ -7,6 +7,6 @@ namespace DStack.Projections
     {
         string StreamName { get; set; }
         Func<object, ulong, Task> EventAppearedCallback { get; set; }
-        Task Start(ulong fromCheckpoint);
+        Task StartAsync(ulong fromCheckpoint);
     }
 }

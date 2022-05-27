@@ -29,13 +29,13 @@ namespace DStack.Projections.EventStoreDB
             SerializerSettings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
         }
 
-        public async Task Start(ulong oneBasedCheckpoint)
+        public async Task StartAsync(ulong oneBasedCheckpoint)
         {
 
             if (oneBasedCheckpoint == 0)
-                await Client.SubscribeToStreamAsync(StreamName, FromStream.Start, EventAppeared, resolveLinkTos: true, SubDropped);
+                await Client.SubscribeToStreamAsync(StreamName, FromStream.Start, EventAppeared, resolveLinkTos: true, SubDropped).ConfigureAwait(false);
             else
-                await Client.SubscribeToStreamAsync(StreamName, FromStream.After(new StreamPosition(oneBasedCheckpoint - 1)), EventAppeared, resolveLinkTos: true, SubDropped);
+                await Client.SubscribeToStreamAsync(StreamName, FromStream.After(new StreamPosition(oneBasedCheckpoint - 1)), EventAppeared, resolveLinkTos: true, SubDropped).ConfigureAwait(false);
             Logger.LogInformation($"Subscription started on stream: {StreamName}");
         }
 
@@ -43,7 +43,7 @@ namespace DStack.Projections.EventStoreDB
             {
                 ulong zeroBasedEventNumber = @event.OriginalEventNumber.ToUInt64();
                 var ev = DeserializeEvent(@event.Event.Metadata.ToArray(), @event.Event.Data.ToArray());
-                await EventAppearedCallback(ev, ConvertToOneBasedCheckpoint(zeroBasedEventNumber));
+                await EventAppearedCallback(ev, ConvertToOneBasedCheckpoint(zeroBasedEventNumber)).ConfigureAwait(false);
             }
 
                 object DeserializeEvent(byte[] metadata, byte[] data)

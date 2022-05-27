@@ -36,7 +36,7 @@ namespace DStack.Projections.EventStoreDB.IntegrationTests
                 EventAppearedCallback = EventAppeared
             };
 
-            await Subscription.Start(0);
+            await Subscription.StartAsync(0);
             await Task.Delay(200);
 
             AssertThatEventsProjected();

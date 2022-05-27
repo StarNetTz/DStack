@@ -22,8 +22,8 @@ namespace DStack.Projections.RavenDB
             return await DefensivelyLoad(async () =>
             {
                 using (var s = DocumentStore.OpenAsyncSession())
-                    return await s.LoadAsync<T>(id);
-            });
+                    return await s.LoadAsync<T>(id).ConfigureAwait(false);
+            }).ConfigureAwait(false);
         }
 
         public async Task<Dictionary<string, T>> LoadAsync<T>(params string[] ids) where T : class
@@ -31,8 +31,8 @@ namespace DStack.Projections.RavenDB
             return await DefensivelyLoad(async () =>
             {
                 using (var s = DocumentStore.OpenAsyncSession())
-                    return await s.LoadAsync<T>(ids);
-            });
+                    return await s.LoadAsync<T>(ids).ConfigureAwait(false);
+            }).ConfigureAwait(false);
         }
 
         public async Task StoreAsync(object doc)
@@ -41,10 +41,10 @@ namespace DStack.Projections.RavenDB
             {
                 using (var s = DocumentStore.OpenAsyncSession())
                 {
-                    await s.StoreAsync(doc);
-                    await s.SaveChangesAsync();
+                    await s.StoreAsync(doc).ConfigureAwait(false);
+                    await s.SaveChangesAsync().ConfigureAwait(false);
                 }
-            });
+            }).ConfigureAwait(false);
         }
 
         public async Task StoreAsync<T>(T doc)
@@ -53,10 +53,10 @@ namespace DStack.Projections.RavenDB
             {
                 using (var s = DocumentStore.OpenAsyncSession())
                 {
-                    await s.StoreAsync(doc);
-                    await s.SaveChangesAsync();
+                    await s.StoreAsync(doc).ConfigureAwait(false);
+                    await s.SaveChangesAsync().ConfigureAwait(false);
                 }
-            });
+            }).ConfigureAwait(false);
         }
 
         public async Task StoreInUnitOfWorkAsync(params object[] docs)
@@ -66,10 +66,10 @@ namespace DStack.Projections.RavenDB
                 using (var s = DocumentStore.OpenAsyncSession())
                 {
                     foreach (var d in docs)
-                        await s.StoreAsync(d);
-                    await s.SaveChangesAsync();
+                        await s.StoreAsync(d).ConfigureAwait(false);
+                    await s.SaveChangesAsync().ConfigureAwait(false);
                 }
-            });
+            }).ConfigureAwait(false);
         }
 
         public async Task StoreInUnitOfWorkAsync<T>(params T[] docs)
@@ -79,10 +79,10 @@ namespace DStack.Projections.RavenDB
                 using (var s = DocumentStore.OpenAsyncSession())
                 {
                     foreach (var d in docs)
-                        await s.StoreAsync(d);
-                    await s.SaveChangesAsync();
+                        await s.StoreAsync(d).ConfigureAwait(false);
+                    await s.SaveChangesAsync().ConfigureAwait(false);
                 }
-            });
+            }).ConfigureAwait(false);
         }
 
         public async Task DeleteAsync(string id)
@@ -92,9 +92,9 @@ namespace DStack.Projections.RavenDB
                 using (var s = DocumentStore.OpenAsyncSession())
                 {
                     s.Delete(id);
-                    await s.SaveChangesAsync();
+                    await s.SaveChangesAsync().ConfigureAwait(false);
                 }
-            });
+            }).ConfigureAwait(false);
         }
 
         public async Task DeleteInUnitOfWorkAsync(params string[] ids)
@@ -105,9 +105,9 @@ namespace DStack.Projections.RavenDB
                 {
                     foreach (var id in ids)
                         s.Delete(id);
-                    await s.SaveChangesAsync();
+                    await s.SaveChangesAsync().ConfigureAwait(false);
                 }
-            });
+            }).ConfigureAwait(false);
         }
 
         async Task<T> DefensivelyLoad<T>(Func<Task<T>> func)
@@ -117,7 +117,7 @@ namespace DStack.Projections.RavenDB
             {
                 try
                 {
-                    return await func();
+                    return await func().ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
@@ -126,7 +126,7 @@ namespace DStack.Projections.RavenDB
 
                     retryCount++;
                 }
-                await Task.Delay(Delay);
+                await Task.Delay(Delay).ConfigureAwait(false);
             }
         }
 
@@ -137,7 +137,7 @@ namespace DStack.Projections.RavenDB
             {
                 try
                 {
-                    await func();
+                    await func().ConfigureAwait(false);
                     return;
                 }
                 catch (Exception ex)
@@ -147,7 +147,7 @@ namespace DStack.Projections.RavenDB
 
                     retryCount++;
                 }
-                await Task.Delay(Delay);
+                await Task.Delay(Delay).ConfigureAwait(false);
             }
         }
 

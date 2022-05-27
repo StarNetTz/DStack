@@ -35,10 +35,10 @@ namespace DStack.Projections.Tests
         [Fact]
         public async Task can_create_test_projection_and_project()
         {
-            var proj = await ProjectionsFactory.Create<TestProjection>();
+            var proj = await ProjectionsFactory.CreateAsync<TestProjection>();
             PreloadProjectionsSubscription(proj);
 
-            await proj.Start();
+            await proj.StartAsync();
 
             Assert.Equal(2UL, proj.Checkpoint.Value);
         }
@@ -55,9 +55,9 @@ namespace DStack.Projections.Tests
         [Fact]
         public async Task failing_projection_throws_an_aggregate_exception()
         {
-            var proj = await ProjectionsFactory.Create<FailingProjection>();
+            var proj = await ProjectionsFactory.CreateAsync<FailingProjection>();
             PreloadFailingProjectionsSubscription(proj);
-            await Assert.ThrowsAsync<ProjectionException>(async () => { await proj.Start();});
+            await Assert.ThrowsAsync<ProjectionException>(async () => { await proj.StartAsync();});
         }
 
             void PreloadFailingProjectionsSubscription(IProjection proj)
@@ -72,7 +72,7 @@ namespace DStack.Projections.Tests
         [Fact]
         public async Task can_create_all_projections_within_assembly()
         {
-            var projections = await ProjectionsFactory.Create(Assembly.GetAssembly(typeof(TestProjection)));
+            var projections = await ProjectionsFactory.CreateAsync(Assembly.GetAssembly(typeof(TestProjection)));
             Assert.Equal(2, projections.Count);
         }
     }

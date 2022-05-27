@@ -11,7 +11,7 @@ namespace DStack.Aggregates.UnitTests
             var repository = new BDDAggregateRepository();
             repository.Preload(cmd.Id, given);
             var tester = new PersonAggregateInteractor(repository); //inject interactor specific dependencies here
-            await tester.Execute(cmd);
+            await tester.ExecuteAsync(cmd);
             var publishedEvents = tester.GetPublishedEvents();
             var arr = (repository.Appended != null) ? repository.Appended.Cast<IEvent>().ToArray() : null;
             var res = new ExecuteCommandResult<IEvent> {

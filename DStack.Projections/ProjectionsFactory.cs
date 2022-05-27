@@ -17,14 +17,14 @@ namespace DStack.Projections
             Provider = provider;
         }
 
-        public async Task<IList<IProjection>> Create(Assembly projectionsAssembly)
+        public async Task<IList<IProjection>> CreateAsync(Assembly projectionsAssembly)
         {
             var type = typeof(IProjection);
             var ret = new List<IProjection>();
             var types = projectionsAssembly.GetTypes().Where(p => type.IsAssignableFrom(p)).ToList();
             foreach (var t in types)
                 if (!IsInactive(t))
-                    ret.Add(await Create(t));
+                    ret.Add(await CreateAsync(t).ConfigureAwait(false));
             return ret;
         }
 
@@ -34,17 +34,17 @@ namespace DStack.Projections
                 return attrInfo != null;
             }
 
-        public async Task<IProjection> Create<T>()
+        public async Task<IProjection> CreateAsync<T>()
         {
             var type = typeof(T);
-            return await Create(type);
+            return await CreateAsync(type).ConfigureAwait(false);
         }
 
-        public async Task<IProjection> Create(Type type)
+        public async Task<IProjection> CreateAsync(Type type)
         {
             var proj = new Projection();
             SetNameAndStreamName(type, proj);
-            await LoadCheckpoint(proj);
+            await LoadCheckpoint(proj).ConfigureAwait(false);
             proj.CheckpointWriter = Provider.GetRequiredService<ICheckpointWriter>(); ;
             proj.Subscription = CreateSubscription(proj);
             proj.Handlers = CreateHandlers(type);
@@ -61,7 +61,7 @@ namespace DStack.Projections
             async Task LoadCheckpoint(Projection proj)
             {
                 var cr = Provider.GetRequiredService<ICheckpointReader>();
-                proj.Checkpoint = await cr.Read($"{CheckpointsPrefix}-{proj.Name}");
+                proj.Checkpoint = await cr.Read($"{CheckpointsPrefix}-{proj.Name}").ConfigureAwait(false);
             }
 
                 ProjectionInfo GetProjectionInfo(Type type)
@@ -88,7 +88,7 @@ namespace DStack.Projections
             {
                 var subscription = Provider.GetRequiredService<ISubscriptionFactory>().Create();
                 subscription.StreamName = proj.SubscriptionStreamName;
-                subscription.EventAppearedCallback = proj.Project;
+                subscription.EventAppearedCallback = proj.ProjectAsync;
                 return subscription;
             }
 

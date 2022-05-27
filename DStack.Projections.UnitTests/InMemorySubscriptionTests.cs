@@ -28,7 +28,7 @@ namespace DStack.Projections.Tests
         public async Task can_project()
         {
             Subscription.LoadEvents(new TestEvent() { Id = "1", SomeValue = "Manchester - Sloboda" });
-            await Subscription.Start(0);
+            await Subscription.StartAsync(0);
             AssertThatEventProjectedAsExpected();
         }
 
@@ -44,7 +44,7 @@ namespace DStack.Projections.Tests
         public async Task can_project_multiple_events()
         {
             LoadTwoEvents();
-            await Subscription.Start(0);
+            await Subscription.StartAsync(0);
             AssertLastEvent();
         }
 
@@ -52,7 +52,7 @@ namespace DStack.Projections.Tests
         public async Task can_read_stream_from_given_checkpoint_of_2()
         {
             LoadTwoEvents();
-            await Subscription.Start(2);
+            await Subscription.StartAsync(2);
             AssertLastEvent();
         }
 

@@ -16,7 +16,7 @@ namespace DStack.Projections.RavenDB
         {
             using (var s = DocumentStore.OpenAsyncSession())
             {
-                var chp = await s.LoadAsync<Checkpoint>(id);
+                var chp = await s.LoadAsync<Checkpoint>(id).ConfigureAwait(false);
                 if (null == chp)
                     chp = new Checkpoint { Id = id, Value = 0 };
                 return chp;

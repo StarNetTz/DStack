@@ -20,11 +20,11 @@ namespace DStack.Projections
                 EventStream.Add(++i, e);
         }
 
-        public async Task Start(ulong fromCheckpoint)
+        public async Task StartAsync(ulong fromCheckpoint)
         {
             foreach (var kv in EventStream)
                 if (kv.Key >= fromCheckpoint)
-                    await EventAppearedCallback(kv.Value, kv.Key);
+                    await EventAppearedCallback(kv.Value, kv.Key).ConfigureAwait(false);
         }
     }
 }

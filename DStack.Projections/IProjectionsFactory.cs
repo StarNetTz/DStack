@@ -8,8 +8,8 @@ namespace DStack.Projections
 {
     public interface IProjectionsFactory
     {
-        Task<IList<IProjection>> Create(Assembly projectionsAssembly);
-        Task<IProjection> Create<T>();
-        Task<IProjection> Create(Type type);
+        Task<IList<IProjection>> CreateAsync(Assembly projectionsAssembly);
+        Task<IProjection> CreateAsync<T>();
+        Task<IProjection> CreateAsync(Type type);
     }
 }

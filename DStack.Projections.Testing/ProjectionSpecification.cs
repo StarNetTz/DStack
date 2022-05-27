@@ -50,16 +50,16 @@ namespace DStack.Projections.Testing
 
         public async Task Given(params object[] args)
         {
-            var p = await ProjectionsFactory.Create<TProjection>();
+            var p = await ProjectionsFactory.CreateAsync<TProjection>().ConfigureAwait(false);
             var s = p.Subscription as InMemorySubscription;
             s.LoadEvents(args);
-            await p.Start();
+            await p.StartAsync().ConfigureAwait(false);
         }
 
         public async Task Expect<TModel>(TModel model) where TModel : class
         {
             var id = ExtractIdFromObject(model);
-            var actual = await ProjectionsStore.LoadAsync<TModel>(id);
+            var actual = await ProjectionsStore.LoadAsync<TModel>(id).ConfigureAwait(false);
             var diff = ObjectComparer.FindDifferences(model, actual);
             if (!string.IsNullOrEmpty(diff))
                 throw new XunitException(diff);

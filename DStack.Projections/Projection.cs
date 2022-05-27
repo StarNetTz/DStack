@@ -14,16 +14,16 @@ namespace DStack.Projections
 
         public Checkpoint Checkpoint { get; set; }
 
-        public async Task Project(object e, ulong c)
+        public async Task ProjectAsync(object e, ulong c)
         {
-            await TryHandleEvent(e, c);
+            await TryHandleEvent(e, c).ConfigureAwait(false);
         }
 
             async Task TryHandleEvent(object e, ulong c)
             {
                 try
                 {
-                    await HandleEvent(e, c);
+                    await HandleEvent(e, c).ConfigureAwait(false);
                 }
                 catch (AggregateException ae)
                 {
@@ -35,7 +35,7 @@ namespace DStack.Projections
                 {
                     Checkpoint.Value = c;
                     Task.WaitAll(StartHandlingTasks(e, c));
-                    await CheckpointWriter.Write(Checkpoint);
+                    await CheckpointWriter.Write(Checkpoint).ConfigureAwait(false);
                 }
 
                     Task[] StartHandlingTasks(object e, ulong c)
@@ -57,9 +57,9 @@ namespace DStack.Projections
                     };
                 }
 
-        public async Task Start()
+        public async Task StartAsync()
         {
-            await Subscription.Start(Checkpoint.Value);
+            await Subscription.StartAsync(Checkpoint.Value).ConfigureAwait(false);
         }
     }
 }

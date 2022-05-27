@@ -33,8 +33,8 @@ namespace DStack.Projections.EventStoreDB.Utils
             
             foreach (var kv in newProjections)
             {
-                await Cli.CreateContinuousAsync(kv.Key, kv.Value);
-                await Cli.UpdateAsync(kv.Key, kv.Value, emitEnabled : true);
+                await Cli.CreateContinuousAsync(kv.Key, kv.Value).ConfigureAwait(false);
+                await Cli.UpdateAsync(kv.Key, kv.Value, emitEnabled : true).ConfigureAwait(false);
             }
                
         }   

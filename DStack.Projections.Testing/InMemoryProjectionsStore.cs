@@ -56,20 +56,20 @@ namespace DStack.Projections.Testing
         public async Task StoreInUnitOfWorkAsync(params object[] docs)
         {
            foreach (var d in docs)
-                await StoreAsync(d);
+                await StoreAsync(d).ConfigureAwait(false);
         }
 
         public async Task StoreInUnitOfWorkAsync<T>(params T[] docs)
         {
             foreach (var d in docs)
-                await StoreAsync<T>(d);
+                await StoreAsync<T>(d).ConfigureAwait(false);
         }
 
         public async Task<Dictionary<string, T>> LoadAsync<T>(params string[] ids) where T : class
         {
             var data = new Dictionary<string, T>();
             foreach (var id in ids)
-                    data.Add(id, await LoadAsync<T>(id));
+                    data.Add(id, await LoadAsync<T>(id).ConfigureAwait(false));
             return data;
         }
 

@@ -1,6 +1,4 @@
-﻿using DStack.Aggregates;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Threading.Tasks;
 
 namespace DStack.Aggregates
@@ -16,7 +14,7 @@ namespace DStack.Aggregates
             AggRepository = aggRepository;
         }
 
-        public override async Task Execute(object command)
+        public override async Task ExecuteAsync(object command)
         {
             await When((dynamic)command);
         }

@@ -9,7 +9,7 @@ namespace DStack.Projections
         ISubscription Subscription { get; set; }
         IEnumerable<IHandler> Handlers { get; set; }
         Checkpoint Checkpoint { get; set; }
-        Task Project(object e, ulong c);
-        Task Start();
+        Task ProjectAsync(object e, ulong c);
+        Task StartAsync();
     }
 }

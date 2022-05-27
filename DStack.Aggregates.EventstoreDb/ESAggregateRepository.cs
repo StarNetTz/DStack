@@ -26,14 +26,14 @@ namespace DStack.Aggregates.EventStoreDB
 
         public async Task StoreAsync(IAggregate aggregate)
         {
-            await TrySaveAggregate(aggregate);
+            await TrySaveAggregate(aggregate).ConfigureAwait(false);
         }
 
             async Task TrySaveAggregate(IAggregate aggregate)
             {
                 try
                 {
-                    await SaveAggregate(aggregate, Guid.NewGuid(), (d) => { });
+                    await SaveAggregate(aggregate, Guid.NewGuid(), (d) => { }).ConfigureAwait(false);
                 }
                 catch (WrongExpectedVersionException ex)
                 {
@@ -55,7 +55,7 @@ namespace DStack.Aggregates.EventStoreDB
             var originalVersion = aggregate.Version - newEvents.Count;
             var expectedRevision = originalVersion == 0 ? StreamRevision.None : StreamRevision.FromInt64(originalVersion - 1);
             var eventsToSave = newEvents.Select(e => ToEventData(e, commitHeaders)).ToList();
-            await Client.AppendToStreamAsync(streamName, expectedRevision, eventsToSave);
+            await Client.AppendToStreamAsync(streamName, expectedRevision, eventsToSave).ConfigureAwait(false);
 
             aggregate.Changes.Clear();
         }
@@ -86,7 +86,7 @@ namespace DStack.Aggregates.EventStoreDB
             var instanceOfState = AggregateStateFactory.CreateStateFor(aggregateType);
            
 
-            var events = Client.ReadStreamAsync(Direction.Forwards, streamName, StreamPosition.Start, version);
+            var events = Client.ReadStreamAsync(Direction.Forwards, streamName, StreamPosition.Start, version).ConfigureAwait(false);
             try
             {
                 await foreach (var @event in events)
