@@ -18,7 +18,7 @@ namespace DStack.Aggregates.EventStoreDB.IntegrationFacts
         [Fact]
         public async Task Should_Store_And_Load()
         {
-            var id = $"persons-{Guid.NewGuid()}";
+            var id = $"Persons-{Guid.NewGuid()}";
             await Fixture.Repository.StoreAsync(PersonAggregateFactory.Create(id, "Joe"));
             var agg = await Fixture.Repository.GetAsync<PersonAggregate>(id);
 
@@ -28,7 +28,7 @@ namespace DStack.Aggregates.EventStoreDB.IntegrationFacts
         [Fact]
         public async Task Store_Should_Reset_List_Of_Changes()
         {
-            var agg = PersonAggregateFactory.Create($"persons-{Guid.NewGuid()}", "Joe");
+            var agg = PersonAggregateFactory.Create($"Persons-{Guid.NewGuid()}", "Joe");
             await Fixture.Repository.StoreAsync(agg);
             Assert.Empty(agg.Changes);
         }
@@ -40,7 +40,7 @@ namespace DStack.Aggregates.EventStoreDB.IntegrationFacts
             const int FinalVersion = 6;
             const int RequestedVersion = 2;
 
-            var id = $"persons-{Guid.NewGuid()}";
+            var id = $"Persons-{Guid.NewGuid()}";
 
             var agg = PersonAggregateFactory.CreateWithUncommitedUpdates(id, NrOfEventsToAdd);
             await Fixture.Repository.StoreAsync(agg);
@@ -54,7 +54,7 @@ namespace DStack.Aggregates.EventStoreDB.IntegrationFacts
         [Fact]
         public async Task Get_Should_Return_Null_If_Id_Was_Not_Found()
         {
-            var id = $"persons-{Guid.NewGuid()}";
+            var id = $"Persons-{Guid.NewGuid()}";
             var agg = await Fixture.Repository.GetAsync<PersonAggregate>(id);
             Assert.Null(agg);
         }
@@ -62,7 +62,7 @@ namespace DStack.Aggregates.EventStoreDB.IntegrationFacts
         [Fact]
         public async Task Concurrent_Updates_Should_Throw_ConcurrencyException()
         {
-            var id = $"persons-{Guid.NewGuid()}";
+            var id = $"Persons-{Guid.NewGuid()}";
             await Fixture.Repository.StoreAsync(PersonAggregateFactory.Create(id, "Joe"));
             var agg = await Fixture.Repository.GetAsync<PersonAggregate>(id);
             await UpdateOutOfSession(id, Fixture.Repository);
