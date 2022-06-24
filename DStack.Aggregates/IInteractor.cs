@@ -5,7 +5,7 @@ namespace DStack.Aggregates
 {
     public interface IInteractor
     {
-        Task Execute(object command);
+        Task ExecuteAsync(object command);
         List<object> GetPublishedEvents();
     }
 
@@ -13,7 +13,7 @@ namespace DStack.Aggregates
     {
         protected List<object> PublishedEvents;
 
-        public abstract Task Execute(object command);
+        public abstract Task ExecuteAsync(object command);
 
         public Interactor()
         {

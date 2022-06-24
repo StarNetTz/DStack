@@ -20,7 +20,7 @@ namespace DStack.Projections.EventStoreDB
         EventStoreClient Client;
 
         public string StreamName { get; set; }
-        public Func<object, long, Task> EventAppearedCallback { get; set; }
+        public Func<object, ulong, Task> EventAppearedCallback { get; set; }
 
         public ESSubscription(ILogger<ESSubscription> logger, EventStoreClient client)
         {
@@ -29,21 +29,21 @@ namespace DStack.Projections.EventStoreDB
             SerializerSettings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
         }
 
-        public async Task Start(long oneBasedCheckpoint)
+        public async Task StartAsync(ulong oneBasedCheckpoint)
         {
 
             if (oneBasedCheckpoint == 0)
-                await Client.SubscribeToStreamAsync(StreamName, EventAppeared, resolveLinkTos: true, SubDropped);
+                await Client.SubscribeToStreamAsync(StreamName, FromStream.Start, EventAppeared, resolveLinkTos: true, SubDropped).ConfigureAwait(false);
             else
-                await Client.SubscribeToStreamAsync(StreamName, StreamPosition.FromInt64(oneBasedCheckpoint - 1), EventAppeared, resolveLinkTos: true, SubDropped);
+                await Client.SubscribeToStreamAsync(StreamName, FromStream.After(new StreamPosition(oneBasedCheckpoint - 1)), EventAppeared, resolveLinkTos: true, SubDropped).ConfigureAwait(false);
             Logger.LogInformation($"Subscription started on stream: {StreamName}");
         }
 
             async Task EventAppeared(StreamSubscription sub, ResolvedEvent @event, CancellationToken tok)
             {
-                long zeroBasedEventNumber = @event.OriginalEventNumber.ToInt64();
+                ulong zeroBasedEventNumber = @event.OriginalEventNumber.ToUInt64();
                 var ev = DeserializeEvent(@event.Event.Metadata.ToArray(), @event.Event.Data.ToArray());
-                await EventAppearedCallback(ev, ConvertToOneBasedCheckpoint(zeroBasedEventNumber));
+                await EventAppearedCallback(ev, ConvertToOneBasedCheckpoint(zeroBasedEventNumber)).ConfigureAwait(false);
             }
 
                 object DeserializeEvent(byte[] metadata, byte[] data)
@@ -53,7 +53,7 @@ namespace DStack.Projections.EventStoreDB
                     return JsonConvert.DeserializeObject(jsonString, Type.GetType((string)eventClrTypeName), SerializerSettings);
                 }
 
-                long ConvertToOneBasedCheckpoint(long zeroBasedCheckpoint)
+                ulong ConvertToOneBasedCheckpoint(ulong zeroBasedCheckpoint)
                 {
                     return zeroBasedCheckpoint + 1;
                 }

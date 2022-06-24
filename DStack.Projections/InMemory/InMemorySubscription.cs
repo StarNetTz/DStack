@@ -6,25 +6,25 @@ namespace DStack.Projections
 {
     public class InMemorySubscription : ISubscription
     {
-        Dictionary<long, object> EventStream = new Dictionary<long, object>();
+        Dictionary<ulong, object> EventStream = new Dictionary<ulong, object>();
 
         public string StreamName { get; set; }
 
-        public Func<object, long, Task> EventAppearedCallback { get; set; }
+        public Func<object, ulong, Task> EventAppearedCallback { get; set; }
 
         public void LoadEvents(params object[] events)
         {
-            EventStream = new Dictionary<long, object>();
-            long i = 0;
+            EventStream = new Dictionary<ulong, object>();
+            ulong i = 0;
             foreach (var e in events)
                 EventStream.Add(++i, e);
         }
 
-        public async Task Start(long fromCheckpoint)
+        public async Task StartAsync(ulong fromCheckpoint)
         {
             foreach (var kv in EventStream)
                 if (kv.Key >= fromCheckpoint)
-                    await EventAppearedCallback(kv.Value, kv.Key);
+                    await EventAppearedCallback(kv.Value, kv.Key).ConfigureAwait(false);
         }
     }
 }

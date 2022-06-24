@@ -25,8 +25,8 @@ namespace DStack.Projections.RavenDB
                 {
                     using (var s = DocumentStore.OpenAsyncSession())
                     {
-                        await s.StoreAsync(checkpoint);
-                        await s.SaveChangesAsync();
+                        await s.StoreAsync(checkpoint).ConfigureAwait(false);
+                        await s.SaveChangesAsync().ConfigureAwait(false);
                         return;
                     }
                 }
@@ -37,7 +37,7 @@ namespace DStack.Projections.RavenDB
 
                     retryCount++;
                 }
-                await Task.Delay(Delay);
+                await Task.Delay(Delay).ConfigureAwait(false);
             }
         }
 

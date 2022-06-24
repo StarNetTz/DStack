@@ -42,8 +42,8 @@ namespace DStack.Projections.EventStoreDB.IntegrationTests
         [Fact]
         public async Task Should_Project()
         {
-            var proj = await ProjectionsFactory.Create<TestProjection>();
-            await proj.Start();
+            var proj = await ProjectionsFactory.CreateAsync<TestProjection>();
+            await proj.StartAsync();
             await Task.Delay(250);
             Assert.True(proj.Checkpoint.Value > 0);
         }

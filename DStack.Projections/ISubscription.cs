@@ -6,7 +6,7 @@ namespace DStack.Projections
     public interface ISubscription
     {
         string StreamName { get; set; }
-        Func<object, long, Task> EventAppearedCallback { get; set; }
-        Task Start(long fromCheckpoint);
+        Func<object, ulong, Task> EventAppearedCallback { get; set; }
+        Task StartAsync(ulong fromCheckpoint);
     }
 }

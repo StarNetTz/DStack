@@ -14,12 +14,12 @@ namespace DStack.Projections.Tests
             TimeProvider = timeProvider;
         }
 
-        public async Task Handle(dynamic @event, long checkpoint)
+        public async Task Handle(dynamic @event, ulong checkpoint)
         {
             await When(@event, checkpoint);
         }
 
-        public async Task When(TestEvent e, long checkpoint)
+        public async Task When(TestEvent e, ulong checkpoint)
         {
             var doc = new TestModel { Id = e.Id, SomeValue = e.SomeValue };
             var time = TimeProvider.GetUtcNow();

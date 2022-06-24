@@ -54,6 +54,17 @@ namespace DStack.Projections.UnitTests
         }
 
         [Fact]
+        public async Task Should_DeleteInUnitOfWorkAsync()
+        {
+            var store = new InMemoryProjectionsStore();
+            object doc = new DocumentWithNumericId { Id = 1 };
+            await store.StoreAsync(doc);
+            await store.DeleteInUnitOfWorkAsync("1");
+            var loadedDoc = await store.LoadAsync<DocumentWithNumericId>("1");
+            Assert.Null(loadedDoc);
+        }
+
+        [Fact]
         public async Task Should_Store_Typed_Documents_In_UnitOfWork()
         {
             var store = new InMemoryProjectionsStore();

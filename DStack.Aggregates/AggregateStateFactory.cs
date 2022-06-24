@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Reflection;
 
 namespace DStack.Aggregates
 {
     public class AggregateStateFactory
     {
-        static ConcurrentDictionary<Type, Type> LookupTable;
+        static readonly ConcurrentDictionary<Type, Type> LookupTable;
 
         static AggregateStateFactory()
         {
@@ -16,16 +15,14 @@ namespace DStack.Aggregates
 
         public static IAggregateState CreateStateFor(Type aggregateType)
         {
-            Type aggStateType = null;
-            if (!LookupTable.TryGetValue(aggregateType, out aggStateType))
+            if (!LookupTable.TryGetValue(aggregateType, out Type aggStateType))
             {
                 Assembly assemblyThatContainsAggregate = aggregateType.Assembly;
                 string aggStateTypeName = string.Format("{0}State", aggregateType.FullName);
                 aggStateType = assemblyThatContainsAggregate.GetType(aggStateTypeName);
                 LookupTable.TryAdd(aggregateType, aggStateType);
             }
-            var obj = Activator.CreateInstance(aggStateType);
-            return obj as IAggregateState;
+            return Activator.CreateInstance(aggStateType) as IAggregateState;
         }
     }
 }
