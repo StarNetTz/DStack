@@ -170,8 +170,8 @@ namespace DStack.Aggregates.Testing
                 throw new XunitException("THEN was not called from the unit test");
         }
 
-        public static List<TEvent> NoProducedEvents { get { return new List<TEvent>(); } }
-        public static List<TEvent> NoPublishedEvents { get { return new List<TEvent>(); } }
+        public static List<TEvent> NoProducedEvents  => new List<TEvent>();
+        public static List<TEvent> NoPublishedEvents => new List<TEvent>();
     }
 
     public class ExecuteCommandResult<TEvent>

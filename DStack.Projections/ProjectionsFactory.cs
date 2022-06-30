@@ -10,6 +10,7 @@ namespace DStack.Projections
     public class ProjectionsFactory : IProjectionsFactory
     {
         const string CheckpointsPrefix = "Checkpoints";
+        const string ProjectionPrefix = "Projection";
         readonly IServiceProvider Provider;
 
         public ProjectionsFactory(IServiceProvider provider)
@@ -23,15 +24,15 @@ namespace DStack.Projections
             var ret = new List<IProjection>();
             var types = projectionsAssembly.GetTypes().Where(p => type.IsAssignableFrom(p)).ToList();
             foreach (var t in types)
-                if (!IsInactive(t))
+                if (IsActive(t))
                     ret.Add(await CreateAsync(t).ConfigureAwait(false));
             return ret;
         }
 
-            static bool IsInactive(Type t)
+            static bool IsActive(Type t)
             {
                 var attrInfo = t.GetCustomAttribute(typeof(InactiveProjection)) as InactiveProjection;
-                return attrInfo != null;
+                return attrInfo == null;
             }
 
         public async Task<IProjection> CreateAsync<T>()
@@ -75,7 +76,7 @@ namespace DStack.Projections
 
                     string GetProjectionName(Type type)
                     {
-                        return type.Name.Replace("Projection", "");
+                        return type.Name.Replace(ProjectionPrefix, "");
                     }
 
                     string GetSubscriptionStreamName(Type type)
