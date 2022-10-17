@@ -5,7 +5,7 @@
     <Authors>StarNet</Authors>
     <OutputType>Library</OutputType>
     <IsPackable>true</IsPackable>
-    <Version>4.0.2</Version>
+    <Version>4.0.3</Version>
   </PropertyGroup>
 
   <ItemGroup>
