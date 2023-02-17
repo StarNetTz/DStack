@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Starnet.ObjectComparer;
+using Starnet;
 using System;
 using System.Threading.Tasks;
 using Xunit.Sdk;

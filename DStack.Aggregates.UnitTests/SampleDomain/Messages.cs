@@ -11,25 +11,25 @@ namespace DStack.Aggregates
         string Id { get; }
     }
 
-    public class RegisterPerson : ICommand
+    public record RegisterPerson : ICommand
     {
         public string Id { get; set; }
         public string Name { get; set; }
     }
 
-    public class PersonRegistered : IEvent
+    public record PersonRegistered : IEvent
     {
         public string Id { get; set; }
         public string Name { get; set; }
     }
 
-    public class RenamePerson : ICommand
+    public record RenamePerson : ICommand
     {
         public string Id { get; set; }
         public string Name { get; set; }
     }
 
-    public class PersonRenamed : IEvent
+    public record PersonRenamed : IEvent
     {
         public string Id { get; set; }
         public string Name { get; set; }

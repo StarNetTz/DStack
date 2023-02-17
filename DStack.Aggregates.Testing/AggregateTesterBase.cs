@@ -1,4 +1,4 @@
-﻿using Starnet.ObjectComparer;
+﻿using Starnet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,7 +58,7 @@ namespace DStack.Aggregates.Testing
             Console.Write(publishedResults);
 
             if (producedEventsResults.Any(r => r.Failure != null))
-                throw new XunitException($"Specification failed on produced events:\n{producedResults}");
+                throw new XunitException($"[FAILED] produced events:\n{producedResults}");
 
             if (publishedEventsResults.Any(r => r.Failure != null))
                 throw new XunitException($"Specification failed on published events:\n{publishedResults}");
@@ -69,11 +69,9 @@ namespace DStack.Aggregates.Testing
             var results = exs.ToArray();
             var failures = results.Where(f => f.Failure != null).ToArray();
             if (!failures.Any())
-                return "\nResults: [Passed]";
+                return "[Passed]";
 
-            var sb = new StringBuilder();
-            sb.Append("\nResults: [Failed]");
-           
+            var sb = new StringBuilder();          
 
             for (int i = 0; i < results.Length; i++)
             {
@@ -107,8 +105,8 @@ namespace DStack.Aggregates.Testing
                 var ex = expected.Skip(i).FirstOrDefault();
                 var ac = actual.Skip(i).FirstOrDefault();
 
-                var expectedString = ex == null ? "No event expected" : ex.ToString();
-                var actualString = ac == null ? "No event actually" : ac.ToString();
+                var expectedString = ex == null ? "No event expected" : ex.GetType().ToString();
+                var actualString = ac == null ? "No event actually" : ac.GetType().ToString();
 
                 var result = new ExpectResult { Expectation = expectedString };
 
@@ -118,8 +116,8 @@ namespace DStack.Aggregates.Testing
                     var stringRepresentationsDiffer = expectedString != actualString;
 
                     result.Failure = stringRepresentationsDiffer ?
-                        GetAdjusted("Was:  ", actualString) :
-                        GetAdjusted("Diff: ", realDiff);
+                        GetAdjusted("Got:  ", actualString) :
+                        GetAdjusted("", realDiff);
                 }
 
                 yield return result;
