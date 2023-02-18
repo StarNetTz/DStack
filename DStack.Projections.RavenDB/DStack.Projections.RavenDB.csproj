@@ -3,11 +3,11 @@
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <Authors>StarNet</Authors>
-    <Version>4.0.4</Version>
+    <Version>7.0.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="RavenDB.Client" Version="5.4.4" />
+    <PackageReference Include="RavenDB.Client" Version="5.4.101" />
   </ItemGroup>
 
   <ItemGroup>
