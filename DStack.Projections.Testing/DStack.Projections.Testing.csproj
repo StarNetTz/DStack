@@ -1,11 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <Authors>StarNet</Authors>
     <IsPackable>true</IsPackable>
-    <Version>4.0.5et8
-	</Version>
+    <Version>4.0.5</Version>
   </PropertyGroup>
 
   <ItemGroup>
