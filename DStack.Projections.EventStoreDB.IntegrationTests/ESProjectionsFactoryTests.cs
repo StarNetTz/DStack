@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using NLog.Extensions.Logging;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -12,7 +11,7 @@ namespace DStack.Projections.EventStoreDB.IntegrationTests
 
         public ESProjectionsFactoryTests()
         {
-            NLog.LogManager.LoadConfiguration("nlog.config");
+           
             var services = CreateServiceCollection();
             var prov = services.BuildServiceProvider();
             ProjectionsFactory = prov.GetRequiredService<IProjectionsFactory>();
@@ -34,7 +33,6 @@ namespace DStack.Projections.EventStoreDB.IntegrationTests
                 {
                     b.ClearProviders();
                     b.SetMinimumLevel(LogLevel.Information);
-                    b.AddNLog();
                 });
                 return services;
             }
