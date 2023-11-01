@@ -8,15 +8,24 @@ using Xunit.Sdk;
 
 namespace DStack.Projections.UnitTests;
 
-public class ProjectionSpecificationTests : ProjectionSpecification<TestProjection>
+public interface ICustomStore : IProjectionsStore
+{
+
+}
+
+public class CustomStore: InMemoryProjectionsStore, ICustomStore
+{
+}
+
+public class ProjectionSpecificationWithStoreTests : ProjectionSpecification<TestProjectionWithCustomStore, ICustomStore>
 {
 
     protected override void ConfigureContainer(IServiceCollection services)
     {
         services.AddTransient<ITimeProvider, MockTimeProvider>();
+        services.AddSingleton<ICustomStore, CustomStore>();
         base.ConfigureContainer(services);
     }
-
 
     [Fact]
     public async Task can_project_event()
@@ -44,16 +53,5 @@ public class ProjectionSpecificationTests : ProjectionSpecification<TestProjecti
         await Assert.ThrowsAsync<XunitException>(async () => {
             await Given(new TestEvent() { Id = id, SomeValue = "123" });
             await Expect(new TestModel() { Id = id, SomeValue = "1234" }); });
-    }
-}
-
-public class IdValidatorTests
-{
-    [Fact]
-    public void Should_allow_acceptale_id_types()
-    {
-        IdValidator.ValidateType(1);
-        IdValidator.ValidateType(1L);
-        IdValidator.ValidateType(Guid.NewGuid());
     }
 }

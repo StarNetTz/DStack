@@ -1,12 +1,11 @@
 ﻿using System.Threading.Tasks;
 
-namespace DStack.Projections.Testing
+namespace DStack.Projections.Testing;
+
+public class StubCheckpointWriter : ICheckpointWriter
 {
-    public class StubCheckpointWriter : ICheckpointWriter
+    public Task Write(Checkpoint checkpoint)
     {
-        public Task Write(Checkpoint checkpoint)
-        {
-            return Task.CompletedTask;
-        }
+        return Task.CompletedTask;
     }
 }
