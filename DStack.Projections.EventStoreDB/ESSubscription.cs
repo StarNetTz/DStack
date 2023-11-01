@@ -21,6 +21,7 @@ public class ESSubscription : ISubscription
 
     public string StreamName { get; set; }
     public Func<object, ulong, Task> EventAppearedCallback { get; set; }
+    ulong CurrentCheckpoint;
 
     public ESSubscription(ILogger<ESSubscription> logger, EventStoreClient client)
     {
@@ -31,6 +32,8 @@ public class ESSubscription : ISubscription
 
     public async Task StartAsync(ulong oneBasedCheckpoint)
     {
+        CurrentCheckpoint = oneBasedCheckpoint;
+
         if (oneBasedCheckpoint == 0)
             await Client.SubscribeToStreamAsync(StreamName, FromStream.Start, EventAppeared, resolveLinkTos: true, SubDropped).ConfigureAwait(false);
         else
@@ -59,7 +62,25 @@ public class ESSubscription : ISubscription
 
         void SubDropped(StreamSubscription sub, SubscriptionDroppedReason reason, Exception ex)
         {
-            Logger.LogCritical(ex, $"{StreamName} subscription failed: ({reason}).");
-            throw ex;
+            Logger.LogError(ex, $"{StreamName} subscription failed: ({reason}).");
+            switch (reason)
+            {
+                case  SubscriptionDroppedReason.Disposed:
+                Logger.LogInformation($"Stream disposed: {StreamName}");
+                break;
+                default:
+               
+                try
+                {
+                    sub.Dispose(); 
+                    StartAsync(CurrentCheckpoint).Wait();
+                }
+                catch (Exception rex)
+                {
+                    Logger.LogCritical(rex, $"Failed to resubscribe to {StreamName}");
+                    throw;
+                }
+                break;
+            }
         }
 }
