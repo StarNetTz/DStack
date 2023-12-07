@@ -20,8 +20,13 @@ public class ESSubscription : ISubscription
     EventStoreClient Client;
 
     public string StreamName { get; set; }
+    public bool HasFailed { get; private set; } = false;
+    public string Error { get; private set; } = string.Empty;
     public Func<object, ulong, Task> EventAppearedCallback { get; set; }
     ulong CurrentCheckpoint;
+
+    int ResubscriptionAttempt = 0;
+    internal int MaxResubscriptionAttempts = 10;
 
     public ESSubscription(ILogger<ESSubscription> logger, EventStoreClient client)
     {
@@ -46,6 +51,8 @@ public class ESSubscription : ISubscription
             ulong zeroBasedEventNumber = @event.OriginalEventNumber.ToUInt64();
             var ev = DeserializeEvent(@event.Event.Metadata.ToArray(), @event.Event.Data.ToArray());
             await EventAppearedCallback(ev, ConvertToOneBasedCheckpoint(zeroBasedEventNumber)).ConfigureAwait(false);
+            if (ResubscriptionAttempt > 0)
+                ResubscriptionAttempt = 0;
         }
 
             object DeserializeEvent(byte[] metadata, byte[] data)
@@ -62,25 +69,30 @@ public class ESSubscription : ISubscription
 
         void SubDropped(StreamSubscription sub, SubscriptionDroppedReason reason, Exception ex)
         {
-            Logger.LogError(ex, $"{StreamName} subscription failed: ({reason}).");
+            Logger.LogError(ex, $"{StreamName} subscription dropped: ({reason}).");
             switch (reason)
             {
                 case  SubscriptionDroppedReason.Disposed:
-                Logger.LogInformation($"Stream disposed: {StreamName}");
-                break;
+                    Logger.LogInformation($"Stream disposed: {StreamName}");
+                    break;
                 default:
-               
-                try
-                {
-                    sub.Dispose(); 
-                    StartAsync(CurrentCheckpoint).Wait();
-                }
-                catch (Exception rex)
-                {
-                    Logger.LogCritical(rex, $"Failed to resubscribe to {StreamName}");
-                    throw;
-                }
-                break;
+                    try
+                    {
+                        sub.Dispose();
+                        ResubscriptionAttempt++;
+                        if (ResubscriptionAttempt < MaxResubscriptionAttempts)
+                            StartAsync(CurrentCheckpoint).Wait();
+                        else
+                            throw ex;
+                    }
+                    catch (Exception rex)
+                    {
+                        HasFailed = true;
+                        Error = rex.Message;
+                        Logger.LogCritical(rex, $"Failed to resubscribe to {StreamName}");
+                        throw;
+                    }
+                    break;
             }
         }
 }

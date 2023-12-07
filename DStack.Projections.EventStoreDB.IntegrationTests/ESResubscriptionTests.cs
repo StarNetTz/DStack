@@ -1,19 +1,20 @@
 ﻿using EventStore.Client;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
+using System;
 using System.Threading.Tasks;
 using Xunit;
 
 namespace DStack.Projections.EventStoreDB.IntegrationTests;
 
-public class ESSubscriptionTests
+public class ESResubscriptionTests
 {
     ESSubscription Subscription;
 
     ulong Checkpoint = 0;
     object LastEvent = null;
 
-    public ESSubscriptionTests()
+    public ESResubscriptionTests()
     {
         Checkpoint = 0;
         LastEvent = null;
@@ -22,24 +23,22 @@ public class ESSubscriptionTests
 
         Task EventAppeared(object ev, ulong checkpoint)
         {
-            Checkpoint = checkpoint;
-            LastEvent = ev;
-            return Task.CompletedTask;
+            throw new ApplicationException("Bug in client code!");
         }
 
     [Fact]
-    public async Task Should_Subscribe_And_Recieve_Events()
+    public async Task Should_fail_after_max_resubscriptions()
     {
         Subscription = new ESSubscription(new NullLoggerFactory().CreateLogger<ESSubscription>(), CreateEventStoreClient())
         {
             StreamName = TestProjection.StreamName,
             EventAppearedCallback = EventAppeared
         };
-
         await Subscription.StartAsync(0);
-        await Task.Delay(200);
+        await Task.Delay(500);
 
-        AssertThatEventsProjected();
+        Assert.True(Subscription.HasFailed);
+        Assert.Equal("Bug in client code!", Subscription.Error);
     }
 
         static EventStoreClient CreateEventStoreClient()
@@ -48,13 +47,5 @@ public class ESSubscriptionTests
             var settings = EventStoreClientSettings.Create(configuration["EventStoreDB:ConnectionString"]);
             var cli = new EventStoreClient(settings);
             return cli;
-        }
-
-        void AssertThatEventsProjected()
-        {
-            Assert.IsType<TestEvent>(LastEvent);
-            Assert.NotNull(LastEvent);
-            Assert.Contains("A guid:", (LastEvent as TestEvent).SomeValue);
-            Assert.True(Checkpoint > 0);
         }
 }
