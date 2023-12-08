@@ -7,17 +7,12 @@ using Xunit;
 
 namespace DStack.Projections.EventStoreDB.IntegrationTests;
 
-public class ESResubscriptionTests
+public class ESSbscriptionFailingInClientCodeTests
 {
     ESSubscription Subscription;
 
-    ulong Checkpoint = 0;
-    object LastEvent = null;
-
-    public ESResubscriptionTests()
+    public ESSbscriptionFailingInClientCodeTests()
     {
-        Checkpoint = 0;
-        LastEvent = null;
         new ESDataGenerator().WriteTestEventsToStore(2).Wait();
     }
 
