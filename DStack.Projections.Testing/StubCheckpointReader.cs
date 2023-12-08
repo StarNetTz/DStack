@@ -1,13 +1,11 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
-namespace DStack.Projections.Testing
+namespace DStack.Projections.Testing;
+
+public class StubCheckpointReader : ICheckpointReader
 {
-    public class StubCheckpointReader : ICheckpointReader
+    public Task<Checkpoint> Read(string id)
     {
-        public Task<Checkpoint> Read(string id)
-        {
-            return Task.FromResult(new Checkpoint { Id = id, Value = 0 });
-        }
+        return Task.FromResult(new Checkpoint { Id = id, Value = 0 });
     }
 }
