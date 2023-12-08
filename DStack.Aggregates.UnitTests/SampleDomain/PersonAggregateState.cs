@@ -1,27 +1,23 @@
-﻿using DStack.Aggregates;
-using System;
+﻿namespace DStack.Aggregates;
 
-namespace DStack.Aggregates
+public class PersonAggregateState : AggregateState
 {
-    public class PersonAggregateState : AggregateState
+
+    internal string Name { get; set; }
+
+    protected override void DelegateWhenToConcreteClass(object ev)
     {
+        When((dynamic)ev);
+    }
 
-        internal string Name { get; set; }
+    void When(PersonRegistered e)
+    {
+        Id = e.Id;
+        Name = e.Name;
+    }
 
-        protected override void DelegateWhenToConcreteClass(object ev)
-        {
-            When((dynamic)ev);
-        }
-
-        void When(PersonRegistered e)
-        {
-            Id = e.Id;
-            Name = e.Name;
-        }
-
-        void When(PersonRenamed e)
-        {
-            Name = e.Name;
-        }
+    void When(PersonRenamed e)
+    {
+        Name = e.Name;
     }
 }

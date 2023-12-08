@@ -1,11 +1,7 @@
-﻿using System;
-using System.Linq;
+﻿namespace DStack.Projections.EventStoreDB.IntegrationTests;
 
-namespace DStack.Projections.EventStoreDB.IntegrationTests
+public class TestEvent
 {
-    public class TestEvent
-    {
-        public string Id { get; set; }
-        public string SomeValue { get; set; }
-    }
+    public string Id { get; set; }
+    public string SomeValue { get; set; }
 }

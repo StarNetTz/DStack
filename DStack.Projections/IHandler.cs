@@ -1,9 +1,8 @@
 ﻿using System.Threading.Tasks;
 
-namespace DStack.Projections
+namespace DStack.Projections;
+
+public interface IHandler
 {
-    public interface IHandler
-    {
-        Task Handle(dynamic @event, ulong checkpoint);
-    }
+    Task Handle(dynamic @event, ulong checkpoint);
 }

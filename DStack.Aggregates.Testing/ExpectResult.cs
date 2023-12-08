@@ -1,8 +1,7 @@
-﻿namespace DStack.Aggregates.Testing
+﻿namespace DStack.Aggregates.Testing;
+
+public class ExpectResult
 {
-    public class ExpectResult
-    {
-        public string Failure;
-        public string Expectation;
-    }
+    public string Failure;
+    public string Expectation;
 }

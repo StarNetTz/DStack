@@ -1,20 +1,19 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 
-namespace DStack.Projections
+namespace DStack.Projections;
+
+public class DIHandlerFactory : IHandlerFactory
 {
-    public class DIHandlerFactory : IHandlerFactory
+    IServiceProvider Provider;
+
+    public DIHandlerFactory(IServiceProvider provider)
     {
-        IServiceProvider Provider;
+        Provider = provider;
+    }
 
-        public DIHandlerFactory(IServiceProvider provider)
-        {
-            Provider = provider;
-        }
-
-        public IHandler Create(Type t)
-        {
-            return Provider.GetRequiredService(t) as IHandler;
-        }
+    public IHandler Create(Type t)
+    {
+        return Provider.GetRequiredService(t) as IHandler;
     }
 }

@@ -1,15 +1,14 @@
-﻿namespace DStack.Aggregates.Testing
+﻿namespace DStack.Aggregates.Testing;
+
+public class SpecificationInfo<TCommand, TEvent>
 {
-    public class SpecificationInfo<TCommand, TEvent>
-    {
-        public string GroupName;
+    public string GroupName;
 
-        public string CaseName;
+    public string CaseName;
 
-        public TEvent[] Given;
+    public TEvent[] Given;
 
-        public TCommand When;
+    public TCommand When;
 
-        public TEvent[] Then;
-    }
+    public TEvent[] Then;
 }

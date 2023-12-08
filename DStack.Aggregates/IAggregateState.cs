@@ -1,11 +1,10 @@
-﻿namespace DStack.Aggregates
+﻿namespace DStack.Aggregates;
+
+public interface IAggregateState
 {
-    public interface IAggregateState
-    {
-        int Version { get; }
+    int Version { get; }
 
-        void Mutate(object @event);
+    void Mutate(object @event);
 
-        string Id { get; }
-    }
+    string Id { get; }
 }

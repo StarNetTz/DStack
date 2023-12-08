@@ -1,9 +1,8 @@
 ﻿using System.Threading.Tasks;
 
-namespace DStack.Projections
+namespace DStack.Projections;
+
+public interface ICheckpointWriter
 {
-    public interface ICheckpointWriter
-    {
-        Task Write(Checkpoint checkpoint);
-    }
+    Task Write(Checkpoint checkpoint);
 }

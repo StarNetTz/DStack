@@ -1,9 +1,8 @@
 ﻿using System;
 
-namespace DStack.Aggregates
+namespace DStack.Aggregates;
+
+public class ConcurrencyException : Exception
 {
-    public class ConcurrencyException : Exception
-    {
-        public ConcurrencyException(string message) : base(message) {}
-    }
+    public ConcurrencyException(string message) : base(message) {}
 }

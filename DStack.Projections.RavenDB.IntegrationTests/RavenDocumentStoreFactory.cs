@@ -7,47 +7,46 @@ using Raven.Client.ServerWide.Operations;
 using System;
 using System.Security.Cryptography.X509Certificates;
 
-namespace DStack.Projections.RavenDB.IntegrationTests
+namespace DStack.Projections.RavenDB.IntegrationTests;
+
+public class RavenDocumentStoreFactory
 {
-    public class RavenDocumentStoreFactory
+    public IDocumentStore CreateAndInitializeDocumentStore(RavenConfig conf)
     {
-        public IDocumentStore CreateAndInitializeDocumentStore(RavenConfig conf)
+        var store = new DocumentStore { Urls = conf.Urls };
+        if (!string.IsNullOrWhiteSpace(conf.CertificateFilePath))
+            store.Certificate = new X509Certificate2(conf.CertificateFilePath, conf.CertificateFilePassword);
+        store.Database = conf.DatabaseName;
+        store.Initialize();
+        EnsureDatabaseExists(store, conf.DatabaseName, true);
+
+        return store;
+    }
+
+        void EnsureDatabaseExists(IDocumentStore store, string database = null, bool createDatabaseIfNotExists = true)
         {
-            var store = new DocumentStore { Urls = conf.Urls };
-            if (!string.IsNullOrWhiteSpace(conf.CertificateFilePath))
-                store.Certificate = new X509Certificate2(conf.CertificateFilePath, conf.CertificateFilePassword);
-            store.Database = conf.DatabaseName;
-            store.Initialize();
-            EnsureDatabaseExists(store, conf.DatabaseName, true);
+            database = database ?? store.Database;
 
-            return store;
-        }
+            if (string.IsNullOrWhiteSpace(database))
+                throw new ArgumentException("Value cannot be null or whitespace.", nameof(database));
 
-            void EnsureDatabaseExists(IDocumentStore store, string database = null, bool createDatabaseIfNotExists = true)
+            try
             {
-                database = database ?? store.Database;
-
-                if (string.IsNullOrWhiteSpace(database))
-                    throw new ArgumentException("Value cannot be null or whitespace.", nameof(database));
+                store.Maintenance.ForDatabase(database).Send(new GetStatisticsOperation());
+            }
+            catch (DatabaseDoesNotExistException)
+            {
+                if (createDatabaseIfNotExists == false)
+                    throw;
 
                 try
                 {
-                    store.Maintenance.ForDatabase(database).Send(new GetStatisticsOperation());
+                    store.Maintenance.Server.Send(new CreateDatabaseOperation(new DatabaseRecord(database)));
                 }
-                catch (DatabaseDoesNotExistException)
+                catch (ConcurrencyException)
                 {
-                    if (createDatabaseIfNotExists == false)
-                        throw;
-
-                    try
-                    {
-                        store.Maintenance.Server.Send(new CreateDatabaseOperation(new DatabaseRecord(database)));
-                    }
-                    catch (ConcurrencyException)
-                    {
-                        // The database was already created before calling CreateDatabaseOperation
-                    }
+                    // The database was already created before calling CreateDatabaseOperation
                 }
             }
-    }
+        }
 }

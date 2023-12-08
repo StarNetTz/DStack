@@ -1,8 +1,7 @@
-﻿namespace DStack.Projections.Tests
+﻿namespace DStack.Projections.Tests;
+
+public class TestEvent
 {
-    public class TestEvent
-    {
-        public string Id { get; set; }
-        public string SomeValue { get; set; }
-    }
+    public string Id { get; set; }
+    public string SomeValue { get; set; }
 }

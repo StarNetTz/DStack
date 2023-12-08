@@ -1,12 +1,11 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace DStack.Projections.EventStoreDB.IntegrationTests
+namespace DStack.Projections.EventStoreDB.IntegrationTests;
+
+public static class ConfigurationFactory
 {
-    public static class ConfigurationFactory
+    public static IConfiguration CreateConfiguration()
     {
-        public static IConfiguration CreateConfiguration()
-        {
-            return new ConfigurationBuilder().AddJsonFile("appsettings.json", true, false).Build() as IConfiguration;
-        }
+        return new ConfigurationBuilder().AddJsonFile("appsettings.json", true, false).Build() as IConfiguration;
     }
 }

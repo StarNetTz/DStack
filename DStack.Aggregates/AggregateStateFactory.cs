@@ -2,27 +2,26 @@
 using System.Collections.Concurrent;
 using System.Reflection;
 
-namespace DStack.Aggregates
+namespace DStack.Aggregates;
+
+public class AggregateStateFactory
 {
-    public class AggregateStateFactory
+    static readonly ConcurrentDictionary<Type, Type> LookupTable;
+
+    static AggregateStateFactory()
     {
-        static readonly ConcurrentDictionary<Type, Type> LookupTable;
+        LookupTable = new ConcurrentDictionary<Type, Type>();
+    }
 
-        static AggregateStateFactory()
+    public static IAggregateState CreateStateFor(Type aggregateType)
+    {
+        if (!LookupTable.TryGetValue(aggregateType, out Type aggStateType))
         {
-            LookupTable = new ConcurrentDictionary<Type, Type>();
+            Assembly assemblyThatContainsAggregate = aggregateType.Assembly;
+            string aggStateTypeName = string.Format("{0}State", aggregateType.FullName);
+            aggStateType = assemblyThatContainsAggregate.GetType(aggStateTypeName);
+            LookupTable.TryAdd(aggregateType, aggStateType);
         }
-
-        public static IAggregateState CreateStateFor(Type aggregateType)
-        {
-            if (!LookupTable.TryGetValue(aggregateType, out Type aggStateType))
-            {
-                Assembly assemblyThatContainsAggregate = aggregateType.Assembly;
-                string aggStateTypeName = string.Format("{0}State", aggregateType.FullName);
-                aggStateType = assemblyThatContainsAggregate.GetType(aggStateTypeName);
-                LookupTable.TryAdd(aggregateType, aggStateType);
-            }
-            return Activator.CreateInstance(aggStateType) as IAggregateState;
-        }
+        return Activator.CreateInstance(aggStateType) as IAggregateState;
     }
 }

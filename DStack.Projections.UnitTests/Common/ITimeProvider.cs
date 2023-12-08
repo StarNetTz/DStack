@@ -1,17 +1,16 @@
 ﻿using System;
 
-namespace DStack.Projections.UnitTests
-{
-    public interface ITimeProvider
-    {
-        DateTime GetUtcNow();
-    }
+namespace DStack.Projections.UnitTests;
 
-    public class MockTimeProvider : ITimeProvider
+public interface ITimeProvider
+{
+    DateTime GetUtcNow();
+}
+
+public class MockTimeProvider : ITimeProvider
+{
+    public DateTime GetUtcNow()
     {
-        public DateTime GetUtcNow()
-        {
-            return DateTime.MinValue;
-        }
+        return DateTime.MinValue;
     }
 }

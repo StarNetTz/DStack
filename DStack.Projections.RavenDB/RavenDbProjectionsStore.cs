@@ -2,84 +2,83 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace DStack.Projections.RavenDB
+namespace DStack.Projections.RavenDB;
+
+public class RavenDBProjectionsStore : INoSqlStore, ISqlStore
 {
-    public class RavenDBProjectionsStore : INoSqlStore, ISqlStore
+    readonly IDocumentStore DocumentStore;
+
+    public RavenDBProjectionsStore(IDocumentStore documentStore)
     {
-        readonly IDocumentStore DocumentStore;
+        DocumentStore = documentStore;
+    }
 
-        public RavenDBProjectionsStore(IDocumentStore documentStore)
+    public async Task<T> LoadAsync<T>(string id) where T : class
+    {
+        using (var s = DocumentStore.OpenAsyncSession())
+            return await s.LoadAsync<T>(id).ConfigureAwait(false);
+    }
+
+    public async Task StoreAsync(object doc)
+    {
+        using (var s = DocumentStore.OpenAsyncSession())
         {
-            DocumentStore = documentStore;
+            await s.StoreAsync(doc).ConfigureAwait(false);
+            await s.SaveChangesAsync().ConfigureAwait(false);
         }
+    }
 
-        public async Task<T> LoadAsync<T>(string id) where T : class
+    public async Task DeleteAsync(string id)
+    {
+        using (var s = DocumentStore.OpenAsyncSession())
         {
-            using (var s = DocumentStore.OpenAsyncSession())
-                return await s.LoadAsync<T>(id).ConfigureAwait(false);
+            s.Delete(id);
+            await s.SaveChangesAsync().ConfigureAwait(false);
         }
+    }
 
-        public async Task StoreAsync(object doc)
+    public async Task StoreAsync<T>(T doc)
+    {
+        using (var s = DocumentStore.OpenAsyncSession())
         {
-            using (var s = DocumentStore.OpenAsyncSession())
-            {
-                await s.StoreAsync(doc).ConfigureAwait(false);
-                await s.SaveChangesAsync().ConfigureAwait(false);
-            }
+            await s.StoreAsync(doc).ConfigureAwait(false);
+            await s.SaveChangesAsync().ConfigureAwait(false);
         }
+    }
 
-        public async Task DeleteAsync(string id)
+    public async Task StoreInUnitOfWorkAsync(params object[] docs)
+    {
+        using (var s = DocumentStore.OpenAsyncSession())
         {
-            using (var s = DocumentStore.OpenAsyncSession())
-            {
+            foreach (var d in docs)
+                await s.StoreAsync(d).ConfigureAwait(false);
+            await s.SaveChangesAsync().ConfigureAwait(false);
+        }
+    }
+
+    public async Task StoreInUnitOfWorkAsync<T>(params T[] docs)
+    {
+        using (var s = DocumentStore.OpenAsyncSession())
+        {
+            foreach (var d in docs)
+                await s.StoreAsync(d).ConfigureAwait(false);
+            await s.SaveChangesAsync().ConfigureAwait(false);
+        }
+    }
+
+    public async Task<Dictionary<string, T>> LoadAsync<T>(params string[] ids) where T : class
+    {
+        using (var s = DocumentStore.OpenAsyncSession())
+            return await s.LoadAsync<T>(ids).ConfigureAwait(false);
+    }
+
+    public async Task DeleteInUnitOfWorkAsync(params string[] ids)
+    {
+        using (var s = DocumentStore.OpenAsyncSession())
+        {
+            foreach(var id in ids)
                 s.Delete(id);
-                await s.SaveChangesAsync().ConfigureAwait(false);
-            }
-        }
-
-        public async Task StoreAsync<T>(T doc)
-        {
-            using (var s = DocumentStore.OpenAsyncSession())
-            {
-                await s.StoreAsync(doc).ConfigureAwait(false);
-                await s.SaveChangesAsync().ConfigureAwait(false);
-            }
-        }
-
-        public async Task StoreInUnitOfWorkAsync(params object[] docs)
-        {
-            using (var s = DocumentStore.OpenAsyncSession())
-            {
-                foreach (var d in docs)
-                    await s.StoreAsync(d).ConfigureAwait(false);
-                await s.SaveChangesAsync().ConfigureAwait(false);
-            }
-        }
-
-        public async Task StoreInUnitOfWorkAsync<T>(params T[] docs)
-        {
-            using (var s = DocumentStore.OpenAsyncSession())
-            {
-                foreach (var d in docs)
-                    await s.StoreAsync(d).ConfigureAwait(false);
-                await s.SaveChangesAsync().ConfigureAwait(false);
-            }
-        }
-
-        public async Task<Dictionary<string, T>> LoadAsync<T>(params string[] ids) where T : class
-        {
-            using (var s = DocumentStore.OpenAsyncSession())
-                return await s.LoadAsync<T>(ids).ConfigureAwait(false);
-        }
-
-        public async Task DeleteInUnitOfWorkAsync(params string[] ids)
-        {
-            using (var s = DocumentStore.OpenAsyncSession())
-            {
-                foreach(var id in ids)
-                    s.Delete(id);
-                await s.SaveChangesAsync().ConfigureAwait(false);
-            }
+            await s.SaveChangesAsync().ConfigureAwait(false);
         }
     }
 }

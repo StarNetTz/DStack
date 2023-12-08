@@ -1,14 +1,13 @@
 ﻿using System.Collections.Generic;
 
-namespace DStack.Aggregates
+namespace DStack.Aggregates;
+
+public interface IAggregate
 {
-    public interface IAggregate
-    {
-        string Id { get; }
+    string Id { get; }
 
-        int Version { get; }
+    int Version { get; }
 
-        List<object> Changes { get; }
-        List<object> PublishedEvents { get; }
-    }
+    List<object> Changes { get; }
+    List<object> PublishedEvents { get; }
 }

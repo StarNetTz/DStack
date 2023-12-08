@@ -1,14 +1,13 @@
 ﻿using Xunit;
 
-namespace DStack.Aggregates.Tests
+namespace DStack.Aggregates.Tests;
+
+public class AggregateStateFactoryTests
 {
-    public class AggregateStateFactoryTests
+    [Fact]
+    public void Should_Create_PersonAggregateState()
     {
-        [Fact]
-        public void Should_Create_PersonAggregateState()
-        {
-            var state = AggregateStateFactory.CreateStateFor(typeof(PersonAggregate));
-            Assert.IsType<PersonAggregateState>(state);
-        }
+        var state = AggregateStateFactory.CreateStateFor(typeof(PersonAggregate));
+        Assert.IsType<PersonAggregateState>(state);
     }
 }

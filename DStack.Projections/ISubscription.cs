@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace DStack.Projections
+namespace DStack.Projections;
+
+public interface ISubscription
 {
-    public interface ISubscription
-    {
-        string StreamName { get; set; }
-        Func<object, ulong, Task> EventAppearedCallback { get; set; }
-        Task StartAsync(ulong fromCheckpoint);
-    }
+    string StreamName { get; set; }
+    Func<object, ulong, Task> EventAppearedCallback { get; set; }
+    Task StartAsync(ulong fromCheckpoint);
 }

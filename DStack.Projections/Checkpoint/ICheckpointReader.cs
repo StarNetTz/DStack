@@ -1,9 +1,8 @@
 ﻿using System.Threading.Tasks;
 
-namespace DStack.Projections
+namespace DStack.Projections;
+
+public interface ICheckpointReader
 {
-    public interface ICheckpointReader
-    {
-        Task<Checkpoint> Read(string id);
-    }
+    Task<Checkpoint> Read(string id);
 }

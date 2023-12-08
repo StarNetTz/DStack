@@ -1,12 +1,9 @@
-﻿using System;
+﻿namespace DStack.Projections;
 
-namespace DStack.Projections
+public class InMemorySubscriptionFactory : ISubscriptionFactory
 {
-    public class InMemorySubscriptionFactory : ISubscriptionFactory
+    public ISubscription Create()
     {
-        public ISubscription Create()
-        {
-            return new InMemorySubscription();
-        }
+        return new InMemorySubscription();
     }
 }

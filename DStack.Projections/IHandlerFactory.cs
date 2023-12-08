@@ -1,9 +1,8 @@
 ﻿using System;
 
-namespace DStack.Projections
+namespace DStack.Projections;
+
+public interface IHandlerFactory
 {
-    public interface IHandlerFactory
-    {
-        IHandler Create(Type t);
-    }
+    IHandler Create(Type t);
 }

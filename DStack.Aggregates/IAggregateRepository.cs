@@ -1,11 +1,10 @@
 ﻿using System.Threading.Tasks;
 
-namespace DStack.Aggregates
+namespace DStack.Aggregates;
+
+public interface IAggregateRepository
 {
-    public interface IAggregateRepository
-    {
-        Task StoreAsync(IAggregate aggregate);
-        Task<TAggregate> GetAsync<TAggregate>(string id) where TAggregate : class, IAggregate;
-        Task<TAggregate> GetAsync<TAggregate>(string id, int version) where TAggregate : class, IAggregate;
-    }
+    Task StoreAsync(IAggregate aggregate);
+    Task<TAggregate> GetAsync<TAggregate>(string id) where TAggregate : class, IAggregate;
+    Task<TAggregate> GetAsync<TAggregate>(string id, int version) where TAggregate : class, IAggregate;
 }

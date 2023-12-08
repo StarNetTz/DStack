@@ -1,24 +1,23 @@
 ﻿using Raven.Client.Documents;
 using System.Threading.Tasks;
 
-namespace DStack.Projections.RavenDB
+namespace DStack.Projections.RavenDB;
+
+public class RavenDBCheckpointWriter : ICheckpointWriter
 {
-    public class RavenDBCheckpointWriter : ICheckpointWriter
+    readonly IDocumentStore DocumentStore;
+
+    public RavenDBCheckpointWriter(IDocumentStore documentStore)
     {
-        readonly IDocumentStore DocumentStore;
+        DocumentStore = documentStore;
+    }
 
-        public RavenDBCheckpointWriter(IDocumentStore documentStore)
+    public async Task Write(Checkpoint checkpoint)
+    {
+        using (var s = DocumentStore.OpenAsyncSession())
         {
-            DocumentStore = documentStore;
-        }
-
-        public async Task Write(Checkpoint checkpoint)
-        {
-            using (var s = DocumentStore.OpenAsyncSession())
-            {
-                await s.StoreAsync(checkpoint).ConfigureAwait(false);
-                await s.SaveChangesAsync().ConfigureAwait(false);
-            }
+            await s.StoreAsync(checkpoint).ConfigureAwait(false);
+            await s.SaveChangesAsync().ConfigureAwait(false);
         }
     }
 }

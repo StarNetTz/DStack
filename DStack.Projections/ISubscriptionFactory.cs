@@ -1,9 +1,6 @@
-﻿using System;
+﻿namespace DStack.Projections;
 
-namespace DStack.Projections
+public interface ISubscriptionFactory
 {
-    public interface ISubscriptionFactory
-    {
-        ISubscription Create();
-    }
+    ISubscription Create();
 }

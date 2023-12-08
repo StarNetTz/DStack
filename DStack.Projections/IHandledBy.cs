@@ -1,5 +1,3 @@
-﻿
-namespace DStack.Projections
-{
-    public interface IHandledBy<T> { }
-}
+﻿namespace DStack.Projections;
+
+public interface IHandledBy<T> { }

@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace DStack.Projections
+namespace DStack.Projections;
+
+public interface IProjectionsFactory
 {
-    public interface IProjectionsFactory
-    {
-        Task<IList<IProjection>> CreateAsync(Assembly projectionsAssembly);
-        Task<IProjection> CreateAsync<T>();
-        Task<IProjection> CreateAsync(Type type);
-    }
+    Task<IList<IProjection>> CreateAsync(Assembly projectionsAssembly);
+    Task<IProjection> CreateAsync<T>();
+    Task<IProjection> CreateAsync(Type type);
 }
