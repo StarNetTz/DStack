@@ -26,7 +26,11 @@ public class ESSubscription : ISubscription
     ulong CurrentCheckpoint;
 
     int ResubscriptionAttempt = 0;
+    int RunningSubscriptionsCount = 0; 
+
     internal int MaxResubscriptionAttempts = 10;
+
+    StreamSubscription CurrentSubscscription = null;
 
     public ESSubscription(ILogger<ESSubscription> logger, EventStoreClient client)
     {
@@ -37,12 +41,18 @@ public class ESSubscription : ISubscription
 
     public async Task StartAsync(ulong oneBasedCheckpoint)
     {
+        if (RunningSubscriptionsCount > 0)
+        {
+            Logger.LogWarning($"Detected running subscription {CurrentSubscscription.SubscriptionId}. Refusing to start new one.");
+            return;
+        }
         CurrentCheckpoint = oneBasedCheckpoint;
 
         if (oneBasedCheckpoint == 0)
-            await Client.SubscribeToStreamAsync(StreamName, FromStream.Start, EventAppeared, resolveLinkTos: true, SubDropped).ConfigureAwait(false);
+            CurrentSubscscription = await Client.SubscribeToStreamAsync(StreamName, FromStream.Start, EventAppeared, resolveLinkTos: true, SubDropped).ConfigureAwait(false);
         else
-            await Client.SubscribeToStreamAsync(StreamName, FromStream.After(new StreamPosition(oneBasedCheckpoint - 1)), EventAppeared, resolveLinkTos: true, SubDropped).ConfigureAwait(false);
+            CurrentSubscscription = await Client.SubscribeToStreamAsync(StreamName, FromStream.After(new StreamPosition(oneBasedCheckpoint - 1)), EventAppeared, resolveLinkTos: true, SubDropped).ConfigureAwait(false);
+        Interlocked.Increment(ref RunningSubscriptionsCount);
         Logger.LogInformation($"Subscription started on stream: {StreamName}");
     }
 
@@ -69,7 +79,8 @@ public class ESSubscription : ISubscription
 
         void SubDropped(StreamSubscription sub, SubscriptionDroppedReason reason, Exception ex)
         {
-            Logger.LogError(ex, $"{StreamName} subscription dropped: ({reason}).");
+            Logger.LogError(ex, $"{StreamName} subscription {sub.SubscriptionId} dropped: ({reason}).");
+            Interlocked.Decrement(ref RunningSubscriptionsCount);
             switch (reason)
             {
                 case  SubscriptionDroppedReason.Disposed:

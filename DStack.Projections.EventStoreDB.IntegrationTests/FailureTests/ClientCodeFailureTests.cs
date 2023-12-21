@@ -7,11 +7,11 @@ using Xunit;
 
 namespace DStack.Projections.EventStoreDB.IntegrationTests;
 
-public class ESSbscriptionFailingInClientCodeTests
+public class ClientCodeFailureTests
 {
     ESSubscription Subscription;
 
-    public ESSbscriptionFailingInClientCodeTests()
+    public ClientCodeFailureTests()
     {
         new ESDataGenerator().WriteTestEventsToStore(2).Wait();
     }
@@ -24,7 +24,7 @@ public class ESSbscriptionFailingInClientCodeTests
     [Fact]
     public async Task Should_fail_after_max_resubscriptions()
     {
-        Subscription = new ESSubscription(new NullLoggerFactory().CreateLogger<ESSubscription>(), CreateEventStoreClient())
+        Subscription = new ESSubscription(new NullLoggerFactory().CreateLogger<ESSubscription>(), EventStoreClientFactory.CreateEventStoreClient())
         {
             StreamName = TestProjection.StreamName,
             EventAppearedCallback = EventAppeared
@@ -35,12 +35,4 @@ public class ESSbscriptionFailingInClientCodeTests
         Assert.True(Subscription.HasFailed);
         Assert.Equal("Bug in client code!", Subscription.Error);
     }
-
-        static EventStoreClient CreateEventStoreClient()
-        {
-            var configuration = ConfigurationFactory.CreateConfiguration();
-            var settings = EventStoreClientSettings.Create(configuration["EventStoreDB:ConnectionString"]);
-            var cli = new EventStoreClient(settings);
-            return cli;
-        }
 }

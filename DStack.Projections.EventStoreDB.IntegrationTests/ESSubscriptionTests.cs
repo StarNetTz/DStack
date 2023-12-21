@@ -30,7 +30,7 @@ public class ESSubscriptionTests
     [Fact]
     public async Task Should_Subscribe_And_Recieve_Events()
     {
-        Subscription = new ESSubscription(new NullLoggerFactory().CreateLogger<ESSubscription>(), CreateEventStoreClient())
+        Subscription = new ESSubscription(new NullLoggerFactory().CreateLogger<ESSubscription>(), EventStoreClientFactory.CreateEventStoreClient())
         {
             StreamName = TestProjection.StreamName,
             EventAppearedCallback = EventAppeared
@@ -42,13 +42,6 @@ public class ESSubscriptionTests
         AssertThatEventsProjected();
     }
 
-        static EventStoreClient CreateEventStoreClient()
-        {
-            var configuration = ConfigurationFactory.CreateConfiguration();
-            var settings = EventStoreClientSettings.Create(configuration["EventStoreDB:ConnectionString"]);
-            var cli = new EventStoreClient(settings);
-            return cli;
-        }
 
         void AssertThatEventsProjected()
         {
