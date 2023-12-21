@@ -20,7 +20,7 @@ public class InMemorySubscriptionTests
     public InMemorySubscriptionTests()
     {
         LastEvent = null;
-        Subscription = new InMemorySubscription() { StreamName = "myStream", EventAppearedCallback = EventAppeared };
+        Subscription = new InMemorySubscription() { Name = "MySubscription", StreamName = "myStream", EventAppearedCallback = EventAppeared };
     }
 
 

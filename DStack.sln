@@ -41,6 +41,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DStack.Projections.RavenDB"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DStack.Projections.RavenDB.IntegrationTests", "DStack.Projections.RavenDB.IntegrationTests\DStack.Projections.RavenDB.IntegrationTests.csproj", "{C5ECF389-72F3-4660-AAF0-36192DBB493F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DStack.Benchmarks", "DStack.Benchmarks\DStack.Benchmarks.csproj", "{CCA1CCC5-91D9-4623-A82A-2F4593E26276}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -95,6 +97,10 @@ Global
 		{C5ECF389-72F3-4660-AAF0-36192DBB493F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C5ECF389-72F3-4660-AAF0-36192DBB493F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C5ECF389-72F3-4660-AAF0-36192DBB493F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCA1CCC5-91D9-4623-A82A-2F4593E26276}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCA1CCC5-91D9-4623-A82A-2F4593E26276}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCA1CCC5-91D9-4623-A82A-2F4593E26276}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCA1CCC5-91D9-4623-A82A-2F4593E26276}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

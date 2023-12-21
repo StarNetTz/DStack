@@ -28,6 +28,7 @@ public class TransientClientCodeFailureTests
     {
         Subscription = new ESSubscription(new NullLoggerFactory().CreateLogger<ESSubscription>(), EventStoreClientFactory.CreateEventStoreClient())
         {
+            Name = nameof(TestProjection),
             StreamName = TestProjection.StreamName,
             EventAppearedCallback = EventAppeared
         };
