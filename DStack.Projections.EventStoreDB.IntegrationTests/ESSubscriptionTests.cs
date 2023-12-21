@@ -17,7 +17,6 @@ public class ESSubscriptionTests
     {
         Checkpoint = 0;
         LastEvent = null;
-        new ESDataGenerator().WriteTestEventsToStore(2).Wait();
     }
 
         Task EventAppeared(object ev, ulong checkpoint)

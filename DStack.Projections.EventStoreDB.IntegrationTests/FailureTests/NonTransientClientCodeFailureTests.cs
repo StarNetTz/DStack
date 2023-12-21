@@ -7,19 +7,14 @@ using Xunit;
 
 namespace DStack.Projections.EventStoreDB.IntegrationTests;
 
-public class ClientCodeFailureTests
+public class NonTransientClientCodeFailureTests
 {
     ESSubscription Subscription;
-
-    public ClientCodeFailureTests()
+  
+    Task EventAppeared(object ev, ulong checkpoint)
     {
-        new ESDataGenerator().WriteTestEventsToStore(2).Wait();
+        throw new ApplicationException("Bug in client code!");
     }
-
-        Task EventAppeared(object ev, ulong checkpoint)
-        {
-            throw new ApplicationException("Bug in client code!");
-        }
 
     [Fact]
     public async Task Should_fail_after_max_resubscriptions()
