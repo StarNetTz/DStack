@@ -92,6 +92,7 @@ public class ESSubscription : ISubscription
                         ResubscriptionAttempt++;
                         if (ResubscriptionAttempt < MaxResubscriptionAttempts)
                         {
+                            Task.Delay(200).Wait();
                             StartAsync(CurrentCheckpoint).Wait();
                         }
                     else
