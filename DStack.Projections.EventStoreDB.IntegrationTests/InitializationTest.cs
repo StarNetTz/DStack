@@ -1,7 +1,4 @@
-﻿using EventStore.Client;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Xunit;
 
 namespace DStack.Projections.EventStoreDB.IntegrationTests;

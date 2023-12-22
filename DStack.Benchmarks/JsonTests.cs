@@ -2,7 +2,7 @@
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Text.Json.Nodes;
-using BenchmarkDotNet.Running;
+
 
 namespace DStack.Benchmarks
 {
@@ -20,16 +20,16 @@ namespace DStack.Benchmarks
         public void ShouldDeserializeUsingNewtonsoft()
         {
 
-            var eventClrTypeName = JObject.Parse(metadata).Property(EventClrTypeHeader).Value;
-            var o = JsonConvert.DeserializeObject(data, Type.GetType((string)eventClrTypeName), SerializerSettings);
+            var eventClrTypeName = JObject.Parse(metadata)!.Property(EventClrTypeHeader)!.Value;
+            var o = JsonConvert.DeserializeObject(data, Type.GetType((string)eventClrTypeName!), SerializerSettings);
         }
 
         [Benchmark]
         public void ShouldDeserializeUsingSystemTextJson()
         {
-            var jsonObj = JsonNode.Parse(metadata).AsObject();
-            var nn = (string)jsonObj[EventClrTypeHeader];
-            var o = System.Text.Json.JsonSerializer.Deserialize(data, Type.GetType(nn));
+            var jsonObj = JsonNode.Parse(metadata)!.AsObject();
+            var nn = (string)jsonObj[EventClrTypeHeader]!;
+            var o = System.Text.Json.JsonSerializer.Deserialize(data, Type.GetType(nn)!);
         }
     }
 }
