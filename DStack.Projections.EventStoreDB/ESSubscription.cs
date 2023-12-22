@@ -1,9 +1,8 @@
 ﻿using EventStore.Client;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -15,8 +14,7 @@ public class ESSubscription : ISubscription
     const string EventClrTypeHeader = "EventClrTypeName";
 
     readonly ILogger<ESSubscription> Logger;
-    readonly JsonSerializerSettings SerializerSettings;
-
+  
     EventStoreClient Client;
     public string Name { get; set; }
     public string StreamName { get; set; }
@@ -36,7 +34,6 @@ public class ESSubscription : ISubscription
     {
         Logger = logger;
         Client = client;
-        SerializerSettings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
     }
 
     public async Task StartAsync(ulong oneBasedCheckpoint)
@@ -64,9 +61,8 @@ public class ESSubscription : ISubscription
 
             object DeserializeEvent(byte[] metadata, byte[] data)
             {
-                var eventClrTypeName = JObject.Parse(Encoding.UTF8.GetString(metadata)).Property(EventClrTypeHeader).Value;
-                var jsonString = Encoding.UTF8.GetString(data);
-                return JsonConvert.DeserializeObject(jsonString, Type.GetType((string)eventClrTypeName), SerializerSettings);
+                var eventClrTypeName = (string)JsonNode.Parse(metadata)[EventClrTypeHeader];
+                return System.Text.Json.JsonSerializer.Deserialize(data, Type.GetType(eventClrTypeName));
             }
 
 

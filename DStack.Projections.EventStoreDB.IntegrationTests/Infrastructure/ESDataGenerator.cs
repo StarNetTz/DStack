@@ -1,6 +1,5 @@
 ﻿using EventStore.Client;
 using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,14 +40,13 @@ public class ESDataGenerator
 
         static EventStore.Client.EventData ToEventData(dynamic evnt, IDictionary<string, object> headers)
         {
-            var SerializerSettings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
 
-            var data = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(evnt, SerializerSettings));
+            var data = Encoding.UTF8.GetBytes(System.Text.Json.JsonSerializer.Serialize(evnt));
 
             var eventHeaders = new Dictionary<string, object>(headers) {
                 { "EventClrTypeName", evnt.GetType().AssemblyQualifiedName }
             };
-            var metadata = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(eventHeaders, SerializerSettings));
+            var metadata = Encoding.UTF8.GetBytes(System.Text.Json.JsonSerializer.Serialize(eventHeaders));
             var typeName = evnt.GetType().Name;
             return new EventStore.Client.EventData(Uuid.NewUuid(), typeName, data, metadata);
         }

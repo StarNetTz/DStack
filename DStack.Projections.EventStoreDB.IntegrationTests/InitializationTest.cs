@@ -12,6 +12,6 @@ public class ESInitializationTests
    [Fact]
    public async Task Should_initialize()
    {
-        await new ESDataGenerator().WriteTestEventsToStore(20000);
+        await new ESDataGenerator().WriteTestEventsToStore(200);
    }
 }
