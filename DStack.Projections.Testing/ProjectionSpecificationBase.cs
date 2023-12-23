@@ -23,8 +23,6 @@ public abstract class ProjectionSpecificationBase<TProjection>
     {
         ServiceCollection = new ServiceCollection();
         ServiceCollection.AddTransient(GetHandlerType());
-
-
         ServiceCollection.AddTransient<ICheckpointReader, StubCheckpointReader>();
         ServiceCollection.AddTransient<ICheckpointWriter, StubCheckpointWriter>();
         ServiceCollection.AddTransient<IHandlerFactory, DIHandlerFactory>();
@@ -34,16 +32,15 @@ public abstract class ProjectionSpecificationBase<TProjection>
         ServiceProvider = ServiceCollection.BuildServiceProvider();
         ServiceCollection.AddSingleton((IServiceProvider)ServiceProvider);
         ProjectionsFactory = ServiceProvider.GetRequiredService<IProjectionsFactory>();
-
     }
 
-    private static Type GetHandlerType()
-    {
-        Type typeFromHandle = typeof(TProjection);
-        Assembly assembly = typeFromHandle.Assembly;
-        string name = typeFromHandle.FullName + "Handler";
-        return assembly.GetType(name, throwOnError: true, ignoreCase: false);
-    }
+        static Type GetHandlerType()
+        {
+            Type typeFromHandle = typeof(TProjection);
+            Assembly assembly = typeFromHandle.Assembly;
+            string name = typeFromHandle.FullName + "Handler";
+            return assembly.GetType(name, throwOnError: true, ignoreCase: false);
+        }
 
     public async Task Given(params object[] args)
     {
