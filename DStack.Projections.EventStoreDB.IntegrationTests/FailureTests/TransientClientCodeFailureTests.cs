@@ -8,7 +8,7 @@ namespace DStack.Projections.EventStoreDB.IntegrationTests;
 
 public class TransientClientCodeFailureTests
 {
-    ESSubscription3 Subscription;
+    ESSubscription Subscription;
     int Counter = 0;
     ulong CurrentCheckpoint = 0;
 
@@ -26,7 +26,7 @@ public class TransientClientCodeFailureTests
     [Fact]
     public async Task Should_resubscribe_and_resume()
     {
-        Subscription = new ESSubscription3(new NullLoggerFactory().CreateLogger<ESSubscription3>(), EventStoreClientFactory.CreateEventStoreClient())
+        Subscription = new ESSubscription(new NullLoggerFactory().CreateLogger<ESSubscription>(), EventStoreClientFactory.CreateEventStoreClient())
         {
             Name = nameof(TestProjection),
             StreamName = TestProjection.StreamName,

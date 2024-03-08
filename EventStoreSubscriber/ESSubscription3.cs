@@ -14,7 +14,7 @@ public class ESSubscription32 : ISubscription
 {
     const string EventClrTypeHeader = "EventClrTypeName";
 
-    readonly ILogger<ESSubscription3> Logger;
+    readonly ILogger<ESSubscription> Logger;
 
     EventStoreClient Client;
     public string Name { get; set; }
@@ -30,7 +30,7 @@ public class ESSubscription32 : ISubscription
     internal int MaxResubscriptionAttempts = 5;
 
 
-    public ESSubscription32(ILogger<ESSubscription3> logger, EventStoreClient client)
+    public ESSubscription32(ILogger<ESSubscription> logger, EventStoreClient client)
     {
         Logger = logger;
         Client = client;

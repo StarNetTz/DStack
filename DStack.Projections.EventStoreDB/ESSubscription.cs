@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace DStack.Projections.EventStoreDB;
 
-public class ESSubscription3 : ISubscription
+public class ESSubscription : ISubscription
 {
     const string EventClrTypeHeader = "EventClrTypeName";
 
-    readonly ILogger<ESSubscription3> Logger;
+    readonly ILogger<ESSubscription> Logger;
 
     EventStoreClient Client;
     public string Name { get; set; }
@@ -26,7 +26,7 @@ public class ESSubscription3 : ISubscription
     internal int MaxResubscriptionAttempts = 5;
 
 
-    public ESSubscription3(ILogger<ESSubscription3> logger, EventStoreClient client)
+    public ESSubscription(ILogger<ESSubscription> logger, EventStoreClient client)
     {
         Logger = logger;
         Client = client;

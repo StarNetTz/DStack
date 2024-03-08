@@ -11,7 +11,7 @@ ResolvedEvent evnt;
 
 //await SubscribeManually();
 
-var Subscription = new ESSubscription3(new NullLoggerFactory().CreateLogger<ESSubscription3>(), EventStoreClientFactory.CreateEventStoreClient())
+var Subscription = new ESSubscription(new NullLoggerFactory().CreateLogger<ESSubscription>(), EventStoreClientFactory.CreateEventStoreClient())
 {
     Name = nameof(TestProjection),
     StreamName = TestProjection.StreamName,
