@@ -43,8 +43,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DStack.Projections.RavenDB.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DStack.Benchmarks", "DStack.Benchmarks\DStack.Benchmarks.csproj", "{CCA1CCC5-91D9-4623-A82A-2F4593E26276}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventStoreSubscriber", "EventStoreSubscriber\EventStoreSubscriber.csproj", "{2EE3DF15-7F30-4168-A139-8454EB98CB29}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -103,10 +101,6 @@ Global
 		{CCA1CCC5-91D9-4623-A82A-2F4593E26276}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CCA1CCC5-91D9-4623-A82A-2F4593E26276}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CCA1CCC5-91D9-4623-A82A-2F4593E26276}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2EE3DF15-7F30-4168-A139-8454EB98CB29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2EE3DF15-7F30-4168-A139-8454EB98CB29}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2EE3DF15-7F30-4168-A139-8454EB98CB29}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2EE3DF15-7F30-4168-A139-8454EB98CB29}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -129,7 +123,6 @@ Global
 		{79E4CE61-22ED-492A-AFF6-03499FBE2491} = {C0555CC2-4D1E-4B29-B4BB-F5BD669F3C8B}
 		{88F00703-2E00-4114-AEEB-D7CFD173C2BF} = {79E4CE61-22ED-492A-AFF6-03499FBE2491}
 		{C5ECF389-72F3-4660-AAF0-36192DBB493F} = {79E4CE61-22ED-492A-AFF6-03499FBE2491}
-		{2EE3DF15-7F30-4168-A139-8454EB98CB29} = {553C9AB6-86C3-4AAE-9226-36C661702DF0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3A67632A-2141-4DEE-9496-CD634D8A2B84}
