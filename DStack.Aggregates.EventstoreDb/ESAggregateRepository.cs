@@ -1,10 +1,9 @@
 ﻿using EventStore.Client;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 
 namespace DStack.Aggregates.EventStoreDB;
@@ -16,11 +15,9 @@ public class ESAggregateRepository : IAggregateRepository
     const string CommitIdHeader = "CommitId";
 
     readonly EventStoreClient Client;
-    readonly JsonSerializerSettings SerializerSettings;
 
     public ESAggregateRepository(EventStoreClient client)
     {
-        SerializerSettings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
         Client = client;
     }
 
@@ -62,14 +59,14 @@ public class ESAggregateRepository : IAggregateRepository
 
     EventData ToEventData(dynamic evnt, IDictionary<string, object> headers)
     {
-        var data = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(evnt, SerializerSettings));
+        var data = Encoding.UTF8.GetBytes(System.Text.Json.JsonSerializer.Serialize(evnt));
         var eventHeaders = new Dictionary<string, object>(headers)
         {
             {
                 EventClrTypeHeader, evnt.GetType().AssemblyQualifiedName
             }
         };
-        var metadata = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(eventHeaders, SerializerSettings));
+        var metadata = Encoding.UTF8.GetBytes(System.Text.Json.JsonSerializer.Serialize(eventHeaders));
         var typeName = evnt.GetType().Name;
         return new EventData(Uuid.NewUuid(), typeName, data, metadata);
     }
@@ -105,7 +102,7 @@ public class ESAggregateRepository : IAggregateRepository
 
         object DeserializeEvent(byte[] metadata, byte[] data)
         {
-            var eventClrTypeName = JObject.Parse(Encoding.UTF8.GetString(metadata)).Property(EventClrTypeHeader).Value;
-            return JsonConvert.DeserializeObject(Encoding.UTF8.GetString(data), Type.GetType((string)eventClrTypeName), SerializerSettings);
+            var eventClrTypeName = (string)JsonNode.Parse(metadata)[EventClrTypeHeader];
+            return System.Text.Json.JsonSerializer.Deserialize(data, Type.GetType(eventClrTypeName));
         }
 }

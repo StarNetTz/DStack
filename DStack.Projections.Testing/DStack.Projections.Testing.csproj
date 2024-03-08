@@ -4,12 +4,12 @@
     <TargetFramework>net8.0</TargetFramework>
     <Authors>StarNet</Authors>
     <IsPackable>true</IsPackable>
-    <Version>8.0.0</Version>
+    <Version>8.1.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Starnet.ObjectComparer" Version="6.0.1" />
-    <PackageReference Include="xunit" Version="2.6.2" />
+    <PackageReference Include="xunit" Version="2.6.3" />
   </ItemGroup>
 
   <ItemGroup>

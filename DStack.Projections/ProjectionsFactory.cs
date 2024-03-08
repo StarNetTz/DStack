@@ -46,7 +46,7 @@ public class ProjectionsFactory : IProjectionsFactory
         var proj = new Projection();
         SetNameAndStreamName(type, proj);
         await LoadCheckpoint(proj).ConfigureAwait(false);
-        proj.CheckpointWriter = Provider.GetRequiredService<ICheckpointWriter>(); ;
+        proj.CheckpointWriter = Provider.GetRequiredService<ICheckpointWriter>();
         proj.Subscription = CreateSubscription(proj);
         proj.Handlers = CreateHandlers(type);
         return proj;
@@ -88,6 +88,7 @@ public class ProjectionsFactory : IProjectionsFactory
         ISubscription CreateSubscription(Projection proj)
         {
             var subscription = Provider.GetRequiredService<ISubscriptionFactory>().Create();
+            subscription.Name = proj.Name;
             subscription.StreamName = proj.SubscriptionStreamName;
             subscription.EventAppearedCallback = proj.ProjectAsync;
             return subscription;

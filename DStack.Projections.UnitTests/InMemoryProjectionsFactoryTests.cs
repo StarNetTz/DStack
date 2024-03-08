@@ -59,7 +59,7 @@ public class InMemoryProjectionsFactoryTests
     {
         var proj = await ProjectionsFactory.CreateAsync<FailingProjection>();
         PreloadFailingProjectionsSubscription(proj);
-        await Assert.ThrowsAsync<ProjectionException>(async () => { await proj.StartAsync();});
+        await Assert.ThrowsAsync<ProjectionException>(proj.StartAsync);
     }
 
         void PreloadFailingProjectionsSubscription(IProjection proj)

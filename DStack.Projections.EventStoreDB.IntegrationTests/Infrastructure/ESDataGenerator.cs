@@ -1,6 +1,4 @@
 ﻿using EventStore.Client;
-using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,14 +10,12 @@ namespace DStack.Projections.EventStoreDB.IntegrationTests;
 
 public class ESDataGenerator
 {
-    private const string AggregateClrTypeHeader = "AggregateClrTypeName";
-    private const string CommitIdHeader = "CommitId";
+    const string AggregateClrTypeHeader = "AggregateClrTypeName";
+    const string CommitIdHeader = "CommitId";
 
     public async Task WriteTestEventsToStore(int nrOfEvents)
     {
-        var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json", true, false).Build();
-        var settings = EventStoreClientSettings.Create(configuration["EventStoreDB:ConnectionString"]);
-        var client = new EventStoreClient(settings);
+        var client = EventStoreClientFactory.CreateEventStoreClient();
 
         for (int i = 0; i < nrOfEvents; i++)
         {
@@ -39,17 +35,16 @@ public class ESDataGenerator
         await cnn.AppendToStreamAsync(streamName, StreamRevision.None, eventsToSave);
     }
 
-        static EventStore.Client.EventData ToEventData(dynamic evnt, IDictionary<string, object> headers)
+        static EventData ToEventData(dynamic evnt, IDictionary<string, object> headers)
         {
-            var SerializerSettings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
 
-            var data = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(evnt, SerializerSettings));
+            var data = Encoding.UTF8.GetBytes(System.Text.Json.JsonSerializer.Serialize(evnt));
 
             var eventHeaders = new Dictionary<string, object>(headers) {
                 { "EventClrTypeName", evnt.GetType().AssemblyQualifiedName }
             };
-            var metadata = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(eventHeaders, SerializerSettings));
+            var metadata = Encoding.UTF8.GetBytes(System.Text.Json.JsonSerializer.Serialize(eventHeaders));
             var typeName = evnt.GetType().Name;
-            return new EventStore.Client.EventData(Uuid.NewUuid(), typeName, data, metadata);
+            return new EventData(Uuid.NewUuid(), typeName, data, metadata);
         }
 }
