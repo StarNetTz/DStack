@@ -17,6 +17,6 @@ public class ESSubscriptionFactory : ISubscriptionFactory
     }
     public ISubscription Create()
     {
-        return new ESSubscription(LoggerFactory.CreateLogger<ESSubscription>(), Client);
+        return new ESSubscription3(LoggerFactory.CreateLogger<ESSubscription3>(), Client);
     }
 }

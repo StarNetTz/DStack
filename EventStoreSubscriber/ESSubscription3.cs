@@ -10,7 +10,7 @@ using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 
 namespace EventStoreSubscriber;
-public class ESSubscription3 : ISubscription
+public class ESSubscription32 : ISubscription
 {
     const string EventClrTypeHeader = "EventClrTypeName";
 
@@ -30,7 +30,7 @@ public class ESSubscription3 : ISubscription
     internal int MaxResubscriptionAttempts = 5;
 
 
-    public ESSubscription3(ILogger<ESSubscription3> logger, EventStoreClient client)
+    public ESSubscription32(ILogger<ESSubscription3> logger, EventStoreClient client)
     {
         Logger = logger;
         Client = client;
