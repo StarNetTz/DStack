@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DStack.Projections.EventStoreDB.IntegrationTests\DStack.Projections.EventStoreDB.IntegrationTests.csproj" />
+    <ProjectReference Include="..\DStack.Projections.EventStoreDB\DStack.Projections.EventStoreDB.csproj" />
+  </ItemGroup>
+
+</Project>

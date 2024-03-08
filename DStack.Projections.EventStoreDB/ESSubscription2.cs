@@ -13,7 +13,7 @@ public class ESSubscription2 : ISubscription
 {
     const string EventClrTypeHeader = "EventClrTypeName";
 
-    readonly ILogger<ESSubscription> Logger;
+    readonly ILogger<ESSubscription2> Logger;
   
     EventStoreClient Client;
     public string Name { get; set; }
@@ -29,7 +29,7 @@ public class ESSubscription2 : ISubscription
     internal int MaxResubscriptionAttempts = 5;
 
 
-    public ESSubscription2(ILogger<ESSubscription> logger, EventStoreClient client)
+    public ESSubscription2(ILogger<ESSubscription2> logger, EventStoreClient client)
     {
         Logger = logger;
         Client = client;
@@ -42,23 +42,23 @@ public class ESSubscription2 : ISubscription
         Subscribe:
                 try
                 {
-            //Logger.LogInformation($"Projection {Name} on stream {StreamName} using subscription {subscription.SubscriptionId} started.");
-            await using var subscription = Client.SubscribeToStream(
-                        StreamName,
-                        checkpoint,
-                        resolveLinkTos: true);
+                    //Logger.LogInformation($"Projection {Name} on stream {StreamName} using subscription {subscription.SubscriptionId} started.");
+                    await using var subscription = Client.SubscribeToStream(
+                                StreamName,
+                                checkpoint,
+                                resolveLinkTos: true);
                     
-                    await foreach (var message in subscription.Messages)
-                    {
-                        switch (message)
-                        {
-                            case StreamMessage.Event(var evnt):
-                              //  Console.WriteLine($"Received event {evnt.OriginalEventNumber}@{evnt.OriginalStreamId}");
-                                await HandleEvent(evnt);
-                                checkpoint = FromStream.After(evnt.OriginalEventNumber);
-                                break;
-                        }
-                    }
+                            await foreach (var message in subscription.Messages)
+                            {
+                                switch (message)
+                                {
+                                    case StreamMessage.Event(var evnt):
+                                      //  Console.WriteLine($"Received event {evnt.OriginalEventNumber}@{evnt.OriginalStreamId}");
+                                        await HandleEvent(evnt);
+                                        checkpoint = FromStream.After(evnt.OriginalEventNumber);
+                                        break;
+                                }
+                            }
                 }
                 catch (OperationCanceledException)
                 {
@@ -71,12 +71,12 @@ public class ESSubscription2 : ISubscription
                 catch (Exception ex)
                 {
                     Console.WriteLine($"Subscription was dropped: {ex}");
-                    ResubscriptionAttempt++;
-                    if (ResubscriptionAttempt < MaxResubscriptionAttempts)
-                    {
-                        goto Subscribe;
-                    }
-                    else
+                    //ResubscriptionAttempt++;
+                    //if (ResubscriptionAttempt < MaxResubscriptionAttempts)
+                    //{
+                    //    goto Subscribe;
+                    //}
+                    //else
                         throw;
                 }
     }

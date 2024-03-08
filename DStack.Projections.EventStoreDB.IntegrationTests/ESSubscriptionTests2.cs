@@ -8,7 +8,7 @@ namespace DStack.Projections.EventStoreDB.IntegrationTests;
 
 public class ESSubscriptionTests2
 {
-    ESSubscription2 Subscription;
+    ESSubscription3 Subscription;
 
     ulong Checkpoint = 0;
     object LastEvent = null;
@@ -29,14 +29,14 @@ public class ESSubscriptionTests2
     [Fact]
     public async Task Should_Subscribe_And_Recieve_Events()
     {
-        Subscription = new ESSubscription2(new NullLoggerFactory().CreateLogger<ESSubscription>(), EventStoreClientFactory.CreateEventStoreClient())
+        Subscription = new ESSubscription3(new NullLoggerFactory().CreateLogger<ESSubscription3>(), EventStoreClientFactory.CreateEventStoreClient())
         {
             Name = nameof(TestProjection),
             StreamName = TestProjection.StreamName,
             EventAppearedCallback = EventAppeared
         };
 
-        await Subscription.StartAsync(0);
+        _= Subscription.StartAsync(0);
         await Task.Delay(200);
 
         AssertThatEventsProjected();

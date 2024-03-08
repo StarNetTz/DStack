@@ -9,7 +9,7 @@ namespace DStack.Projections.EventStoreDB.IntegrationTests;
 
 public class NonTransientClientCodeFailureTests
 {
-    ESSubscription Subscription;
+    ESSubscription3 Subscription;
   
     Task EventAppeared(object ev, ulong checkpoint)
     {
@@ -19,13 +19,13 @@ public class NonTransientClientCodeFailureTests
     [Fact]
     public async Task Should_fail_after_max_resubscriptions()
     {
-        Subscription = new ESSubscription(new NullLoggerFactory().CreateLogger<ESSubscription>(), EventStoreClientFactory.CreateEventStoreClient())
+        Subscription = new ESSubscription3(new NullLoggerFactory().CreateLogger<ESSubscription3>(), EventStoreClientFactory.CreateEventStoreClient())
         {
             Name = nameof(TestProjection),
             StreamName = TestProjection.StreamName,
             EventAppearedCallback = EventAppeared
         };
-        await Subscription.StartAsync(0);
+        _= Subscription.StartAsync(0);
         await Task.Delay(500);
 
         Assert.True(Subscription.HasFailed);
