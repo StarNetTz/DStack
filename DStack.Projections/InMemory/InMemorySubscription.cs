@@ -8,6 +8,7 @@ public class InMemorySubscription : ISubscription
 {
     Dictionary<ulong, object> EventStream = new Dictionary<ulong, object>();
 
+    public string Name { get; set; }
     public string StreamName { get; set; }
 
     public Func<object, ulong, Task> EventAppearedCallback { get; set; }
