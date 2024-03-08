@@ -50,7 +50,6 @@ public class ESSubscription : ISubscription
                 switch (message)
                 {
                     case StreamMessage.Event(var evnt):
-                        Console.WriteLine($"Received event {evnt.OriginalEventNumber}@{evnt.OriginalStreamId}");
                         await HandleEvent(evnt);
                         checkpoint = FromStream.After(evnt.OriginalEventNumber);
                         break;
