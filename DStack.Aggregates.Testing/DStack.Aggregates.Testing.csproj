@@ -10,7 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="Starnet.ObjectComparer" Version="6.0.1" />
-    <PackageReference Include="xunit" Version="2.6.3" />
+    <PackageReference Include="xunit" Version="2.7.0" />
   </ItemGroup>
 
   <ItemGroup>
