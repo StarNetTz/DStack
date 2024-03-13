@@ -35,7 +35,7 @@ public class ESSubscription : ISubscription
     public async Task StartAsync(ulong oneBasedCheckpoint)
     {
         CurrentCheckpoint = oneBasedCheckpoint;
-        var checkpoint = CurrentCheckpoint == 0 ? FromStream.Start : FromStream.After(CurrentCheckpoint);
+        var checkpoint = CurrentCheckpoint == 0 ? FromStream.Start : FromStream.After(CurrentCheckpoint - 1);
     Subscribe:
         try
         {
