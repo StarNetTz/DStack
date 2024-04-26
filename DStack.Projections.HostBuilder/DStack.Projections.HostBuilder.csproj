@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DStack.Projections.EventStoreDB\DStack.Projections.EventStoreDB.csproj" />
+    <ProjectReference Include="..\DStack.Projections.RavenDB\DStack.Projections.RavenDB.csproj" />
+    <ProjectReference Include="..\DStack.Projections\DStack.Projections.csproj" />
+  </ItemGroup>
+
+</Project>
