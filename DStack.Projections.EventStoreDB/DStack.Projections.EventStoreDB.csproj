@@ -3,12 +3,12 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Authors>StarNet</Authors>
-    <Version>9.0.0-alpha004</Version>
+    <Version>9.0.0-alpha005</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EventStore.Client.Grpc.ProjectionManagement" Version="23.3.3" />
-    <PackageReference Include="EventStore.Client.Grpc.Streams" Version="23.3.3" />
+    <PackageReference Include="EventStore.Client.Grpc.ProjectionManagement" Version="23.3.5" />
+    <PackageReference Include="EventStore.Client.Grpc.Streams" Version="23.3.5" />
     <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="8.0.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
   </ItemGroup>

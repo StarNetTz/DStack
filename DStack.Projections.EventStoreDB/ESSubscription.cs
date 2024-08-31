@@ -52,6 +52,7 @@ public class ESSubscription : ISubscription
                     case StreamMessage.Event(var evnt):
                         await HandleEvent(evnt);
                         checkpoint = FromStream.After(evnt.OriginalEventNumber);
+                        ResubscriptionAttempt = 0;
                         break;
                 }
             }
