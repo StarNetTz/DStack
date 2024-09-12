@@ -27,6 +27,7 @@ public class RegisterPersonTests : PersonTester
         var id = $"Persons-{Guid.NewGuid()}";
 
         Given(new PersonRegistered() { Id = id, Name = "John" });
+
         When(new RegisterPerson() { Id = id, Name = "John" });
 
         await ExpectNoEvents();
