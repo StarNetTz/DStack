@@ -14,7 +14,7 @@ public abstract class Interactor<TAggregate, TAggregateState> : IInteractor
 
     protected IAggregateRepository AggregateRepository;
 
-    private string NotFoundMessage
+    private static string NotFoundMessage
     {
         get {
             string AggregateName = typeof(TAggregate).Name.Replace("Aggregate", "", StringComparison.InvariantCultureIgnoreCase);
