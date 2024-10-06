@@ -1,11 +1,8 @@
 ﻿using EventStore.Client;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Text;
 using System.Text.Json.Nodes;
-using System.Threading;
 using System.Threading.Tasks;
-
 
 namespace DStack.Projections.EventStoreDB;
 
@@ -14,7 +11,7 @@ public class ESSubscription : ISubscription
     const string EventClrTypeHeader = "EventClrTypeName";
 
     readonly ILogger<ESSubscription> Logger;
-  
+
     EventStoreClient Client;
     public string Name { get; set; }
     public string StreamName { get; set; }
@@ -28,7 +25,6 @@ public class ESSubscription : ISubscription
 
     internal int MaxResubscriptionAttempts = 5;
 
-    StreamSubscription CurrentSubscscription = null;
 
     public ESSubscription(ILogger<ESSubscription> logger, EventStoreClient client)
     {
@@ -39,63 +35,68 @@ public class ESSubscription : ISubscription
     public async Task StartAsync(ulong oneBasedCheckpoint)
     {
         CurrentCheckpoint = oneBasedCheckpoint;
+        var checkpoint = CurrentCheckpoint == 0 ? FromStream.Start : FromStream.After(CurrentCheckpoint - 1);
+    Subscribe:
+        try
+        {
+            
+            await using var subscription = Client.SubscribeToStream(
+                        StreamName,
+                        checkpoint,
+                        resolveLinkTos: true);
+            Logger.LogInformation($"Projection {Name} on stream {StreamName} using subscription {subscription.SubscriptionId} started.");
+            await foreach (var message in subscription.Messages)
+            {
+                switch (message)
+                {
+                    case StreamMessage.Event(var evnt):
+                        await HandleEvent(evnt);
+                        checkpoint = FromStream.After(evnt.OriginalEventNumber);
+                        ResubscriptionAttempt = 0;
+                        break;
+                }
+            }
+        }
+        catch (OperationCanceledException)
+        {
+            Logger.LogInformation($"Subscription was canceled.");
+        }
+        catch (ObjectDisposedException)
+        {
+            Logger.LogInformation($"Subscription was canceled by the user.");
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError($"Subscription was dropped: {ex}");
+            ResubscriptionAttempt++;
+            if (ResubscriptionAttempt < MaxResubscriptionAttempts)
+            {
+                goto Subscribe;
+            }
+            else
+            {
+                HasFailed = true;
+                Error = ex.Message;
+                Logger.LogCritical(ex, $"Failed to resubscribe projection: {Name}-{StreamName}");
+                throw;
+            }
 
-        if (CurrentCheckpoint == 0)
-            CurrentSubscscription = await Client.SubscribeToStreamAsync(StreamName, FromStream.Start, EventAppeared, resolveLinkTos: true, SubDropped).ConfigureAwait(false);
-        else
-            CurrentSubscscription = await Client.SubscribeToStreamAsync(StreamName, FromStream.After(new StreamPosition(CurrentCheckpoint - 1)), EventAppeared, resolveLinkTos: true, SubDropped).ConfigureAwait(false);
-        
-        Logger.LogInformation($"Projection {Name} on stream {StreamName} using subscription {CurrentSubscscription.SubscriptionId} started.");
+        }
     }
 
-        async Task EventAppeared(StreamSubscription sub, ResolvedEvent @event, CancellationToken tok)
-        {
-            ulong oneBasedCheckPoint = @event.OriginalEventNumber.ToUInt64() + 1;
-            var ev = DeserializeEvent(@event.Event.Metadata.ToArray(), @event.Event.Data.ToArray());
-            await EventAppearedCallback(ev, oneBasedCheckPoint).ConfigureAwait(false);
-            CurrentCheckpoint = oneBasedCheckPoint;
+    async Task HandleEvent(ResolvedEvent @event)
+    {
+        ulong oneBasedCheckPoint = @event.OriginalEventNumber.ToUInt64() + 1;
+        var ev = DeserializeEvent(@event.Event.Metadata.ToArray(), @event.Event.Data.ToArray());
+        await EventAppearedCallback(ev, oneBasedCheckPoint).ConfigureAwait(false);
+        CurrentCheckpoint = oneBasedCheckPoint;
+        if (ResubscriptionAttempt > 0)
+            ResubscriptionAttempt = 0;
+    }
 
-            if (ResubscriptionAttempt > 0)
-                ResubscriptionAttempt = 0;
-        }
-
-            object DeserializeEvent(byte[] metadata, byte[] data)
-            {
-                var eventClrTypeName = (string)JsonNode.Parse(metadata)[EventClrTypeHeader];
-                return System.Text.Json.JsonSerializer.Deserialize(data, Type.GetType(eventClrTypeName));
-            }
-
-
-        void SubDropped(StreamSubscription sub, SubscriptionDroppedReason reason, Exception ex)
-        {
-            Logger.LogError(ex, $"Projection {Name} on stream {StreamName} using subscription {CurrentSubscscription.SubscriptionId} dropped. Reason: ({reason}).");
-            switch (reason)
-            {
-                case  SubscriptionDroppedReason.Disposed:
-                    Logger.LogInformation($"Subscription disposed: {sub.SubscriptionId} {StreamName} {Name}");
-                    break;
-                default:
-                    try
-                    {
-                        sub.Dispose();
-                        CurrentSubscscription = null;
-                        ResubscriptionAttempt++;
-                        if (ResubscriptionAttempt < MaxResubscriptionAttempts)
-                        {
-                            Task.Delay(200).Wait();
-                            StartAsync(CurrentCheckpoint).Wait();
-                        }
-                    else
-                        throw ex;
-                    }
-                    catch (Exception rex)
-                    {
-                        HasFailed = true;
-                        Error = rex.Message;
-                        Logger.LogCritical(rex, $"Failed to resubscribe projection: {Name}-{StreamName}");
-                        throw;
-                    }
-                    break;
-            }
-        }
+    object DeserializeEvent(byte[] metadata, byte[] data)
+    {
+        var eventClrTypeName = (string)JsonNode.Parse(metadata)[EventClrTypeHeader];
+        return System.Text.Json.JsonSerializer.Deserialize(data, Type.GetType(eventClrTypeName));
+    }
 }

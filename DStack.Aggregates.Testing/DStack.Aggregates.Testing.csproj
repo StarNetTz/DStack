@@ -5,12 +5,12 @@
     <Authors>StarNet</Authors>
     <OutputType>Library</OutputType>
     <IsPackable>true</IsPackable>
-    <Version>8.1.0</Version>
+    <Version>9.0.0-alpha006</Version>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Starnet.ObjectComparer" Version="6.0.1" />
-    <PackageReference Include="xunit" Version="2.6.3" />
+    <PackageReference Include="xunit" Version="2.9.2" />
   </ItemGroup>
 
   <ItemGroup>

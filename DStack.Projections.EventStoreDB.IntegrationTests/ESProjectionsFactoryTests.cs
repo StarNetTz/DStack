@@ -41,7 +41,7 @@ public class ESProjectionsFactoryTests
     public async Task Should_Project()
     {
         var proj = await ProjectionsFactory.CreateAsync<TestProjection>();
-        await proj.StartAsync();
+        _= proj.StartAsync();
         await Task.Delay(250);
         Assert.True(proj.Checkpoint.Value > 0);
     }

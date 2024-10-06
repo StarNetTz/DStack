@@ -1,5 +1,4 @@
-﻿using EventStore.Client;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using System;
 using System.Threading.Tasks;
@@ -7,17 +6,25 @@ using Xunit;
 
 namespace DStack.Projections.EventStoreDB.IntegrationTests;
 
-public class NonTransientClientCodeFailureTests
+public class TransientClientCodeFailureTests
 {
     ESSubscription Subscription;
-  
+    int Counter = 0;
+    ulong CurrentCheckpoint = 0;
+
     Task EventAppeared(object ev, ulong checkpoint)
     {
-        throw new ApplicationException("Bug in client code!");
+        Counter++;
+        if (Counter == 3)
+        {
+            throw new ApplicationException("Transient bug in client code!");
+        }
+        CurrentCheckpoint = checkpoint;
+        return Task.CompletedTask;
     }
 
     [Fact]
-    public async Task Should_fail_after_max_resubscriptions()
+    public async Task Should_resubscribe_and_resume()
     {
         Subscription = new ESSubscription(new NullLoggerFactory().CreateLogger<ESSubscription>(), EventStoreClientFactory.CreateEventStoreClient())
         {
@@ -25,10 +32,10 @@ public class NonTransientClientCodeFailureTests
             StreamName = TestProjection.StreamName,
             EventAppearedCallback = EventAppeared
         };
-        await Subscription.StartAsync(0);
+        _= Subscription.StartAsync(0);
         await Task.Delay(500);
 
-        Assert.True(Subscription.HasFailed);
-        Assert.Equal("Bug in client code!", Subscription.Error);
+        Assert.False(Subscription.HasFailed);
+        Assert.True(CurrentCheckpoint > 3);
     }
 }

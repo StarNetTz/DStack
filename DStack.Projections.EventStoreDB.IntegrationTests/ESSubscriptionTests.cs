@@ -1,5 +1,4 @@
-﻿using EventStore.Client;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using System.Threading.Tasks;
 using Xunit;
@@ -27,7 +26,7 @@ public class ESSubscriptionTests
         }
 
     [Fact]
-    public async Task Should_Subscribe_And_Recieve_Events()
+    public async Task Should_Subscribe_And_Receive_Events()
     {
         Subscription = new ESSubscription(new NullLoggerFactory().CreateLogger<ESSubscription>(), EventStoreClientFactory.CreateEventStoreClient())
         {
@@ -36,12 +35,11 @@ public class ESSubscriptionTests
             EventAppearedCallback = EventAppeared
         };
 
-        await Subscription.StartAsync(0);
+        _= Subscription.StartAsync(0);
         await Task.Delay(200);
 
         AssertThatEventsProjected();
     }
-
 
         void AssertThatEventsProjected()
         {

@@ -1,5 +1,4 @@
-﻿using EventStore.Client;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using System;
 using System.Threading.Tasks;
@@ -7,19 +6,14 @@ using Xunit;
 
 namespace DStack.Projections.EventStoreDB.IntegrationTests;
 
-public class SubscriptionTimeoutTests
+public class NonTransientClientCodeFailureTests
 {
     ESSubscription Subscription;
-
-    public SubscriptionTimeoutTests()
+  
+    Task EventAppeared(object ev, ulong checkpoint)
     {
-       // new ESDataGenerator().WriteTestEventsToStore(20000).Wait();
+        throw new ApplicationException("Bug in client code!");
     }
-
-        async Task EventAppeared(object ev, ulong checkpoint)
-        {
-            await Task.Delay(1000);
-        }
 
     [Fact]
     public async Task Should_fail_after_max_resubscriptions()
@@ -30,9 +24,10 @@ public class SubscriptionTimeoutTests
             StreamName = TestProjection.StreamName,
             EventAppearedCallback = EventAppeared
         };
-        await Subscription.StartAsync(0);
-        await Task.Delay(60000);
+        _= Subscription.StartAsync(0);
+        await Task.Delay(500);
 
         Assert.True(Subscription.HasFailed);
+        Assert.Equal("Bug in client code!", Subscription.Error);
     }
 }
