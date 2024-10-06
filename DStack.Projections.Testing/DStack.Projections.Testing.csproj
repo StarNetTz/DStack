@@ -4,7 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Authors>StarNet</Authors>
     <IsPackable>true</IsPackable>
-    <Version>9.0.0-alpha005</Version>
+    <Version>9.0.0-alpha006</Version>
   </PropertyGroup>
 
   <ItemGroup>
