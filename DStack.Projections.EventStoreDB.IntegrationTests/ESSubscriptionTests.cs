@@ -1,19 +1,18 @@
-﻿using EventStore.Client;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using System.Threading.Tasks;
 using Xunit;
 
 namespace DStack.Projections.EventStoreDB.IntegrationTests;
 
-public class ESSubscriptionTests2
+public class ESSubscriptionTests
 {
     ESSubscription Subscription;
 
     ulong Checkpoint = 0;
     object LastEvent = null;
 
-    public ESSubscriptionTests2()
+    public ESSubscriptionTests()
     {
         Checkpoint = 0;
         LastEvent = null;
@@ -27,7 +26,7 @@ public class ESSubscriptionTests2
         }
 
     [Fact]
-    public async Task Should_Subscribe_And_Recieve_Events()
+    public async Task Should_Subscribe_And_Receive_Events()
     {
         Subscription = new ESSubscription(new NullLoggerFactory().CreateLogger<ESSubscription>(), EventStoreClientFactory.CreateEventStoreClient())
         {
@@ -41,7 +40,6 @@ public class ESSubscriptionTests2
 
         AssertThatEventsProjected();
     }
-
 
         void AssertThatEventsProjected()
         {
