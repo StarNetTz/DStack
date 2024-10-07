@@ -2,14 +2,8 @@
 
 public class PersonAggregate : Aggregate<PersonAggregateState>
 {
-    PersonAggregateState State;
-
     public PersonAggregate() : base() { }
-
-    public PersonAggregate(PersonAggregateState state) : base(state)
-    {
-        State = state;
-    }
+    public PersonAggregate(PersonAggregateState state) { State = state; }
 
     internal void Create(RegisterPerson cmd)
     {

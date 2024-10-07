@@ -13,7 +13,7 @@ public class AggregateStateFactory
         LookupTable = new ConcurrentDictionary<Type, Type>();
     }
 
-    public static IAggregateState CreateStateFor(Type aggregateType)
+    public static AggregateState CreateStateFor(Type aggregateType)
     {
         if (!LookupTable.TryGetValue(aggregateType, out Type aggStateType))
         {
@@ -22,6 +22,7 @@ public class AggregateStateFactory
             aggStateType = assemblyThatContainsAggregate.GetType(aggStateTypeName);
             LookupTable.TryAdd(aggregateType, aggStateType);
         }
-        return Activator.CreateInstance(aggStateType) as IAggregateState;
+
+        return Activator.CreateInstance(aggStateType) as AggregateState;
     }
 }

@@ -6,7 +6,7 @@ namespace DStack.Aggregates;
 public abstract class Aggregate<TAggregateState> : IAggregate
     where TAggregateState : AggregateState, new()
 {
-    IAggregateState State;
+    public TAggregateState State;
 
     public List<object> Changes { get; private set; }
     public List<object> PublishedEvents { get; private set; }
@@ -34,7 +34,12 @@ public abstract class Aggregate<TAggregateState> : IAggregate
         PublishedEvents = new List<object>();
     }
 
-    public Aggregate(IAggregateState state)
+    public void SetState(dynamic state)
+    {
+        State = state;
+    }
+
+    public Aggregate(TAggregateState state)
     {
         State = state;
         Changes = new List<object>();

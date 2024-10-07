@@ -21,12 +21,12 @@ public class InMemoryAggregateRepository : IAggregateRepository
         return (!DataStore.ContainsKey(key)) ? new List<object>() : DataStore[key];
     }
 
-    public Task<TAggregate> GetAsync<TAggregate>(string id) where TAggregate : class, IAggregate
+    public Task<TAggregate> GetAsync<TAggregate>(string id) where TAggregate : class, IAggregate, new()
     {
         return GetAsync<TAggregate>(id, Int32.MaxValue);
     }
 
-    public Task<TAggregate> GetAsync<TAggregate>(string id, int version) where TAggregate : class, IAggregate
+    public Task<TAggregate> GetAsync<TAggregate>(string id, int version) where TAggregate : class, IAggregate, new()
     {
         if (!DataStore.ContainsKey(id))
             return Task.FromResult(default(TAggregate));
@@ -41,8 +41,11 @@ public class InMemoryAggregateRepository : IAggregateRepository
             if (state.Version == version)
                 break;
         }
-        var res = Activator.CreateInstance(aggregateType, state) as TAggregate;
-        return Task.FromResult(res);
+
+        var agg = new TAggregate();
+        agg.SetState(state);
+
+        return Task.FromResult(agg);
     }
 
     public virtual Task StoreAsync(IAggregate agg)
