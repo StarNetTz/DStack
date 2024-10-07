@@ -1,0 +1,36 @@
+version: "3.8"
+
+services:
+   eventstore:
+    image: eventstore/eventstore:24.6.0-bookworm-slim
+    volumes:
+      - eventstore-data:/var/lib/eventstore
+      - eventstore-logs:/var/log/eventstore
+    ports:
+      - "2113:2113"
+    environment:
+      - EVENTSTORE_CLUSTER_SIZE=1
+      - EVENTSTORE_STATS_PERIOD_SEC=240
+      - EVENTSTORE_RUN_PROJECTIONS=All
+      - EVENTSTORE_START_STANDARD_PROJECTIONS=true
+      - EVENTSTORE_SKIP_DB_VERIFY=True
+      - EVENTSTORE_SKIP_INDEX_VERIFY=True
+      - EVENTSTORE_INT_TCP_PORT=1113
+      - EVENTSTORE_HTTP_PORT=2113
+      - EVENTSTORE_CLUSTER_GOSSIP_PORT=2113
+      - EVENTSTORE_INSECURE=true
+      - EVENTSTORE_ENABLE_ATOM_PUB_OVER_HTTP=true
+    healthcheck:
+      disable: true
+    networks:
+      - eventstore-network
+    deploy:
+      replicas: 1
+
+networks:
+  eventstore-network:
+
+volumes:
+  eventstore-data:
+  eventstore-logs:
+  

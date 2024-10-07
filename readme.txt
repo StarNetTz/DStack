@@ -1,0 +1,1 @@
+﻿docker stack deploy nameOfStack -c ./filename
