@@ -1,10 +1,13 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DStack.Aggregates;
 
-public abstract class Aggregate : IAggregate
+public abstract class Aggregate<TAggregateState> : IAggregate
+    where TAggregateState : AggregateState, new()
 {
     IAggregateState State;
+
     public List<object> Changes { get; private set; }
     public List<object> PublishedEvents { get; private set; }
 
@@ -22,6 +25,13 @@ public abstract class Aggregate : IAggregate
         {
             return State.Version;
         }
+    }
+
+    public Aggregate()
+    {
+        State = new TAggregateState();
+        Changes = new List<object>();
+        PublishedEvents = new List<object>();
     }
 
     public Aggregate(IAggregateState state)

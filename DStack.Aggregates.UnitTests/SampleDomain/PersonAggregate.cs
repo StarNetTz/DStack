@@ -1,8 +1,10 @@
 ﻿namespace DStack.Aggregates;
 
-public class PersonAggregate : Aggregate
+public class PersonAggregate : Aggregate<PersonAggregateState>
 {
     PersonAggregateState State;
+
+    public PersonAggregate() : base() { }
 
     public PersonAggregate(PersonAggregateState state) : base(state)
     {

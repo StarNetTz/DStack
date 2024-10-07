@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace DStack.Aggregates;
 
-public abstract class Interactor<TAggregate, TAggregateState> : IInteractor
-    where TAggregate : class, IAggregate
-    where TAggregateState : class, IAggregateState, new()
+public abstract class Interactor<TAggregate> : IInteractor
+    where TAggregate : class, IAggregate, new()
 {
     protected List<object> PublishedEvents;
 
@@ -35,13 +34,13 @@ public abstract class Interactor<TAggregate, TAggregateState> : IInteractor
         return PublishedEvents;
     }
 
-    protected async Task IdempotentlyCreateAgg(string id, Action<TAggregate> usingThisMethod)
+    protected virtual async Task IdempotentlyCreateAgg(string id, Action<TAggregate> usingThisMethod)
     {
         var agg = await AggregateRepository.GetAsync<TAggregate>(id);
 
         if (agg == null)
         {
-            agg = (TAggregate)Activator.CreateInstance(typeof(TAggregate), [new TAggregateState()]);
+            agg = new TAggregate();
         }
 
         var ov = agg.Version;
@@ -53,7 +52,7 @@ public abstract class Interactor<TAggregate, TAggregateState> : IInteractor
             await AggregateRepository.StoreAsync(agg);
     }
 
-    protected async Task IdempotentlyUpdateAgg(string id, Action<TAggregate> usingThisMethod)
+    protected virtual async Task IdempotentlyUpdateAgg(string id, Action<TAggregate> usingThisMethod)
     {
         var agg = await AggregateRepository.GetAsync<TAggregate>(id);
 

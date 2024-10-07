@@ -5,7 +5,7 @@ namespace DStack.Aggregates;
 
 public interface IPersonAggregateInteractor : IInteractor { }
 
-public class PersonAggregateInteractor : Interactor<PersonAggregate, PersonAggregateState>, IPersonAggregateInteractor
+public class PersonAggregateInteractor : Interactor<PersonAggregate>, IPersonAggregateInteractor
 {
     public PersonAggregateInteractor(IAggregateRepository aggRepository)
     {
