@@ -41,7 +41,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DStack.Projections.RavenDB"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DStack.Projections.RavenDB.IntegrationTests", "DStack.Projections.RavenDB.IntegrationTests\DStack.Projections.RavenDB.IntegrationTests.csproj", "{C5ECF389-72F3-4660-AAF0-36192DBB493F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DStack.Benchmarks", "DStack.Benchmarks\DStack.Benchmarks.csproj", "{CCA1CCC5-91D9-4623-A82A-2F4593E26276}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DStack.Benchmarks", "DStack.Benchmarks\DStack.Benchmarks.csproj", "{CCA1CCC5-91D9-4623-A82A-2F4593E26276}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docker", "Docker", "{7467CA8F-8B99-422A-ADF9-6AA16D8F9ADC}"
+	ProjectSection(SolutionItems) = preProject
+		readme.txt = readme.txt
+		eventstore-stack.yml = eventstore-stack.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
