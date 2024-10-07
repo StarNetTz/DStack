@@ -87,12 +87,20 @@ public class ESSubscription : ISubscription
     async Task HandleEvent(ResolvedEvent @event)
     {
         ulong oneBasedCheckPoint = @event.OriginalEventNumber.ToUInt64() + 1;
-        var ev = DeserializeEvent(@event.Event.Metadata.ToArray(), @event.Event.Data.ToArray());
-        await EventAppearedCallback(ev, oneBasedCheckPoint).ConfigureAwait(false);
+        if (IsNotDeleted(@event))
+        {
+            var ev = DeserializeEvent(@event.Event.Metadata.ToArray(), @event.Event.Data.ToArray());
+            await EventAppearedCallback(ev, oneBasedCheckPoint).ConfigureAwait(false);
+        }
         CurrentCheckpoint = oneBasedCheckPoint;
         if (ResubscriptionAttempt > 0)
             ResubscriptionAttempt = 0;
     }
+
+        static bool IsNotDeleted(ResolvedEvent @event)
+        {
+            return @event.Event != null;
+        }
 
     object DeserializeEvent(byte[] metadata, byte[] data)
     {
