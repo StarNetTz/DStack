@@ -10,4 +10,6 @@ public interface IAggregate
 
     List<object> Changes { get; }
     List<object> PublishedEvents { get; }
+
+    public void SetState(dynamic state);
 }

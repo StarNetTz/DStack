@@ -26,6 +26,16 @@ public class ESAggregateRepositoryTests : IClassFixture<DatabaseFixture>
     }
 
     [Fact]
+    public async Task Should_Store_Or_Rename()
+    {
+        var id = $"Persons-{Guid.NewGuid()}";
+        await Fixture.Repository.StoreAsync(PersonAggregateFactory.CreateOrRename(id, "Joey"));
+        var agg = await Fixture.Repository.GetAsync<PersonAggregate>(id);
+
+        Assert.Equal(1, agg.Version);
+    }
+
+    [Fact]
     public async Task Store_Should_Reset_List_Of_Changes()
     {
         var agg = PersonAggregateFactory.Create($"Persons-{Guid.NewGuid()}", "Joe");

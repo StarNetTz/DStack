@@ -71,17 +71,18 @@ public class ESAggregateRepository : IAggregateRepository
         return new EventData(Uuid.NewUuid(), typeName, data, metadata);
     }
 
-    public Task<TAggregate> GetAsync<TAggregate>(string id) where TAggregate : class, IAggregate
+    public Task<TAggregate> GetAsync<TAggregate>(string id) where TAggregate : class, IAggregate, new()
     {
         return GetAsync<TAggregate>(id, int.MaxValue);
     }
 
-    public async Task<TAggregate> GetAsync<TAggregate>(string id, int version) where TAggregate : class, IAggregate
+    public async Task<TAggregate> GetAsync<TAggregate>(string id, int version) where TAggregate : class, IAggregate, new()
     {
         var streamName = id;
         Type aggregateType = typeof(TAggregate);
         var instanceOfState = AggregateStateFactory.CreateStateFor(aggregateType);
-       
+
+        var agg = new TAggregate();
 
         var events = Client.ReadStreamAsync(Direction.Forwards, streamName, StreamPosition.Start, version).ConfigureAwait(false);
         try
@@ -89,15 +90,21 @@ public class ESAggregateRepository : IAggregateRepository
             await foreach (var @event in events)
             {
                 instanceOfState.Mutate(DeserializeEvent(@event.Event.Metadata.ToArray(), @event.Event.Data.ToArray()));
+                
                 if (instanceOfState.Version == version)
-                    return Activator.CreateInstance(aggregateType, instanceOfState) as TAggregate;
+                {
+                    agg.SetState(instanceOfState);
+                    return agg;
+                }
             }
         }
         catch (StreamNotFoundException)
         {
             return null;
         }
-        return Activator.CreateInstance(aggregateType, instanceOfState) as TAggregate;
+
+        agg.SetState(instanceOfState);
+        return agg;
     }
 
         object DeserializeEvent(byte[] metadata, byte[] data)

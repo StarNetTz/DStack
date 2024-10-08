@@ -1,13 +1,8 @@
 ﻿namespace DStack.Aggregates;
 
-public class PersonAggregate : Aggregate
+public class PersonAggregate : Aggregate<PersonAggregateState>
 {
-    PersonAggregateState State;
-
-    public PersonAggregate(PersonAggregateState state) : base(state)
-    {
-        State = state;
-    }
+    public PersonAggregate() : base() { }
 
     internal void Create(RegisterPerson cmd)
     {
@@ -26,6 +21,26 @@ public class PersonAggregate : Aggregate
         if (State.Name == cmd.Name)
             return;
         Apply(new PersonRenamed() { Id = cmd.Id, Name = cmd.Name });
+    }
+
+    internal void CreateOrRename(RegisterOrRenamePerson cmd)
+    {
+        if (State.Id == cmd.Id) {
+            var ee = new PersonRegisteredOrRenamed() { Id = cmd.Id, Name = cmd.Name };
+            Apply(ee);
+            PublishedEvents.Add(ee);
+
+            return;
+        }
+
+        var e = new PersonRegisteredOrRenamed()
+        {
+            Id = cmd.Id,
+            Name = cmd.Name,
+        };
+
+        Apply(e);
+        PublishedEvents.Add(e);
     }
 
     public void RenameForIntegrationTestingPurposes (RenamePerson cmd)

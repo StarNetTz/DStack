@@ -30,4 +30,15 @@ public class RenamePersonTests : PersonTester
 
         await ExpectNoEvents();
     }
+
+    [Fact]
+    public async Task Should_Throw_On_NonExistant_Person()
+    {
+        var id = $"Persons-{Guid.NewGuid()}";
+
+        Given();
+        When(new RenamePerson() { Id = id, Name = "James" });
+
+        await ExpectError("PersonDoesNotExist");
+    }
 }

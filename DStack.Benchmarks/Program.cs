@@ -6,7 +6,8 @@ namespace DStack.Benchmarks
     {
         static void Main(string[] args)
         {
-           var results = BenchmarkRunner.Run<JsonTests>();
+            BenchmarkRunner.Run<JsonTests>();
+            BenchmarkRunner.Run<AggregateBenchmarks>();
         }
     }
 }
