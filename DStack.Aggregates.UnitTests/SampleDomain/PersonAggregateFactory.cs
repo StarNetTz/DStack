@@ -9,13 +9,6 @@ public class PersonAggregateFactory
         return agg;
     }
 
-    public static PersonAggregate CreateOrRename(string id, string name)
-    {
-        var agg = new PersonAggregate();
-        agg.CreateOrRename(new RegisterOrRenamePerson() { Id = id, Name = name });
-        return agg;
-    }
-
     public static PersonAggregate CreateWithUncommitedUpdates(string id, int nrOfUpdates)
     {
         var p = new PersonAggregate();

@@ -26,9 +26,4 @@ public class PersonAggregateInteractor : Interactor<PersonAggregate>, IPersonAgg
     {
         await IdempotentlyUpdateAgg(c.Id, agg => agg.Rename(c));
     }
-
-    async Task When(RegisterOrRenamePerson c)
-    {
-        await IdempotentlyCreateOrUpdateAgg(c.Id, agg => agg.CreateOrRename(c));
-    }
 }

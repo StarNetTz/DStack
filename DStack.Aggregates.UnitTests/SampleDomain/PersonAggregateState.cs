@@ -20,10 +20,4 @@ public class PersonAggregateState : AggregateState
     {
         Name = e.Name;
     }
-
-    void When(PersonRegisteredOrRenamed e)
-    {
-        Id = e.Id;
-        Name = e.Name;
-    }
 }
