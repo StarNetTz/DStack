@@ -31,9 +31,6 @@ public class RegisterOrRenamePersonTests : PersonTester
         var id = $"Persons-{Guid.NewGuid()}";
         var ev = new PersonRegisteredOrRenamed() { Id = id, Name = "Joseph" };
         
-        //Given();
-        //When(new RegisterOrRenamePerson() { Id = id, Name = "Joseph" });
-
         Given(new PersonRegisteredOrRenamed() { Id = id, Name = "Shamso69" });
         When(new RegisterOrRenamePerson() { Id = id, Name = "Joseph" });
         
