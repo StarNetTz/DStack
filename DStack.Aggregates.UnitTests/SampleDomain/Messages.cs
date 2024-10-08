@@ -33,3 +33,15 @@ public class PersonRenamed : IEvent
     public string Id { get; set; }
     public string Name { get; set; }
 }
+
+public class RegisterOrRenamePerson : ICommand
+{
+    public string Id { get; set; }
+    public string Name { get; set; }
+}
+
+public class PersonRegisteredOrRenamed : IEvent
+{
+    public string Id { get; set; }
+    public string Name { get; set; }
+}

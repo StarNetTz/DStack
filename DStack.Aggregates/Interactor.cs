@@ -39,9 +39,7 @@ public abstract class Interactor<TAggregate> : IInteractor
         var agg = await AggregateRepository.GetAsync<TAggregate>(id);
 
         if (agg == null)
-        {
             agg = new TAggregate();
-        }
 
         var ov = agg.Version;
 
@@ -57,9 +55,7 @@ public abstract class Interactor<TAggregate> : IInteractor
         var agg = await AggregateRepository.GetAsync<TAggregate>(id);
 
         if (agg == null)
-        {
             throw DomainError.Named(NotFoundMessage, string.Empty);
-        }
 
         var ov = agg.Version;
 
@@ -75,9 +71,7 @@ public abstract class Interactor<TAggregate> : IInteractor
         var agg = await AggregateRepository.GetAsync<TAggregate>(id);
 
         if (agg == null)
-        {
             agg = new TAggregate();
-        }
 
         var ov = agg.Version;
 
