@@ -23,26 +23,6 @@ public class PersonAggregate : Aggregate<PersonAggregateState>
         Apply(new PersonRenamed() { Id = cmd.Id, Name = cmd.Name });
     }
 
-    internal void CreateOrRename(RegisterOrRenamePerson cmd)
-    {
-        if (State.Id == cmd.Id) {
-            var ee = new PersonRegisteredOrRenamed() { Id = cmd.Id, Name = cmd.Name };
-            Apply(ee);
-            PublishedEvents.Add(ee);
-
-            return;
-        }
-
-        var e = new PersonRegisteredOrRenamed()
-        {
-            Id = cmd.Id,
-            Name = cmd.Name,
-        };
-
-        Apply(e);
-        PublishedEvents.Add(e);
-    }
-
     public void RenameForIntegrationTestingPurposes (RenamePerson cmd)
     {
         Rename(cmd);

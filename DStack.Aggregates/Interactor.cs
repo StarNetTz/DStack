@@ -65,19 +65,4 @@ public abstract class Interactor<TAggregate> : IInteractor
         if (ov != agg.Version)
             await AggregateRepository.StoreAsync(agg);
     }
-
-    protected virtual async Task IdempotentlyCreateOrUpdateAgg(string id, Action<TAggregate> usingThisMethod)
-    {
-        var agg = await AggregateRepository.GetAsync<TAggregate>(id);
-
-        if (agg == null)
-            agg = new TAggregate();
-
-        var ov = agg.Version;
-
-        usingThisMethod(agg);
-        PublishedEvents = agg.PublishedEvents;
-
-        await AggregateRepository.StoreAsync(agg);
-    }
 }

@@ -39,15 +39,6 @@ public class InMemoryRepositoryTests
     }
 
     [Fact]
-    public async Task Should_Store_OrRename()
-    {
-        var id = $"Persons-{Guid.NewGuid()}";
-        await Repository.StoreAsync(PersonAggregateFactory.CreateOrRename(id, "Joe"));
-        var pl = await Repository.GetAsync<PersonAggregate>(id);
-        Assert.Equal(1, pl.Version);
-    }
-
-    [Fact]
     public async Task Should_Get_Any_Version_Of_An_Aggregate()
     {
         var id = $"Persons-{Guid.NewGuid()}";
