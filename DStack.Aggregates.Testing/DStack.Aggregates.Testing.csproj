@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="AggregateTester`1.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Starnet.ObjectComparer" Version="6.0.1" />
     <PackageReference Include="xunit" Version="2.9.2" />
   </ItemGroup>

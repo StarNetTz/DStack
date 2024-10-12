@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Net.Http.Headers;
 
 namespace DStack.Aggregates;
 
@@ -26,6 +27,8 @@ public abstract class Aggregate<TAggregateState> : IAggregate
             return State.Version;
         }
     }
+
+    public bool ShouldHandleIdempotency => State.Version > 0;
 
     public Aggregate()
     {

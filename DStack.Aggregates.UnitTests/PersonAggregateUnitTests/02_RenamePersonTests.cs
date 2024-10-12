@@ -5,7 +5,7 @@ using Xunit;
 
 namespace DStack.Aggregates.Tests;
 
-public class RenamePersonTests : PersonTester
+public class RenamePersonTests : AggregateTester<PersonAggregateInteractor>
 {
     [Fact]
     public async Task Should_Rename()

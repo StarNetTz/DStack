@@ -6,24 +6,25 @@ public class PersonAggregate : Aggregate<PersonAggregateState>
 
     internal void Create(RegisterPerson cmd)
     {
-        if (State.Version > 0)
-            if (State.Name == cmd.Name)
+        if (ShouldHandleIdempotency)
+            if (cmd.IsIdempotent(State))
                 return;
             else
                 throw DomainError.Named("PersonAlreadyRegistered", $"A person named {State.Name} is already registered with id {State.Id}");
-        var e = new PersonRegistered() { Id = cmd.Id, Name = cmd.Name };
+        var e = cmd.ToEvent();
         Apply(e);
         PublishedEvents.Add(e);
     }
 
     internal void Rename(RenamePerson cmd)
     {
-        if (State.Name == cmd.Name)
-            return;
-        Apply(new PersonRenamed() { Id = cmd.Id, Name = cmd.Name });
+        if (ShouldHandleIdempotency)
+            if (cmd.IsIdempotent(State))
+                return;
+        Apply(cmd.ToEvent());
     }
 
-    public void RenameForIntegrationTestingPurposes (RenamePerson cmd)
+    public void RenameForIntegrationTestingPurposes(RenamePerson cmd)
     {
         Rename(cmd);
     }

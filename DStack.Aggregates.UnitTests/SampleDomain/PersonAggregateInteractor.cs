@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace DStack.Aggregates;
 
@@ -7,6 +6,7 @@ public interface IPersonAggregateInteractor : IInteractor { }
 
 public class PersonAggregateInteractor : Interactor<PersonAggregate>, IPersonAggregateInteractor
 {
+
     public PersonAggregateInteractor(IAggregateRepository aggRepository)
     {
         AggregateRepository = aggRepository;
