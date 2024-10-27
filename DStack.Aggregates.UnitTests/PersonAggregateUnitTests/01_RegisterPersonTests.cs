@@ -42,4 +42,19 @@ public class RegisterPersonTests : PersonTester
         When(new RegisterPerson() { Id = id, Name = "Danny" });
         await ExpectError("PersonAlreadyRegistered");
     }
+
+    [Fact]
+    public async Task Should_RegisterPersonAsync()
+    {
+        var id = $"Persons-{Guid.NewGuid()}";
+        var ev = new PersonRegisteredWithAsync() { Id = id, Name = "John" };
+        var expectedProducedEvents = ToEventList(ev);
+        var expectedPublishedEvents = expectedProducedEvents;
+
+        Given();
+
+        When(new RegisterPersonWithAsync() { Id = id, Name = "John" });
+
+        await Expect(expectedProducedEvents, expectedPublishedEvents);
+    }
 }

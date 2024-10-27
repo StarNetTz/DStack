@@ -20,4 +20,15 @@ public class PersonAggregateState : AggregateState
     {
         Name = e.Name;
     }
+
+    void When(PersonRegisteredWithAsync e)
+    {
+        Id = e.Id;
+        Name = e.Name;
+    }
+
+    void When(PersonRenamedWithAsync e)
+    {
+        Name = e.Name;
+    }
 }

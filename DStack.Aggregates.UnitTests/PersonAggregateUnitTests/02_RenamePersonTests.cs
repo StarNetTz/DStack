@@ -41,4 +41,27 @@ public class RenamePersonTests : AggregateTester<PersonAggregateInteractor>
 
         await ExpectError("PersonDoesNotExist");
     }
+
+    [Fact]
+    public async Task Should_RenameWithAsync()
+    {
+        var id = $"Persons-{Guid.NewGuid()}";
+
+        Given(new PersonRegisteredWithAsync() { Id = id, Name = "John" });
+
+        When(new RenamePersonWithAsync() { Id = id, Name = "Gary" });
+
+        await Expect(new PersonRenamedWithAsync() { Id = id, Name = "Gary" });
+    }
+
+    [Fact]
+    public async Task Should_Throw_On_NonExistant_Person_WithAsync()
+    {
+        var id = $"Persons-{Guid.NewGuid()}";
+
+        Given();
+        When(new RenamePersonWithAsync() { Id = id, Name = "James" });
+
+        await ExpectError("PersonDoesNotExist");
+    }
 }

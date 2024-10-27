@@ -1,4 +1,6 @@
-﻿namespace DStack.Aggregates;
+﻿using System.Threading.Tasks;
+
+namespace DStack.Aggregates;
 
 public class PersonAggregate : Aggregate<PersonAggregateState>
 {
@@ -16,12 +18,26 @@ public class PersonAggregate : Aggregate<PersonAggregateState>
         PublishedEvents.Add(e);
     }
 
+    internal Task CreateAsync(RegisterPersonWithAsync cmd)
+    {
+        var e = cmd.ToEvent();
+        Apply(e);
+        PublishedEvents.Add(e);
+        return Task.CompletedTask;
+    }
+
     internal void Rename(RenamePerson cmd)
     {
         if (ShouldHandleIdempotency)
             if (cmd.IsIdempotent(State))
                 return;
         Apply(cmd.ToEvent());
+    }
+
+    internal Task RenameAsync(RenamePersonWithAsync cmd)
+    {
+        Apply(cmd.ToEvent());
+        return Task.CompletedTask;
     }
 
     public void RenameForIntegrationTestingPurposes(RenamePerson cmd)
