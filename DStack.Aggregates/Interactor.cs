@@ -95,4 +95,9 @@ public abstract class Interactor<TAggregate> : IInteractor
         if (ov != agg.Version)
             await AggregateRepository.StoreAsync(agg);
     }
+
+    protected virtual Task When(object ev)
+    {
+        throw new NotImplementedException();
+    }
 }

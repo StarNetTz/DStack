@@ -57,3 +57,13 @@ public class PersonRenamedWithAsync : IEvent
     public string Id { get; set; }
     public string Name { get; set; }
 }
+
+public class PersonDummyNotImplemented : ICommand
+{
+    public string Id { get; set; }
+}
+
+public class PersonNotImplemented : IEvent
+{
+    public string Id { get; set; }
+}
