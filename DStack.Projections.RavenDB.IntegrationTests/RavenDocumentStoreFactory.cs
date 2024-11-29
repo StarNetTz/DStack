@@ -15,7 +15,8 @@ public class RavenDocumentStoreFactory
     {
         var store = new DocumentStore { Urls = conf.Urls };
         if (!string.IsNullOrWhiteSpace(conf.CertificateFilePath))
-            store.Certificate = new X509Certificate2(conf.CertificateFilePath, conf.CertificateFilePassword);
+            store.Certificate = X509CertificateLoader.LoadPkcs12FromFile(conf.CertificateFilePath, conf.CertificateFilePassword);
+
         store.Database = conf.DatabaseName;
         store.Initialize();
         EnsureDatabaseExists(store, conf.DatabaseName, true);
@@ -23,9 +24,10 @@ public class RavenDocumentStoreFactory
         return store;
     }
 
-        void EnsureDatabaseExists(IDocumentStore store, string database = null, bool createDatabaseIfNotExists = true)
+        static void EnsureDatabaseExists(IDocumentStore store, string database = null, bool createDatabaseIfNotExists = true)
         {
-            database = database ?? store.Database;
+            database ??= store.Database;
+
 
             if (string.IsNullOrWhiteSpace(database))
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(database));

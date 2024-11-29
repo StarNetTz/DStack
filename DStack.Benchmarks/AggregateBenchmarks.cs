@@ -7,19 +7,11 @@ namespace DStack.Benchmarks;
 [MemoryDiagnoser]
 public class AggregateBenchmarks
 {
-    PersonAggregateState State = new PersonAggregateState();
+    readonly PersonAggregateState State = new();
 
     [Benchmark]
-    public void WithConstrutor()
+    public void WithStateSetter()
     {
-        var agg = new PersonAggregate();
-
-        agg?.SetState(State);
-    }
-
-    [Benchmark(Baseline = true)]
-    public void WithActivator()
-    {
-        Activator.CreateInstance(typeof(PersonAggregate), State);
+        new PersonAggregate().SetState(State);
     }
 }
