@@ -18,6 +18,8 @@ public abstract class AggregateState : IAggregateState
 
     protected virtual Task When(object ev)
     {
-        throw new NotImplementedException();
+        throw new NotImplementedOnAggregateStateException(
+            $"AggregateState handler for event: 'When({ev.GetType().Name} e)' is not implemented inside: '{GetType().Name}'."
+        );
     }
 }

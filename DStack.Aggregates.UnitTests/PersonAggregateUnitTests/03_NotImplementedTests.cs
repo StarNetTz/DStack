@@ -8,13 +8,24 @@ namespace DStack.Aggregates.Tests;
 public class NotImplementedTests : AggregateTester<PersonAggregateInteractor>
 {
     [Fact]
-    public async Task Should_RaiseException_When_InteractorState_IsNotImplemented()
+    public async Task Should_RaiseException_When_InteractorHandler_IsNotImplemented()
     {
         var id = $"Persons-{Guid.NewGuid()}";
 
-        Given(new PersonNotImplemented() { Id = id });
-        When(new PersonDummyNotImplemented() { Id = id });
+        Given(new PersonRenamed() { Id = id });
+        When(new CommandNotImplementedOnInteractor() { Id = id });
 
-        await Assert.ThrowsAsync<NotImplementedException>(async () => await Expect());
+        await Assert.ThrowsAsync<NotImplementedOnInteractorException>(async () => await Expect());
+    }
+
+    [Fact]
+    public async Task Should_RaiseException_When_AggregateStateHandler_IsNotImplemented()
+    {
+        var id = $"Persons-{Guid.NewGuid()}";
+
+        Given(new EventNotImplementedOnAggregateState() { Id = id });
+        When(new RenamePersonWithAsync() { Id = id, Name = "Francis Walsingham" });
+
+        await Assert.ThrowsAsync<NotImplementedOnAggregateStateException>(async () => await Expect());
     }
 }

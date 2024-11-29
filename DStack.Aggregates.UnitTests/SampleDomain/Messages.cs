@@ -58,12 +58,12 @@ public class PersonRenamedWithAsync : IEvent
     public string Name { get; set; }
 }
 
-public class PersonDummyNotImplemented : ICommand
+public class CommandNotImplementedOnInteractor : ICommand
 {
     public string Id { get; set; }
 }
 
-public class PersonNotImplemented : IEvent
+public class EventNotImplementedOnAggregateState : IEvent
 {
     public string Id { get; set; }
 }

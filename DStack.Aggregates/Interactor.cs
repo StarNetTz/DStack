@@ -13,7 +13,8 @@ public abstract class Interactor<TAggregate> : IInteractor
 
     private static string NotFoundMessage
     {
-        get {
+        get
+        {
             string AggregateName = typeof(TAggregate).Name.Replace("Aggregate", "", StringComparison.InvariantCultureIgnoreCase);
 
             return $"{AggregateName}DoesNotExist";
@@ -98,6 +99,8 @@ public abstract class Interactor<TAggregate> : IInteractor
 
     protected virtual Task When(object ev)
     {
-        throw new NotImplementedException();
+        throw new NotImplementedOnInteractorException(
+            $"Interactor handler for command: 'When({ev.GetType().Name} c)' is not implemented inside: '{GetType().Name}'."
+        );
     }
 }
