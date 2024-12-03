@@ -1,13 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <Authors>StarNet</Authors>
     <Version>9.0.0-alpha008</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EventStore.Client.Grpc.Streams" Version="23.3.5" />
+    <PackageReference Include="EventStore.Client.Grpc.Streams" Version="23.3.7" />
   </ItemGroup>
 
   <ItemGroup>
