@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Net.Http.Headers;
 
 namespace DStack.Aggregates;
 
