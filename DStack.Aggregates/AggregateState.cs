@@ -1,4 +1,7 @@
-﻿namespace DStack.Aggregates;
+﻿using System;
+using System.Threading.Tasks;
+
+namespace DStack.Aggregates;
 
 public abstract class AggregateState : IAggregateState
 {
@@ -12,4 +15,11 @@ public abstract class AggregateState : IAggregateState
     }
 
     protected abstract void DelegateWhenToConcreteClass(object ev);
+
+    protected virtual Task When(object ev)
+    {
+        throw new NotImplementedOnAggregateStateException(
+            $"AggregateState handler for event: 'When({ev.GetType().Name} e)' is not implemented inside: '{GetType().Name}'."
+        );
+    }
 }
