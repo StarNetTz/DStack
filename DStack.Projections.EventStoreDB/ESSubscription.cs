@@ -80,7 +80,6 @@ public class ESSubscription : ISubscription
                 Logger.LogCritical(ex, $"Failed to resubscribe projection: {Name}-{StreamName}");
                 throw;
             }
-
         }
     }
 
