@@ -81,4 +81,14 @@ public class RavenDBProjectionsStore : INoSqlStore, ISqlStore
             await s.SaveChangesAsync().ConfigureAwait(false);
         }
     }
+
+    public Task<T> LoadAsync<T>(object id) where T : class
+    {
+        throw new System.NotSupportedException();
+    }
+
+    public Task<Dictionary<object, T>> LoadAsync<T>(params object[] ids) where T : class
+    {
+        throw new System.NotSupportedException();
+    }
 }

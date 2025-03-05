@@ -155,4 +155,14 @@ public class DefensiveRavenDBProjectionsStore : INoSqlStore, ISqlStore
     {
         return (ex is Raven.Client.Exceptions.RavenException);
     }
+
+    public Task<T> LoadAsync<T>(object id) where T : class
+    {
+        throw new NotSupportedException();
+    }
+
+    public Task<Dictionary<object, T>> LoadAsync<T>(params object[] ids) where T : class
+    {
+        throw new NotSupportedException();
+    }
 }
