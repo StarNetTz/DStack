@@ -17,6 +17,14 @@ public class InMemoryProjectionsStoreUnitTests
     }
 
     [Fact]
+    public async Task Should_Return_Null_If_Document_Is_Not_Found_using_object_as_id()
+    {
+        var store = new InMemoryProjectionsStore();
+        var doc = await store.LoadAsync<DocumentWithNumericId>(1);
+        Assert.Null(doc);
+    }
+
+    [Fact]
     public async Task Should_Store_And_Load_Typed_Document()
     {
         var store = new InMemoryProjectionsStore();
@@ -25,6 +33,29 @@ public class InMemoryProjectionsStoreUnitTests
         var doc = await store.LoadAsync<DocumentWithNumericId>("1");
 
         Assert.Equal(1, doc.Id);
+    }
+
+    [Fact]
+    public async Task Should_Store_And_Load_Typed_Document_using_object_as_id()
+    {
+        var store = new InMemoryProjectionsStore();
+        await store.StoreAsync(new DocumentWithNumericId { Id = 1 });
+
+        var doc = await store.LoadAsync<DocumentWithNumericId>(1);
+
+        Assert.Equal(1, doc.Id);
+    }
+
+    [Fact]
+    public async Task Should_Store_And_Load_Typed_Document_using_object_as_ids()
+    {
+        var store = new InMemoryProjectionsStore();
+        await store.StoreAsync(new DocumentWithNumericId { Id = 1 });
+        await store.StoreAsync(new DocumentWithNumericId { Id = 2 });
+
+        var docs = await store.LoadAsync<DocumentWithNumericId>(1,2);
+
+        Assert.Equal(2, docs.Count);
     }
 
     [Fact]
