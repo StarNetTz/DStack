@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# CRR0029: ConfigureAwait(true) is called implicitly
+dotnet_diagnostic.CRR0029.severity = none

@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <Authors>StarNet</Authors>
-    <Version>9.1.0-alpha01</Version>
+    <Version>9.1.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
