@@ -45,8 +45,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DStack.Benchmarks", "DStack
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docker", "Docker", "{7467CA8F-8B99-422A-ADF9-6AA16D8F9ADC}"
 	ProjectSection(SolutionItems) = preProject
-		readme.txt = readme.txt
 		eventstore-stack.yml = eventstore-stack.yml
+		readme.txt = readme.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
 Global

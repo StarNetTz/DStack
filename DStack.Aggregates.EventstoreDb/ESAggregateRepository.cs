@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.Json.Nodes;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DStack.Aggregates.EventStoreDB;
@@ -13,6 +14,7 @@ public class ESAggregateRepository : IAggregateRepository
     const string EventClrTypeHeader = "EventClrTypeName";
     const string AggregateClrTypeHeader = "AggregateClrTypeName";
     const string CommitIdHeader = "CommitId";
+    const int RepositoryOperationTimeoutInMiliseconds = 150;
 
     readonly EventStoreClient Client;
 
@@ -23,6 +25,7 @@ public class ESAggregateRepository : IAggregateRepository
 
     public async Task StoreAsync(IAggregate aggregate)
     {
+      
         await TrySaveAggregate(aggregate).ConfigureAwait(false);
     }
 
@@ -52,7 +55,8 @@ public class ESAggregateRepository : IAggregateRepository
         var originalVersion = aggregate.Version - newEvents.Count;
         var expectedRevision = originalVersion == 0 ? StreamRevision.None : StreamRevision.FromInt64(originalVersion - 1);
         var eventsToSave = newEvents.Select(e => ToEventData(e, commitHeaders)).ToList();
-        await Client.AppendToStreamAsync(streamName, expectedRevision, eventsToSave).ConfigureAwait(false);
+        using var cts = new CancellationTokenSource(TimeSpan.FromMilliseconds(RepositoryOperationTimeoutInMiliseconds));
+        await Client.AppendToStreamAsync(streamName, expectedRevision, eventsToSave, cancellationToken: cts.Token).ConfigureAwait(false);
 
         aggregate.Changes.Clear();
     }
@@ -83,11 +87,11 @@ public class ESAggregateRepository : IAggregateRepository
         var instanceOfState = AggregateStateFactory.CreateStateFor(aggregateType);
 
         var agg = new TAggregate();
-
-        var events = Client.ReadStreamAsync(Direction.Forwards, streamName, StreamPosition.Start, version).ConfigureAwait(false);
+        using var cts = new CancellationTokenSource(TimeSpan.FromMilliseconds(RepositoryOperationTimeoutInMiliseconds));
+        var events = Client.ReadStreamAsync(Direction.Forwards, streamName, StreamPosition.Start, version, cancellationToken: cts.Token).ConfigureAwait(false);
         try
         {
-            await foreach (var @event in events)
+            await foreach (var @event in events.WithCancellation(cts.Token))
             {
                 instanceOfState.Mutate(DeserializeEvent(@event.Event.Metadata.ToArray(), @event.Event.Data.ToArray()));
                 
