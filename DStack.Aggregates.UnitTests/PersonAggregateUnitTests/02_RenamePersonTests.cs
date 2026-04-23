@@ -1,4 +1,5 @@
 ﻿using DStack.Aggregates.UnitTests;
+using DStack.TestObjects;
 using System;
 using System.Threading.Tasks;
 using Xunit;

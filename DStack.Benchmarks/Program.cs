@@ -1,13 +1,12 @@
 ﻿using BenchmarkDotNet.Running;
 
-namespace DStack.Benchmarks
+namespace DStack.Benchmarks;
+
+public class Program
 {
-    public class Program
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
-        {
-            BenchmarkRunner.Run<JsonTests>();
-            BenchmarkRunner.Run<AggregateBenchmarks>();
-        }
+        BenchmarkRunner.Run<JsonTests>();
+        BenchmarkRunner.Run<AggregateBenchmarks>();
     }
 }

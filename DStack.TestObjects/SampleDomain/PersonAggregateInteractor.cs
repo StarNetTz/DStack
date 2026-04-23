@@ -1,6 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using DStack.Aggregates;
+using System.Threading.Tasks;
 
-namespace DStack.Aggregates;
+namespace DStack.TestObjects;
 
 public interface IPersonAggregateInteractor : IInteractor { }
 

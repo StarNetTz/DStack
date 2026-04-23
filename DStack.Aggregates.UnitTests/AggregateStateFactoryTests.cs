@@ -1,4 +1,5 @@
-﻿using Xunit;
+﻿using DStack.TestObjects;
+using Xunit;
 
 namespace DStack.Aggregates.Tests;
 

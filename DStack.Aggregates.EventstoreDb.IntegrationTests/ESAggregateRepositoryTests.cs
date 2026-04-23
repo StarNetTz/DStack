@@ -1,4 +1,5 @@
-﻿using EventStore.Client;
+﻿using DStack.TestObjects;
+using EventStore.Client;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Threading.Tasks;

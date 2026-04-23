@@ -18,6 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\DStack.Aggregates.Testing\DStack.Aggregates.Testing.csproj" />
     <ProjectReference Include="..\DStack.Aggregates\DStack.Aggregates.csproj" />
+    <ProjectReference Include="..\DStack.TestObjects\DStack.TestObjects.csproj" />
   </ItemGroup>
 
 </Project>

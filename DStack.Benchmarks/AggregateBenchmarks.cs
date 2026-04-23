@@ -1,6 +1,7 @@
 
 using BenchmarkDotNet.Attributes;
 using DStack.Aggregates;
+using DStack.TestObjects;
 
 namespace DStack.Benchmarks;
 
