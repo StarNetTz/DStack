@@ -2,7 +2,7 @@
 
 **Reviewed by:** GitHub Copilot AI  
 **Date:** January 2025  
-**Framework Version:** 9.1.2  
+**Framework Version:** 10.0.0  
 **Target Framework:** .NET 10  
 
 ---
