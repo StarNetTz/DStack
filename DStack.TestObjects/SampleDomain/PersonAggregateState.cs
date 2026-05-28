@@ -1,4 +1,6 @@
-﻿namespace DStack.Aggregates;
+﻿using DStack.Aggregates;
+
+namespace DStack.TestObjects;
 
 public class PersonAggregateState : AggregateState
 {

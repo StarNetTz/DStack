@@ -1,6 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using DStack.Aggregates;
 
-namespace DStack.Aggregates;
+namespace DStack.TestObjects;
 
 public class PersonAggregate : Aggregate<PersonAggregateState>
 {

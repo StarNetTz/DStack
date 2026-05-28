@@ -1,4 +1,4 @@
-﻿namespace DStack.Aggregates;
+﻿namespace DStack.TestObjects;
 
 public interface ICommand
 {

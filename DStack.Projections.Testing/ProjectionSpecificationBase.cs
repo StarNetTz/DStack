@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Starnet;
+using Starnet.Testing.Common;
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
